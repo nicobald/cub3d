@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+         #
+#    By: utilisateur <utilisateur@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/03 15:04:11 by nbaldes           #+#    #+#              #
-#    Updated: 2026/03/03 18:39:13 by nbaldes          ###   ########.fr        #
+#    Updated: 2026/03/05 16:36:19 by utilisateur      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g 
 INCLUDES = -I$(INCLUDE_DIR) -I$(LIBFT_DIR) -I/usr/include
-LDFLAGS = -g -L./includes/minilibx-linux -lmlx -lXext -lX11
+LDFLAGS = -g #-L./includes/minilibx-linux -lmlx -lXext -lX11
 # Libft
 LIBFT = $(LIBFT_DIR)/libft.a
 

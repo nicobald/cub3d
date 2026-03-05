@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
+/*   By: utilisateur <utilisateur@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 18:39:41 by nbaldes           #+#    #+#             */
-/*   Updated: 2026/03/03 18:41:16 by nbaldes          ###   ########.fr       */
+/*   Updated: 2026/03/05 17:08:17 by utilisateur      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,15 @@
 // #  define ROW_SIZE 32
 // # endif
 
-// # include "minilibx-linux/mlx.h"
-// # include <fcntl.h>
-// # include <limits.h>
-// # include <stdarg.h>
-// # include <stdint.h>
-// # include <stdio.h>
-// # include <stdlib.h>
-// # include <unistd.h>
+// # include "./minilibx-linux/mlx.h"
+# include "libft.h"
+# include <fcntl.h>
+# include <limits.h>
+# include <stdarg.h>
+# include <stdint.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
 
 // typedef struct s_point
 // {

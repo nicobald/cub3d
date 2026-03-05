@@ -1,0 +1,38 @@
+fonfonla NO ./path_to_the_north_texture.xpm vfbfgbfg // doit finir par xpm // a verifier les string avant et apres la ligne + entre les lignes
+xcbfdbd
+SO ./path_to_the_south_texture //verifier que le fichier soit bien un .cub //verifier que les textures ai la meme dimension 
+
+WE ./path_to_the_west_texture
+
+EA ./path_to_the_east_texture
+
+F 220,100,0 //value doit etre entre 0/255 
+
+C 225,30,0
+
+
+
+
+
+
+        1111111111111111111111111
+        1000000000110000000000001
+        1011000001110000000000001
+        1001000000000000000000001
+111111111011000001110000000000001
+100000000011000001110111111111111 //la map doit etre en dernier les intructions au dessus peuvent etre dans le desordre
+11110111111111011100000010001
+11110111111111011101010010001
+11000000110101011100000010001
+10000000000000001100000010001
+10000000000000001101010010001
+11000001110101011111011110N0111
+11110111 1110101 101111010001
+11111111 1111111 111111111111
+
+
+
+
+é //aucun caractere apres la map
+
+
