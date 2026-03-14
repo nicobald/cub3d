@@ -21,6 +21,7 @@ LIBFT_DIR = $(INCLUDE_DIR)/libft
 
 # Source files
 SRCS = src/main.c \
+	   src/get_next_line.c \
 
 # Objets
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)

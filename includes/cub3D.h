@@ -17,9 +17,9 @@
 // #  define COL_SIZE 32
 // # endif
 
-// # ifndef BUFFER_SIZE
-// #  define BUFFER_SIZE 10
-// # endif
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 10
+# endif
 
 // # ifndef ROW_SIZE
 // #  define ROW_SIZE 32
@@ -28,12 +28,10 @@
 // # include "./minilibx-linux/mlx.h"
 # include "libft.h"
 # include <fcntl.h>
-# include <limits.h>
-# include <stdarg.h>
-# include <stdint.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <sys/stat.h>
 
 // typedef struct s_point
 // {
@@ -41,38 +39,12 @@
 // 	int		y;
 // }			t_point;
 
-// typedef struct s_env
-// {
-// 	t_point	size;
-// 	t_point	begin;
-// 	char	**map;
-// 	void	*mlx;
-// 	void	*win;
-// 	void	*player;
-// 	void	*floor;
-// 	void	*wall;
-// 	void	*collec;
-// 	void	*exit;
-// 	int		w;
-// 	int		h;
-// 	int		x;
-// 	int		y;
-// 	int		count_c;
-// 	int		count_p;
-// 	int		count_e;
-// 	int		input_count;
-// 	int		i;
-// 	int		j;
-// 	int		cols;
-// 	int		rows;
-// 	int		fd;
-// 	char	*line_temp;
-// 	char	*line;
-// 	char	*tmp;
-// 	char	**floodmap;
-// 	int		len;
+typedef struct s_env
+{
+    int     nb_line;
+}			t_env;
 
-// }			t_env;
+char	*get_next_line(int fd);
 
 
 
