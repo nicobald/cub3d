@@ -6,7 +6,7 @@
 #    By: utilisateur <utilisateur@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/03 15:04:11 by nbaldes           #+#    #+#              #
-#    Updated: 2026/03/05 16:36:19 by utilisateur      ###   ########.fr        #
+#    Updated: 2026/03/15 19:55:19 by utilisateur      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,8 +20,13 @@ INCLUDE_DIR = includes
 LIBFT_DIR = $(INCLUDE_DIR)/libft
 
 # Source files
-SRCS = src/main.c \
+SRCS = src/error_file.c \
 	   src/get_next_line.c \
+	   src/main.c \
+	   src/parse_args.c \
+	   src/parse_file.c \
+	   src/parse_type.c \
+	   src/utils.c \
 
 # Objets
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)

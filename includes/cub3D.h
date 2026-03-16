@@ -1,17 +1,27 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cub3D.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: utilisateur <utilisateur@student.42.fr>    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/03 18:39:41 by nbaldes           #+#    #+#             */
-/*   Updated: 2026/03/05 17:08:17 by utilisateur      ###   ########.fr       */
-/*                                                                            */
+/*																			*/
+/*														:::	  ::::::::   */
+/*   cub3D.h											:+:	  :+:	:+:   */
+/*													+:+ +:+		 +:+	 */
+/*   By: utilisateur <utilisateur@student.42.fr>	+#+  +:+	   +#+		*/
+/*												+#+#+#+#+#+   +#+		   */
+/*   Created: 2026/03/03 18:39:41 by nbaldes		   #+#	#+#			 */
+/*   Updated: 2026/03/15 20:52:20 by utilisateur	  ###   ########.fr	   */
+/*																			*/
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
+
+
+# define	NO		0
+# define	SO		1
+# define	WE		2
+# define	EA		3
+# define	F		4
+# define	C		5
+# define	MAP		6
+# define	ELSE	7 //empty + random string
 
 // # ifndef COL_SIZE
 // #  define COL_SIZE 32
@@ -39,13 +49,51 @@
 // 	int		y;
 // }			t_point;
 
-typedef struct s_env
+typedef struct	s_count
 {
-    int     nb_line;
-}			t_env;
+	int			no_count;
+	int			so_count;
+	int			we_count;
+	int			ea_count;
+	int			f_count;
+	int			c_count;
+}				t_count;
 
-char	*get_next_line(int fd);
+typedef struct	s_env
+{
+	int			nb_line;
+	char		**tab;
+	int			*type;
+	t_count		count;
+}				t_env;
+
+typedef struct	s_data_game
+{
+	char		**text;
+	char		**map;
+}				t_data_game;	   
+//error_file
+int				error_file(t_env *env, char ***text, char ***map);
+
+//parse_args
+int				check_args(char **argv);
+int				check_access(char *file);
+
+//parse_file
+int				count_line_file(char *file, int *nb_line);
+int				fill_tab_file(char *file, int nb_line, char ***tab);
+int				parse_file(t_env *env, char ***text, char ***map);
 
 
+//parse_type
+int				parse_type(char *line);
+
+//utils
+char			*get_next_line(int fd);
+int				alloc_tab(char ***tab, int nb_line);
+void			free_tab(char ***tab);
+int				tab_is_digit(char **tab);
+int				count_words(const char *s);
+char 			*second_word_dup(char *s);
 
 #endif
