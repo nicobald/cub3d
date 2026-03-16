@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: utilisateur <utilisateur@student.42.fr>    +#+  +:+       +#+         #
+#    By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/03 15:04:11 by nbaldes           #+#    #+#              #
-#    Updated: 2026/03/15 19:55:19 by utilisateur      ###   ########.fr        #
+#    Updated: 2026/03/16 20:13:48 by nbaldes          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SRCS = src/error_file.c \
 	   src/parse_file.c \
 	   src/parse_type.c \
 	   src/utils.c \
+	   src/utils_2.c \
 
 # Objets
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)

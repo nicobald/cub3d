@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: utilisateur <utilisateur@student.42.fr>    +#+  +:+       +#+        */
+/*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/15 19:52:37 by utilisateur       #+#    #+#             */
-/*   Updated: 2026/03/16 01:14:17 by utilisateur      ###   ########.fr       */
+/*   Updated: 2026/03/16 20:12:17 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	parse_text(int *type, t_count *count, int nb_line)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < (nb_line - 1))
@@ -31,41 +31,43 @@ void	parse_text(int *type, t_count *count, int nb_line)
 			count->f_count++;
 		if (type[i] == C)
 			count->c_count++;
+		if (type[i] == STR)
+			count->str_count++;
 		i++;
 	}
 	return ;
 }
 
-int error_parse_file(t_count count, int *type)
+int	error_parse_file(t_count count, int *type)
 {
-	int i;
+	int	i;
 
-	i = 0;
-	if (count.no_count != 1 || count.so_count != 1 || count.we_count != 1 || count.ea_count != 1)
+	i = -1;
+	if (count.no_count != 1 || count.so_count != 1
+		|| count.we_count != 1 || count.ea_count != 1)
 	{
-		ft_putstr_fd("Error: Missing or duplicate texture definition (NO, SO, WE, EA must appear exactly once).\n", 2);
+		ft_putstr_fd("Error: Missing or duplicate texture definition.\n", 2);
 		return (1);
 	}
 	if (count.f_count != 1 || count.c_count != 1)
 	{
-		ft_putstr_fd("Error: Missing or duplicate color definition (F, C must appear exactly once).\n", 2);
+		ft_putstr_fd("Error: Missing or duplicate color definition.\n", 2);
 		return (1);
 	}
-	while (type[i])
+	while (type[++i])
 	{
 		if (type[i] == MAP && type[i + 1] && type[i + 1] != MAP)
 		{
-		ft_putstr_fd("Error: Error: The map must be contiguous and placed at the end of the file.\n", 2);
-		return (1);
+			ft_putstr_fd("Error: Error: wrong map format.\n", 2);
+			return (1);
 		}
-		i++;
 	}
 	return (0);
 }
 
 void	fill_text(int *type, int key, char ***new_tab, char **old_tab)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (type[i] != key)
@@ -76,16 +78,16 @@ void	fill_text(int *type, int key, char ***new_tab, char **old_tab)
 
 int	fill_map(int *type, char ***map, char **tab)
 {
-	int i;
-	int j;
-	int begin_map;
+	int	i;
+	int	j;
+	int	begin_map;
 
 	i = 0;
 	j = 0;
 	while (type[i] != MAP)
 		i++;
 	begin_map = i;
-	while(type[i++] == MAP)
+	while (type[i++] == MAP)
 		j++;
 	(*map) = malloc(sizeof(char *) * (j + 1));
 	if (!(*map))
@@ -93,7 +95,7 @@ int	fill_map(int *type, char ***map, char **tab)
 	(*map)[j] = NULL;
 	j = 0;
 	i = begin_map;
-	while(type[i] == MAP)
+	while (type[i] == MAP)
 	{
 		(*map)[j] = ft_strdup(tab[i]);
 		j++;
@@ -102,7 +104,7 @@ int	fill_map(int *type, char ***map, char **tab)
 	return (0);
 }
 
-int dup_text_map(char **tab, int *type, char ***text, char ***map)
+int	dup_text_map(char **tab, int *type, char ***text, char ***map)
 {
 	int	nb_text;
 
@@ -122,23 +124,55 @@ int dup_text_map(char **tab, int *type, char ***text, char ***map)
 	return (0);
 }
 
-// int check_access_text()
-// {
-// 	if (access(file, F_OK) == -1)
-// 	{
-// 		ft_putstr_fd("Error: map file not found.\n", 2);
-// 		return (1);
-// 	}
-// }
-
-int error_file(t_env *env, char ***text, char ***map)
+int	check_nb_player(char ***map)
 {
+	int	i;
+	int	j;
+	int	count;
+
+	i = -1;
+	count = 0;
+	while ((*map)[++i])
+	{
+		j = -1;
+		while ((*map)[i][++j])
+		{
+			if ((*map)[i][j] == 'N' || (*map)[i][j] == 'S'
+			|| (*map)[i][j] == 'E' || (*map)[i][j] == 'W')
+				count++;
+		}
+	}
+	if (count != 1)
+	{
+		ft_putstr_fd("Error : invalid number of player\n", 2);
+		return (1);
+	}
+	return (0);
+}
+
+int	error_file(t_env *env, char ***text, char ***map)
+{
+	int	i;
+
+	i = 0;
 	parse_text(env->type, &env->count, env->nb_line);
+	if (env->count.str_count != 0)
+	{
+		ft_putstr_fd("Error: line not allowed detected\n", 2);
+		return (1);
+	}
 	if (error_parse_file(env->count, env->type) == 1)
 		return (1);
 	if (dup_text_map(env->tab, env->type, text, map) == 1)
 		return (1);
-	// check_access_text();
+	if (check_nb_player(map))
+		return (1);
+	while (i < 4)
+	{
+		printf("%s\n", (*text)[i]);
+		check_access((*text)[i]);
+		i++;
+	}
 	// flood_fill
 	//fill_pos_player
 	return (0);

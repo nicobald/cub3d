@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: utilisateur <utilisateur@student.42.fr>    +#+  +:+       +#+        */
+/*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/14 23:31:40 by utilisateur       #+#    #+#             */
-/*   Updated: 2026/03/16 00:10:31 by utilisateur      ###   ########.fr       */
+/*   Updated: 2026/03/16 19:24:59 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-int alloc_tab(char ***tab, int nb_line)
+int	alloc_tab(char ***tab, int nb_line)
 {
 	if (nb_line == 0)
 	{
@@ -26,14 +26,14 @@ int alloc_tab(char ***tab, int nb_line)
 	return (0);
 }
 
-void free_tab(char ***tab)
+void	free_tab(char ***tab)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (tab == NULL || *tab == NULL)
 		return ;
-	while((*tab)[i])
+	while ((*tab)[i])
 	{
 		free((*tab)[i]);
 		(*tab)[i] = NULL;
@@ -44,10 +44,10 @@ void free_tab(char ***tab)
 	return ;
 }
 
-int count_words(const char *s)
+int	count_words(const char *s)
 {
-	int i;
-	int count;
+	int	i;
+	int	count;
 
 	if (!s)
 		return (0);
@@ -58,7 +58,7 @@ int count_words(const char *s)
 		while (s[i] == ' ' || s[i] == '\t' || s[i] == '\n')
 			i++;
 		if (!s[i])
-			break;
+			break ;
 		count++;
 		while (s[i] && s[i] != ' ' && s[i] != '\t' && s[i] != '\n')
 			i++;
@@ -66,16 +66,16 @@ int count_words(const char *s)
 	return (count);
 }
 
-int tab_is_digit(char **tab)
+int	tab_is_digit(char **tab)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (tab[i])
 	{
 		j = 0;
-		while(tab[i][j])
+		while (tab[i][j])
 		{
 			if (ft_isdigit(tab[i][j]) == 0)
 				return (0);
@@ -86,10 +86,10 @@ int tab_is_digit(char **tab)
 	return (1);
 }
 
-char *second_word_dup(char *s)
+char	*second_word_dup(char *s)
 {
-	int start;
-	int len;
+	int	start;
+	int	len;
 
 	start = 0;
 
@@ -100,7 +100,8 @@ char *second_word_dup(char *s)
 	while (s[start] == ' ' || s[start] == '\t')
 		start++;
 	len = 0;
-	while (s[start + len] && s[start + len] != ' ' && s[start + len] != '\t' && s[start + len] != '\n')
+	while (s[start + len] && s[start + len] != ' '
+		&& s[start + len] != '\t' && s[start + len] != '\n')
 		len++;
 	return (ft_strndup(s + start, len));
 }

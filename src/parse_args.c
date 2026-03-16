@@ -3,46 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   parse_args.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: utilisateur <utilisateur@student.42.fr>    +#+  +:+       +#+        */
+/*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/14 23:53:38 by utilisateur       #+#    #+#             */
-/*   Updated: 2026/03/15 23:05:29 by utilisateur      ###   ########.fr       */
+/*   Updated: 2026/03/16 19:28:40 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-int check_args(char **argv)
+int	check_args(char **argv)
 {
 	int		len;
 	int		argc;
-	char 	*extention;
+	char	*extention;
 
 	argc = 0;
 	while (argv[argc])
 		argc++;
 	if (argc != 2 || !argv[1])
 	{
-		ft_putstr_fd("Error: Cub3D takes exactly one argument (a .cub map file).\n", 2);
+		ft_putstr_fd("Error: Cub3D takes exactly one argument.\n", 2);
 		return (1);
 	}
 	len = ft_strlen(argv[1]);
 	extention = &argv[1][len - 4];
 	if (ft_strnstr(extention, ".cub", len) == NULL || len == 4)
 	{
-		ft_putstr_fd("Error: Invalid map file. Expected a .cub file (example: map.cub).\n", 2);
+		ft_putstr_fd("Error: Invalid map file. Expected a .cub.\n", 2);
 		return (1);
 	}
 	return (0);
 }
 
-int check_access(char *file)
+int	check_access(char *file)
 {
-	struct stat file_data;
+	struct stat	file_data;
 
 	if (access(file, F_OK) == -1)
 	{
-		ft_putstr_fd("Error: map file not found.\n", 2);
+		ft_putstr_fd("Error: file not found.\n", 2);
 		return (1);
 	}
 	if (stat(file, &file_data) == -1)
@@ -57,7 +57,7 @@ int check_access(char *file)
 	}
 	if (access(file, R_OK) == -1)
 	{
-		ft_putstr_fd("Error: cannot read the map file.\n", 2);
+		ft_putstr_fd("Error: cannot read the file.\n", 2);
 		return (1);
 	}
 	return (0);

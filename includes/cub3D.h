@@ -21,7 +21,8 @@
 # define	F		4
 # define	C		5
 # define	MAP		6
-# define	ELSE	7 //empty + random string
+# define	EMP		7
+# define	STR		8
 
 // # ifndef COL_SIZE
 // #  define COL_SIZE 32
@@ -45,11 +46,12 @@
 
 // typedef struct s_point
 // {
+//delta pour horientation
 // 	int		x;
 // 	int		y;
 // }			t_point;
 
-typedef struct	s_count
+typedef struct s_count
 {
 	int			no_count;
 	int			so_count;
@@ -57,9 +59,10 @@ typedef struct	s_count
 	int			ea_count;
 	int			f_count;
 	int			c_count;
+	int			str_count;
 }				t_count;
 
-typedef struct	s_env
+typedef struct s_env
 {
 	int			nb_line;
 	char		**tab;
@@ -67,11 +70,12 @@ typedef struct	s_env
 	t_count		count;
 }				t_env;
 
-typedef struct	s_data_game
+typedef struct s_data_game
 {
 	char		**text;
 	char		**map;
-}				t_data_game;	   
+}				t_data_game;
+
 //error_file
 int				error_file(t_env *env, char ***text, char ***map);
 
@@ -94,6 +98,7 @@ int				alloc_tab(char ***tab, int nb_line);
 void			free_tab(char ***tab);
 int				tab_is_digit(char **tab);
 int				count_words(const char *s);
-char 			*second_word_dup(char *s);
+char			*second_word_dup(char *s);
+void			free_parsing(t_env *env, char ***text, char ***map);
 
 #endif
