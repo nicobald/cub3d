@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
+/*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 17:57:33 by nbaldes           #+#    #+#             */
-/*   Updated: 2026/03/16 20:19:34 by nbaldes          ###   ########.fr       */
+/*   Updated: 2026/03/17 14:38:54 by laudinot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,18 @@ int	main(int argc, char **argv)
 	{
 		free_parsing(&env, &game.text, &game.map);
 		return (1);
+	}
+	int i = 0;
+	while (game.text[i])
+	{
+		printf("%s\n", game.text[i]);
+		i++;
+	}
+	i = 0;
+	while (game.map[i])
+	{
+		printf("%s", game.map[i]);
+		i++;
 	}
 	free_tab(&game.text);
 	free_tab(&game.map);
