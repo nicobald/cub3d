@@ -6,7 +6,7 @@
 /*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/15 00:38:05 by utilisateur       #+#    #+#             */
-/*   Updated: 2026/03/16 19:26:44 by nbaldes          ###   ########.fr       */
+/*   Updated: 2026/03/17 16:12:22 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,12 @@ int	count_line_file(char *file, int *nb_line)
 		ft_putstr_fd("Error: Invalid file descriptor.\n", 2);
 		return (1);
 	}
-	while ((line = get_next_line(fd)))
+	line = get_next_line(fd);
+	while (line)
 	{
 		free(line);
 		(*nb_line)++;
+		line = get_next_line(fd);
 	}
 	close(fd);
 	return (0);
@@ -47,11 +49,13 @@ int	fill_tab_file(char *file, int nb_line, char ***tab)
 		ft_putstr_fd("Error: Invalid file descriptor.\n", 2);
 		return (1);
 	}
-	while ((line = get_next_line(fd)))
+	line = get_next_line(fd);
+	while (line)
 	{
 		(*tab)[i] = ft_strdup(line);
 		free(line);
 		i++;
+		line = get_next_line(fd);
 	}
 	close(fd);
 	return (0);

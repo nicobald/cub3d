@@ -6,7 +6,7 @@
 /*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/15 19:52:37 by utilisateur       #+#    #+#             */
-/*   Updated: 2026/03/16 20:12:17 by nbaldes          ###   ########.fr       */
+/*   Updated: 2026/03/17 19:22:13 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	fill_map(int *type, char ***map, char **tab)
 	i = begin_map;
 	while (type[i] == MAP)
 	{
-		(*map)[j] = ft_strdup(tab[i]);
+		(*map)[j] = ft_strrtrim(tab[i], "\n ");
 		j++;
 		i++;
 	}
@@ -150,6 +150,62 @@ int	check_nb_player(char ***map)
 	return (0);
 }
 
+int	check_map_closed(char **map)
+{
+	int	nb_line;
+	int	i;
+	int	j;
+
+	nb_line = 0;
+	i = 0;
+	while (map[nb_line])
+		nb_line++;
+	while (map[i])
+	{
+		j = 0;
+		while (map[i][j])
+		{
+			if (i == 0 || i == (nb_line - 1))
+			{
+				if (map[i][j] != ' ' && map[i][j] != '1'
+					&& map[i][j] != '\n' && map[i][j] != '\0')
+				{
+					ft_putstr_fd("Error : Map not closed", 2);
+					return (1);
+				}
+			}
+			else
+			{
+				if (j == 0 || j > ft_strlen(map[i]))
+				{
+					j++;
+					continue ;
+				}
+				else
+				{
+					if (map[i][j] == ' ' &&
+					((map[i][j - 1] != '1' && map[i][j - 1] != ' ')
+					|| (map[i][j + 1] != '1' && map[i][j + 1] != ' ')
+					|| (map[i - 1][j] != '1' && map[i - 1][j] != ' ')
+					|| (map[i + 1][j] != '1' && map[i + 1][j] != ' ')))
+					{
+						ft_putstr_fd("Error : Map not closed", 2);
+						return (1);
+					}
+					else if (map[i][j] == '0' && (j >= ft_strlen(map[i - 1])))
+					{
+						ft_putstr_fd("Error : Map not closed", 2);
+						return (1);
+					}
+				}
+			}
+			j++;
+		}
+		i++;
+	}
+	return (0);
+}
+
 int	error_file(t_env *env, char ***text, char ***map)
 {
 	int	i;
@@ -165,7 +221,7 @@ int	error_file(t_env *env, char ***text, char ***map)
 		return (1);
 	if (dup_text_map(env->tab, env->type, text, map) == 1)
 		return (1);
-	if (check_nb_player(map))
+	if (check_nb_player(map) || check_map_closed(*map))
 		return (1);
 	while (i < 4)
 	{

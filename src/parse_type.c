@@ -26,7 +26,7 @@ int	map_type(char *line, int len)
 	while ((line[lchar] == ' ' && lchar > 0)
 		|| (line[lchar] == '	' && lchar > 0))
 		lchar--;
-	if (line[fchar] != '1' && line[lchar] != '1')
+	if (line[fchar] != '1' || line[lchar] != '1')
 		return (0);
 	while (fchar < lchar)
 	{
@@ -58,33 +58,6 @@ int	texture_type(char *line, char *type, int len)
 		return (0);
 	if (ft_strnstr(extention, ".xpm", 4) == NULL)
 		return (0);
-	return (1);
-}
-
-int	split_check_color(char *line)
-{
-	char	**tab;
-	char	**colors;
-	char	*trimmed_line;
-
-	trimmed_line = ft_strtrim(line, "\n");
-	tab = ft_split(trimmed_line, ' ');
-	free(trimmed_line);
-	colors = ft_split(tab[1], ',');
-	free_tab(&tab);
-	if (tab_is_digit(colors) == 0)
-	{
-		free_tab(&colors);
-		return (0);
-	}
-	if (ft_atoi(colors[0]) < 0 || ft_atoi(colors[0]) > 255
-		|| ft_atoi(colors[1]) < 0 || ft_atoi(colors[1]) > 255
-		|| ft_atoi(colors[2]) < 0 || ft_atoi(colors[2]) > 255)
-	{
-		free_tab(&colors);
-		return (0);
-	}
-	free_tab(&colors);
 	return (1);
 }
 
