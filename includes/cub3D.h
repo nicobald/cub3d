@@ -28,16 +28,18 @@
 // #  define COL_SIZE 32
 // # endif
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10
-# endif
+# define BUFFER_SIZE 10
+# define SCREEN_WIDTH 800
+# define SCREEN_HEIGHT 800
 
 // # ifndef ROW_SIZE
 // #  define ROW_SIZE 32
 // # endif
 
-// # include "./minilibx-linux/mlx.h"
+
 # include "libft.h"
+# include "minilibx-linux/mlx.h"
+# include "minilibx-linux/mlx_int.h"
 # include <fcntl.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -51,6 +53,14 @@
 // 	int		y;
 // }			t_point;
 
+typedef	struct player
+{
+	int		x;
+	int		y;
+	char 	orientation;
+}				t_player;
+
+
 typedef struct s_count
 {
 	int			no_count;
@@ -62,19 +72,33 @@ typedef struct s_count
 	int			str_count;
 }				t_count;
 
+typedef struct s_window 
+{
+	char 	*mlx_adress;
+	void	*mlx_ptr;
+	void	*win_ptr;
+	void 	*img_ptr;
+}	t_window;
+
 typedef struct s_env
 {
 	int			nb_line;
 	char		**tab;
 	int			*type;
 	t_count		count;
+	t_window	*win;
+
 }				t_env;
 
 typedef struct s_data_game
 {
 	char		**text;
 	char		**map;
+	int			x_len;
+	int			y_len;
+	t_player	player;
 }				t_data_game;
+
 
 //error_file
 int				error_file(t_env *env, char ***text, char ***map);
@@ -88,6 +112,8 @@ int				count_line_file(char *file, int *nb_line);
 int				fill_tab_file(char *file, int nb_line, char ***tab);
 int				parse_file(t_env *env, char ***text, char ***map);
 
+//parse_map_info
+void	parse_map_info(t_data_game *game);
 
 //parse_type
 int				parse_type(char *line);
@@ -100,5 +126,8 @@ int				tab_is_digit(char **tab);
 int				count_words(const char *s);
 char			*second_word_dup(char *s);
 void			free_parsing(t_env *env, char ***text, char ***map);
+void			print_tab(char **str);
 
+//mlx
+int				create_window(t_env *env);
 #endif

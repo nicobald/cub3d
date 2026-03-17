@@ -1,15 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2026/03/03 15:04:11 by nbaldes           #+#    #+#              #
-#    Updated: 2026/03/16 20:13:48 by nbaldes          ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 # Executable's Name
 NAME = Cub3D
 
@@ -18,6 +6,8 @@ SRC_DIR = src
 OBJ_DIR = obj
 INCLUDE_DIR = includes
 LIBFT_DIR = $(INCLUDE_DIR)/libft
+MLX_DIR = $(INCLUDE_DIR)/minilibx-linux
+MLX_REPO = https://github.com/42Paris/minilibx-linux.git
 
 # Source files
 SRCS = src/error_file.c \
@@ -28,50 +18,58 @@ SRCS = src/error_file.c \
 	   src/parse_type.c \
 	   src/utils.c \
 	   src/utils_2.c \
+	   src/mlx.c \
+	   src/parse_map.c \
 
 # Objets
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 # Compilating Flags
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g 
-INCLUDES = -I$(INCLUDE_DIR) -I$(LIBFT_DIR) -I/usr/include
-LDFLAGS = -g #-L./includes/minilibx-linux -lmlx -lXext -lX11
+CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g
+INCLUDES = -I$(INCLUDE_DIR) -I$(LIBFT_DIR) -I$(MLX_DIR)
+
+MLX_FLAGS = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lz
+
 # Libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
-# Colors
-GREEN = \033[0;32m
-RESET = \033[0m
-
-# Default's Rules
+# Default rule
 all: $(NAME)
 
-# Compiling executable
-$(NAME): $(LIBFT) $(PIPEX) $(OBJS)
-	$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(LIBFT) $(LDFLAGS) -o $(NAME)
-	@echo "$(GREEN)✔ Compilation réussie !$(RESET)"
+# Compile executable
+$(NAME): $(LIBFT) $(MLX_DIR) $(OBJS)
+	$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(LIBFT) $(MLX_FLAGS) -o $(NAME)
 
-# Compiling files .o into obj's directory
+# Compile .o files
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-# Compiling Libft
+# Libft
 $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
 
-# Cleaning Object
+# MinilibX auto install + build
+$(MLX_DIR):
+	@if [ ! -d "$(MLX_DIR)" ]; then \
+		git clone $(MLX_REPO) $(MLX_DIR); \
+	fi
+	@$(MAKE) -C $(MLX_DIR)
+
+# Clean
 clean:
 	rm -rf $(OBJ_DIR)
 	$(MAKE) -C $(LIBFT_DIR) clean
+	@if [ -d "$(MLX_DIR)" ]; then $(MAKE) -C $(MLX_DIR) clean; fi
 
-# Full Cleaning
+# Full clean
 fclean: clean
 	rm -f $(NAME)
 	$(MAKE) -C $(LIBFT_DIR) fclean
+	@if [ -d "$(MLX_DIR)" ]; then rm -rf $(MLX_DIR); fi
 
-#  Full Recompiling
+# Re
 re: fclean all
 
 .PHONY: all clean fclean re
