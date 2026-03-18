@@ -6,7 +6,7 @@
 /*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/15 00:38:05 by utilisateur       #+#    #+#             */
-/*   Updated: 2026/03/17 16:12:22 by nbaldes          ###   ########.fr       */
+/*   Updated: 2026/03/18 15:59:48 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,33 @@ int	fill_tab_file(char *file, int nb_line, char ***tab)
 	}
 	close(fd);
 	return (0);
+}
+
+void	parse_text(int *type, t_count *count, int nb_line)
+{
+	int	i;
+
+	i = 0;
+	while (i < (nb_line))
+	{
+		printf("type[%d] = %d\n", i, type[i]);
+		if (type[i] == NO)
+			count->no_count++;
+		if (type[i] == SO)
+			count->so_count++;
+		if (type[i] == WE)
+			count->we_count++;
+		if (type[i] == EA)
+			count->ea_count++;
+		if (type[i] == F)
+			count->f_count++;
+		if (type[i] == C)
+			count->c_count++;
+		if (type[i] == STR)
+			count->str_count++;
+		i++;
+	}
+	return ;
 }
 
 int	parse_file(t_env *env, char ***text, char ***map)

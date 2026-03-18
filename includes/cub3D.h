@@ -36,28 +36,20 @@
 // # endif
 
 # include "libft.h"
-// # include "minilibx-linux/mlx.h"
-// # include "minilibx-linux/mlx_int.h"
+# include "minilibx-linux/mlx.h"
+# include "minilibx-linux/mlx_int.h"
 # include <fcntl.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <sys/stat.h>
 
-// typedef struct s_point
-// {
-//delta pour horientation
-// 	int		x;
-// 	int		y;
-// }			t_point;
-
-typedef	struct player
+typedef struct player
 {
 	int		x;
 	int		y;
-	char 	orientation;
+	char	orientation;
 }				t_player;
-
 
 typedef struct s_count
 {
@@ -70,12 +62,12 @@ typedef struct s_count
 	int			str_count;
 }				t_count;
 
-typedef struct s_window 
+typedef struct s_window
 {
-	char 	*mlx_adress;
+	char	*mlx_adress;
 	void	*mlx_ptr;
 	void	*win_ptr;
-	void 	*img_ptr;
+	void	*img_ptr;
 }	t_window;
 
 typedef struct s_env
@@ -97,6 +89,12 @@ typedef struct s_data_game
 	t_player	player;
 }				t_data_game;
 
+//check_map
+void			fill_text(int *type, int key, char ***new_tab, char **old_tab);
+int				fill_map(int *type, char ***map, char **tab);
+int				check_flline_map(int i, int j, char **map, int nb_line);
+int				check_oth_line_map(int i, int j, char **map);
+int				check_line_map(int i, int j, char **map, int nb_line);
 
 //error_file
 int				error_file(t_env *env, char ***text, char ***map);
@@ -109,9 +107,10 @@ int				check_access(char *file);
 int				count_line_file(char *file, int *nb_line);
 int				fill_tab_file(char *file, int nb_line, char ***tab);
 int				parse_file(t_env *env, char ***text, char ***map);
+void			parse_text(int *type, t_count *count, int nb_line);
 
 //parse_map_info
-void	parse_map_info(t_data_game *game);
+void			parse_map_info(t_data_game *game);
 
 //parse_type
 int				parse_type(char *line);

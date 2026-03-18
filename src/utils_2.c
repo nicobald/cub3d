@@ -6,7 +6,7 @@
 /*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 20:09:20 by nbaldes           #+#    #+#             */
-/*   Updated: 2026/03/18 13:38:45 by nbaldes          ###   ########.fr       */
+/*   Updated: 2026/03/18 16:06:23 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	free_parsing(t_env *env, char ***text, char ***map)
 	free_tab(&env->tab);
 	free_tab(map);
 	free_tab(text);
+	free(env->win);
 	return ;
 }
 
@@ -74,7 +75,6 @@ void	print_tab(char **str)
 	int	x;
 
 	x = 0;
-
 	while (str[x])
 	{
 		printf("%s\n", str[x]);
