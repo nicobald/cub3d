@@ -3,42 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   error_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/15 19:52:37 by utilisateur       #+#    #+#             */
-/*   Updated: 2026/03/17 17:21:43 by laudinot         ###   ########.fr       */
+/*   Updated: 2026/03/18 16:03:54 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	parse_text(int *type, t_count *count, int nb_line)
-{
-	int	i;
-
-	i = 0;
-	while (i < (nb_line - 1))
-	{
-		if (type[i] == NO)
-			count->no_count++;
-		if (type[i] == SO)
-			count->so_count++;
-		if (type[i] == WE)
-			count->we_count++;
-		if (type[i] == EA)
-			count->ea_count++;
-		if (type[i] == F)
-			count->f_count++;
-		if (type[i] == C)
-			count->c_count++;
-		if (type[i] == STR)
-			count->str_count++;
-		i++;
-	}
-	return ;
-}
-
-int	error_parse_file(t_count count, int *type)
+int	error_parse_file(t_count count, int *type, int nb_line)
 {
 	int	i;
 
@@ -54,52 +28,13 @@ int	error_parse_file(t_count count, int *type)
 		ft_putstr_fd("Error: Missing or duplicate color definition.\n", 2);
 		return (1);
 	}
-	while (type[++i])
+	while (++i < nb_line)
 	{
 		if (type[i] == MAP && type[i + 1] && type[i + 1] != MAP)
 		{
 			ft_putstr_fd("Error: Error: wrong map format.\n", 2);
 			return (1);
 		}
-	}
-	return (0);
-}
-
-void	fill_text(int *type, int key, char ***new_tab, char **old_tab)
-{
-	int	i;
-
-	i = 0;
-	while (type[i] != key)
-		i++;
-	(*new_tab)[key] = second_word_dup(old_tab[i]);
-	return ;
-}
-
-int	fill_map(int *type, char ***map, char **tab)
-{
-	int	i;
-	int	j;
-	int	begin_map;
-
-	i = 0;
-	j = 0;
-	while (type[i] != MAP)
-		i++;
-	begin_map = i;
-	while (type[i++] == MAP)
-		j++;
-	(*map) = malloc(sizeof(char *) * (j + 1));
-	if (!(*map))
-		return (1);
-	(*map)[j] = NULL;
-	j = 0;
-	i = begin_map;
-	while (type[i] == MAP)
-	{
-		(*map)[j] = ft_strdup(tab[i]);
-		j++;
-		i++;
 	}
 	return (0);
 }
@@ -150,30 +85,39 @@ int	check_nb_player(char ***map)
 	return (0);
 }
 
+int	check_map_closed(char **map)
+{
+	int	nb_line;
+	int	i;
+	int	j;
+
+	nb_line = 0;
+	i = 0;
+	while (map[nb_line])
+		nb_line++;
+	while (map[i])
+	{
+		j = 0;
+		if (check_line_map(i, j, map, nb_line) == 1)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 int	error_file(t_env *env, char ***text, char ***map)
 {
-	int	i;
-
-	i = 0;
 	parse_text(env->type, &env->count, env->nb_line);
 	if (env->count.str_count != 0)
 	{
 		ft_putstr_fd("Error: line not allowed detected\n", 2);
 		return (1);
 	}
-	if (error_parse_file(env->count, env->type) == 1)
+	if (error_parse_file(env->count, env->type, env->nb_line) == 1)
 		return (1);
 	if (dup_text_map(env->tab, env->type, text, map) == 1)
 		return (1);
-	if (check_nb_player(map))
+	if (check_nb_player(map) || check_map_closed(*map))
 		return (1);
-	while (i < 4)
-	{
-		printf("%s\n", (*text)[i]);
-		// check_access((*text)[i]);
-		i++;
-	}
-	// flood_fill
-	//fill_pos_player
 	return (0);
 }

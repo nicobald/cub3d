@@ -13,16 +13,15 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-
-# define	NO		0
-# define	SO		1
-# define	WE		2
-# define	EA		3
-# define	F		4
-# define	C		5
-# define	MAP		6
-# define	EMP		7
-# define	STR		8
+# define NO		0
+# define SO		1
+# define WE		2
+# define EA		3
+# define F		4
+# define C		5
+# define MAP	6
+# define EMP	7
+# define STR	8
 
 // # ifndef COL_SIZE
 // #  define COL_SIZE 32
@@ -38,7 +37,6 @@
 // #  define ROW_SIZE 32
 // # endif
 
-
 # include "libft.h"
 # include "minilibx-linux/mlx.h"
 # include "minilibx-linux/mlx_int.h"
@@ -49,20 +47,12 @@
 # include <unistd.h>
 # include <sys/stat.h>
 
-// typedef struct s_point
-// {
-//delta pour horientation
-// 	int		x;
-// 	int		y;
-// }			t_point;
-
-typedef	struct player
+typedef struct player
 {
 	int		x;
 	int		y;
 	char	orientation;
 }				t_player;
-
 
 typedef struct s_count
 {
@@ -75,12 +65,12 @@ typedef struct s_count
 	int			str_count;
 }				t_count;
 
-typedef struct s_window 
+typedef struct s_window
 {
-	char 	*mlx_adress;
+	char	*mlx_adress;
 	void	*mlx_ptr;
 	void	*win_ptr;
-	void 	*img_ptr;
+	void	*img_ptr;
 }	t_window;
 
 typedef struct s_env
@@ -104,6 +94,12 @@ typedef struct s_data_game
 	t_player	*player;
 }				t_data_game;
 
+//check_map
+void			fill_text(int *type, int key, char ***new_tab, char **old_tab);
+int				fill_map(int *type, char ***map, char **tab);
+int				check_flline_map(int i, int j, char **map, int nb_line);
+int				check_oth_line_map(int i, int j, char **map);
+int				check_line_map(int i, int j, char **map, int nb_line);
 
 //error_file
 int				error_file(t_env *env, char ***text, char ***map);
@@ -116,9 +112,10 @@ int				check_access(char *file);
 int				count_line_file(char *file, int *nb_line);
 int				fill_tab_file(char *file, int nb_line, char ***tab);
 int				parse_file(t_env *env, char ***text, char ***map);
+void			parse_text(int *type, t_count *count, int nb_line);
 
 //parse_map_info
-void	parse_map_info(t_data_game *game);
+void			parse_map_info(t_data_game *game);
 
 //parse_type
 int				parse_type(char *line);
@@ -131,6 +128,8 @@ int				tab_is_digit(char **tab);
 int				count_words(const char *s);
 char			*second_word_dup(char *s);
 void			free_parsing(t_env *env, char ***text, char ***map);
+int				split_check_color(char *line);
+char			*ft_strrtrim(char const *s1, char const *set);
 void			print_tab(char **str);
 
 //mlx

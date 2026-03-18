@@ -6,7 +6,7 @@
 /*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 16:10:14 by laudinot          #+#    #+#             */
-/*   Updated: 2026/03/18 16:00:51 by laudinot         ###   ########.fr       */
+/*   Updated: 2026/03/18 16:12:29 by laudinot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	calculate_map(t_data_game *game)
 
 int	create_window(t_env *env, t_data_game *game)
 {
-	env->win->mlx_ptr = mlx_init();	
+	env->win->mlx_ptr = mlx_init();
 	if (env->win->mlx_ptr == 0)
 		return (printf("Mlx init failed \n"));
 	printf("adresse window->mlx_ptr = %p\n", env->win->mlx_ptr);
