@@ -6,13 +6,13 @@
 /*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 17:57:33 by nbaldes           #+#    #+#             */
-/*   Updated: 2026/03/17 18:21:28 by laudinot         ###   ########.fr       */
+/*   Updated: 2026/03/18 15:55:29 by laudinot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	init_env(t_env *env, char ***text, char ***map)
+void	init_env(t_env *env, t_data_game *game)
 {
 	env->win = malloc(sizeof(t_window));
 	if (!env->win)
@@ -29,8 +29,11 @@ void	init_env(t_env *env, char ***text, char ***map)
 	env->count.str_count = 0;
 	env->tab = NULL;
 	env->type = NULL;
-	(*text) = NULL;
-	(*map) = NULL;
+	game->text = NULL;
+	game->map = NULL;
+	game->player = malloc(sizeof(t_player));
+	if (!game->player)
+		printf("Malloc error\n");
 	return ;
 }
 
@@ -53,7 +56,7 @@ int	main(int argc, char **argv)
 	t_data_game	game;
 
 	(void)argc;
-	init_env(&env, &game.text, &game.map);
+	init_env(&env, &game);
 	if (parsing(argv, &env, &game) == 1)
 	{
 		free_parsing(&env, &game.text, &game.map);
@@ -61,7 +64,7 @@ int	main(int argc, char **argv)
 	}
 	print_tab(game.text);
 	print_tab(game.map);
-	create_window(&env);
+	// create_window(&env, &game);
 	free_tab(&game.text);
 	free_tab(&game.map);
 	return (0);

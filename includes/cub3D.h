@@ -28,6 +28,8 @@
 // #  define COL_SIZE 32
 // # endif
 
+# define FALSE 0
+# define TRUE 1
 # define BUFFER_SIZE 10
 # define SCREEN_WIDTH 800
 # define SCREEN_HEIGHT 800
@@ -41,6 +43,7 @@
 # include "minilibx-linux/mlx.h"
 # include "minilibx-linux/mlx_int.h"
 # include <fcntl.h>
+
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -57,7 +60,7 @@ typedef	struct player
 {
 	int		x;
 	int		y;
-	char 	orientation;
+	char	orientation;
 }				t_player;
 
 
@@ -94,9 +97,11 @@ typedef struct s_data_game
 {
 	char		**text;
 	char		**map;
+	int			x_pixel_per_unit;	// deviendra float?
+	int			y_pixel_per_unit;
 	int			x_len;
 	int			y_len;
-	t_player	player;
+	t_player	*player;
 }				t_data_game;
 
 
@@ -129,5 +134,5 @@ void			free_parsing(t_env *env, char ***text, char ***map);
 void			print_tab(char **str);
 
 //mlx
-int				create_window(t_env *env);
+int				create_window(t_env *env, t_data_game *game);
 #endif
