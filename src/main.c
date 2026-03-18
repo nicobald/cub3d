@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: utilisateur <utilisateur@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 17:57:33 by nbaldes           #+#    #+#             */
-/*   Updated: 2026/03/17 14:38:54 by laudinot         ###   ########.fr       */
+/*   Updated: 2026/03/18 01:55:33 by utilisateur      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 
 void	init_env(t_env *env, char ***text, char ***map)
 {
+	env->win = malloc(sizeof(t_window));
+	if (!env->win)
+		printf("Malloc error\n");
+	env->win->win_ptr = NULL;
+	env->win->mlx_ptr = NULL;
 	env->nb_line = 0;
 	env->count.no_count = 0;
 	env->count.so_count = 0;
@@ -29,15 +34,16 @@ void	init_env(t_env *env, char ***text, char ***map)
 	return ;
 }
 
-int	parsing(char **argv, t_env *env, char ***text, char ***map)
+int	parsing(char **argv, t_env *env, t_data_game *game)
 {
-	if (check_args(argv) == 1 || check_access(argv[1]) == 1)
+	if (check_args(argv) == 1)
 		return (1);
 	if (count_line_file(argv[1], &env->nb_line) == 1
 		|| fill_tab_file(argv[1], env->nb_line, &env->tab) == 1)
 		return (1);
-	if (parse_file(env, text, map) == 1)
+	if (parse_file(env, &game->text, &game->map) == 1)
 		return (1);
+	parse_map_info(game);
 	return (0);
 }
 
@@ -48,23 +54,14 @@ int	main(int argc, char **argv)
 
 	(void)argc;
 	init_env(&env, &game.text, &game.map);
-	if (parsing(argv, &env, &game.text, &game.map) == 1)
+	if (parsing(argv, &env, &game) == 1)
 	{
 		free_parsing(&env, &game.text, &game.map);
 		return (1);
 	}
-	int i = 0;
-	while (game.text[i])
-	{
-		printf("%s\n", game.text[i]);
-		i++;
-	}
-	i = 0;
-	while (game.map[i])
-	{
-		printf("%s", game.map[i]);
-		i++;
-	}
+	print_tab(game.text);
+	print_tab(game.map);
+	create_window(&env);
 	free_tab(&game.text);
 	free_tab(&game.map);
 	return (0);
