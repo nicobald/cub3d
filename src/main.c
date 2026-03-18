@@ -6,7 +6,7 @@
 /*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 17:57:33 by nbaldes           #+#    #+#             */
-/*   Updated: 2026/03/18 16:12:02 by laudinot         ###   ########.fr       */
+/*   Updated: 2026/03/18 18:50:27 by laudinot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,12 @@ int	main(int argc, char **argv)
 		free_parsing(&env, &game.text, &game.map);
 		return (1);
 	}
-	print_tab(game.text);
-	print_tab(game.map);
-	// create_window(&env, &game);
-	free_tab(&game.text);
-	free_tab(&game.map);
+	// print_tab(game.text);
+	// print_tab(game.map);
+	create_window(&env, &game);
+	while (1)
+		;
+	// free_tab(&game.text);
+	// free_tab(&game.map);
 	return (0);
 }

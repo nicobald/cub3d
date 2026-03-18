@@ -22,6 +22,10 @@
 # define MAP	6
 # define EMP	7
 # define STR	8
+# define GREEN 0x00FF7F
+# define BLACK 0x000000
+# define WHITE 0xFFFFFF
+# define RED   0xFF0033
 
 // # ifndef COL_SIZE
 // #  define COL_SIZE 32
@@ -88,8 +92,8 @@ typedef struct s_data_game
 	char		**text;
 	char		**map;
 	int			x_pixel_per_unit;	// deviendra float?
-	int			y_pixel_per_unit;
-	int			x_len;
+	int			y_pixel_per_unit;   //SCREEN_WIDTH / game->x_len
+	int			x_len;				// longueur x du tableau 
 	int			y_len;
 	t_player	*player;
 }				t_data_game;

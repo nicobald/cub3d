@@ -6,7 +6,7 @@
 /*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 18:05:43 by laudinot          #+#    #+#             */
-/*   Updated: 2026/03/18 16:12:54 by laudinot         ###   ########.fr       */
+/*   Updated: 2026/03/18 17:37:48 by laudinot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,14 @@ int	get_map_y(char **str)
 
 void	remove_first_space(char **str, int nb)
 {
-	int	i;
-	char *ptr;
+	int		i;
+	char	*ptr;
 
 	i = 0;
 	while (str[i])
 	{
 		ptr = str[i];
-		str[i] = ft_strdup(str[i + nb]);
+		str[i] = ft_strdup(&str[i][nb]);
 		free(ptr);
 		i++;
 	}
@@ -45,7 +45,7 @@ int	get_first_space(char *str)
 	i = -1;
 	ret = 0;
 
-	while(str[++i])
+	while (str[++i])
 	{
 		if (str[i] == ' ' || (str[i] >= 7 && str[i] <= 13))
 			ret++;
@@ -73,12 +73,19 @@ int	get_map_x(char **str)
 	i = 1;
 	while (str[i])
 	{
-		if (first_space < get_first_space(str[i]))
+		// printf("first space ligne n%d = %d\n", i, get_first_space(str[i]));
+		if (first_space > get_first_space(str[i]))
+		{
 			first_space = get_first_space(str[i]);
+			// printf("rentre la %d\n", i);	
+		}
 		i++;
 	}
 	printf(" %d %d\n", len , first_space);
-	// remove_first_space(str, first_space);	
+	print_tab(str);
+	remove_first_space(str, first_space);
+	print_tab(str);
+
 	return ((len - 1) - first_space);
 }
 

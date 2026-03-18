@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
+/*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 15:54:24 by nbaldes           #+#    #+#             */
-/*   Updated: 2026/03/18 16:06:57 by nbaldes          ###   ########.fr       */
+/*   Updated: 2026/03/18 16:37:14 by laudinot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ int	check_flline_map(int i, int j, char **map, int nb_line)
 	if (i == 0 || i == (nb_line - 1))
 	{
 		if (map[i][j] != ' ' && map[i][j] != '1'
-			&& map[i][j] != '\n' && map[i][j] != '\0')
+			&& map[i][j] != '\n' && map[i][j] != '\0'
+			&& (map[i][j] <= 7 && map[i][j] >= 13))
 		{
 			ft_putstr_fd("Error : Map not closed", 2);
 			return (1);

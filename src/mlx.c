@@ -6,22 +6,92 @@
 /*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 16:10:14 by laudinot          #+#    #+#             */
-/*   Updated: 2026/03/18 16:12:29 by laudinot         ###   ########.fr       */
+/*   Updated: 2026/03/18 19:39:41 by laudinot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	calculate_map(t_data_game *game)
+int	choose_color(char c)
 {
-	game->x_pixel_per_unit = SCREEN_WIDTH / game->x_len;
-	game->y_pixel_per_unit = SCREEN_HEIGHT / game->y_len;
+	// printf("test dans choose color\n");
+	if (c == '1')
+		return (GREEN);
+	else if (c == '0')
+		return (WHITE);
+	else if (c == ' ' || (c >= 9 && c <= 13))
+		return (RED);
+	else if (c == 'N' || c == 'S' || c == 'W' || c == 'E' )
+		return (RED);
+	return (0);
 }
 
-// void	print_map(t_data_game *game)
-// {
-	
-// }
+void	draw_texture(t_data_game *game, int x, int y, t_env *env)
+{
+	int	i;
+	int	j;
+	int	x_len_to_start_draw;
+	int	y_len_to_start_draw;
+
+	printf("drawing x = %d y = %d\n", x, y);
+
+	i = 0;
+	x_len_to_start_draw = (x * game->x_pixel_per_unit);
+	y_len_to_start_draw = (y * game->y_pixel_per_unit);
+	while (i < game->y_pixel_per_unit)
+	{
+		// printf("%d\n", i);
+		j = 0;
+		// printf(" game->x_pixel_per_unit = %d\n", game->x_pixel_per_unit);
+		while (j < game->x_pixel_per_unit)
+		{
+			// printf("j = %d, pixel to draw X = %d Y = %d\n", j, x_len_to_start_draw + j, y_len_to_start_draw + i);
+			mlx_pixel_put(env->win->mlx_ptr, env->win->win_ptr,
+				y_len_to_start_draw + i, x_len_to_start_draw + j,
+				choose_color(game->map[y][x]));
+			usleep(100);
+			j++;
+		}
+		i++;
+	}
+}
+
+void	calculate_map(t_data_game *game)
+{
+	game->x_pixel_per_unit = SCREEN_WIDTH / (game->x_len + 1);
+	game->y_pixel_per_unit = SCREEN_HEIGHT / (game->y_len + 1);
+	printf("pixel = %d x %d \n", game->x_pixel_per_unit, game->y_pixel_per_unit);
+}
+
+void	print_map(t_data_game *game, t_env *env)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	print_tab(game->map);
+	while (game->map[i])
+	{
+		j = 0;
+		while (game->map[i][j])
+		{
+			if (game->map[i][j] == '1')
+				draw_texture(game, j , i, env);
+			else if (game->map[i][j] == '0')
+				draw_texture(game, j , i, env);
+			else if (game->map[i][j] == 'N' || game->map[i][j] == 'S' || game->map[i][j] == 'W' || game->map[i][j] == 'E')
+				draw_texture(game, j , i, env);
+			else if(game->map[i][j] == ' ')
+			{
+				// printf("x = %d y = %d quand rentre dans vide\n", j , i);
+				draw_texture(game, j , i, env);
+			}
+			j++;
+		}
+		i++;
+	}
+	printf("print_map terminee j = %d i = %d\n", j, i);
+}
 
 int	create_window(t_env *env, t_data_game *game)
 {
@@ -31,10 +101,11 @@ int	create_window(t_env *env, t_data_game *game)
 	printf("adresse window->mlx_ptr = %p\n", env->win->mlx_ptr);
 	env->win->win_ptr = mlx_new_window(env->win->mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT, "Dofus3D");
 	calculate_map(game);
-	// print_map(game);
-	// window->img_ptr = mlx_new_image(window->mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT);
+	print_map(game, env);
+	// env->win->img_ptr = mlx_new_image(env->win->mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT);
+	// mlx_put_image_to_window(env->win->mlx_ptr, env->win->win_ptr, env->win->img_ptr, 0, 0);
 	// window->mlx_adress = mlx_get_data_addr(window->img_ptr, NULL, NULL, NULL);
-	printf("test\n");
 	mlx_loop(env->win->mlx_ptr);
+	printf("apres loop\n");	
 	return (0);
 }

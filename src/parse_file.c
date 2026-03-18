@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
+/*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/15 00:38:05 by utilisateur       #+#    #+#             */
-/*   Updated: 2026/03/18 15:59:48 by nbaldes          ###   ########.fr       */
+/*   Updated: 2026/03/18 16:38:44 by laudinot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	parse_text(int *type, t_count *count, int nb_line)
 	i = 0;
 	while (i < (nb_line))
 	{
-		printf("type[%d] = %d\n", i, type[i]);
+		// printf("type[%d] = %d\n", i, type[i]);
 		if (type[i] == NO)
 			count->no_count++;
 		if (type[i] == SO)
@@ -100,7 +100,7 @@ int	parse_file(t_env *env, char ***text, char ***map)
 	while (env->tab[i])
 	{
 		env->type[i] = parse_type(env->tab[i]);
-		printf("la ligne %d est de type %d elle contiens %s", i, env->type[i], env->tab[i]);
+		// printf("la ligne %d est de type %d elle contiens %s", i, env->type[i], env->tab[i]);
 		i++;
 	}
 	if (error_file(env, text, map) == 1)
