@@ -6,7 +6,7 @@
 /*   By: utilisateur <utilisateur@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 20:09:20 by nbaldes           #+#    #+#             */
-/*   Updated: 2026/03/18 01:55:50 by utilisateur      ###   ########.fr       */
+/*   Updated: 2026/03/18 01:56:16 by utilisateur      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ char	*ft_strrtrim(char const *s1, char const *set)
 		return (NULL);
 	ft_strlcpy(str, (char *)s1, last + 2);
 	return (str);
+}
+
 void	print_tab(char **str)
 {
 	int	x;
