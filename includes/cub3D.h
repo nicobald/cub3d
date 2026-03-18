@@ -86,6 +86,7 @@ typedef struct s_data_game
 	char		**map;
 	int			x_len;
 	int			y_len;
+	int			*colors;
 	t_player	player;
 }				t_data_game;
 

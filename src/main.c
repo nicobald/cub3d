@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: utilisateur <utilisateur@student.42.fr>    +#+  +:+       +#+        */
+/*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 17:57:33 by nbaldes           #+#    #+#             */
-/*   Updated: 2026/03/18 01:55:33 by utilisateur      ###   ########.fr       */
+/*   Updated: 2026/03/18 18:27:47 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,11 @@ int	main(int argc, char **argv)
 		free_parsing(&env, &game.text, &game.map);
 		return (1);
 	}
-	print_tab(game.text);
-	print_tab(game.map);
+	// print_tab(game.text);
+	// print_tab(game.map);
 	create_window(&env);
 	free_tab(&game.text);
 	free_tab(&game.map);
+	free(game.colors);
 	return (0);
 }

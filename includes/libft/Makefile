@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+         #
+#    By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/04 10:17:57 by laudinot          #+#    #+#              #
-#    Updated: 2026/03/17 16:41:19 by laudinot         ###   ########.fr        #
+#    Updated: 2026/03/18 17:58:48 by nbaldes          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ SRC =	ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c \
 	ft_strndup.c ft_strdup.c ft_strjoin.c ft_memset.c ft_bzero.c ft_memcpy.c \
 	ft_memmove.c ft_memchr.c ft_memcmp.c ft_putchar_fd.c ft_putstr_fd.c \
 	ft_putendl_fd.c ft_putnbr_fd.c ft_substr.c ft_strtrim.c ft_itoa.c \
-	ft_calloc.c ft_split.c ft_striteri.c ft_strmapi.c ft_strjoin_slash.c \
+	ft_calloc.c ft_split.c ft_striteri.c ft_strmapi.c ft_strjoin_coma.c \
 	
 BONUS_SRC =	ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstadd_back.c \
 			ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c \
