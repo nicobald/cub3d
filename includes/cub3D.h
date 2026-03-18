@@ -13,16 +13,15 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-
-# define	NO		0
-# define	SO		1
-# define	WE		2
-# define	EA		3
-# define	F		4
-# define	C		5
-# define	MAP		6
-# define	EMP		7
-# define	STR		8
+# define NO		0
+# define SO		1
+# define WE		2
+# define EA		3
+# define F		4
+# define C		5
+# define MAP	6
+# define EMP	7
+# define STR	8
 
 // # ifndef COL_SIZE
 // #  define COL_SIZE 32
@@ -35,8 +34,8 @@
 // # ifndef ROW_SIZE
 // #  define ROW_SIZE 32
 // # endif
-
 // # include "./minilibx-linux/mlx.h"
+
 # include "libft.h"
 # include <fcntl.h>
 # include <stdio.h>
@@ -88,7 +87,6 @@ int				count_line_file(char *file, int *nb_line);
 int				fill_tab_file(char *file, int nb_line, char ***tab);
 int				parse_file(t_env *env, char ***text, char ***map);
 
-
 //parse_type
 int				parse_type(char *line);
 
@@ -100,5 +98,7 @@ int				tab_is_digit(char **tab);
 int				count_words(const char *s);
 char			*second_word_dup(char *s);
 void			free_parsing(t_env *env, char ***text, char ***map);
+int				split_check_color(char *line);
+char			*ft_strrtrim(char const *s1, char const *set);
 
 #endif

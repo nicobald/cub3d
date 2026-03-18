@@ -6,7 +6,7 @@
 /*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/14 23:31:40 by utilisateur       #+#    #+#             */
-/*   Updated: 2026/03/16 19:24:59 by nbaldes          ###   ########.fr       */
+/*   Updated: 2026/03/17 16:13:55 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ char	*second_word_dup(char *s)
 	int	len;
 
 	start = 0;
-
 	while (s[start] == ' ' || s[start] == '\t')
 		start++;
 	while (s[start] && s[start] != ' ' && s[start] != '\t' && s[start] != '\n')

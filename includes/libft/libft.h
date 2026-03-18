@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: utilisateur <utilisateur@student.42.fr>    +#+  +:+       +#+        */
+/*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:08:01 by laudinot          #+#    #+#             */
-/*   Updated: 2026/03/15 23:59:30 by utilisateur      ###   ########.fr       */
+/*   Updated: 2026/03/17 18:58:54 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void				*ft_memchr(const void *s, int c, size_t n);
 void				*ft_calloc(size_t nmemb, size_t size);
 char				*ft_strjoin_slash(const char *s1, const char *s2);
 void				*ft_malloc(size_t size, int param);
+char				*if_full_trim(void);
 
 typedef struct s_list
 {
