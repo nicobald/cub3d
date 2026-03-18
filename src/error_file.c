@@ -6,7 +6,7 @@
 /*   By: utilisateur <utilisateur@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/15 19:52:37 by utilisateur       #+#    #+#             */
-/*   Updated: 2026/03/18 01:49:06 by utilisateur      ###   ########.fr       */
+/*   Updated: 2026/03/18 01:55:11 by utilisateur      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,7 +226,7 @@ int	error_file(t_env *env, char ***text, char ***map)
 	while (i < 4)
 	{
 		printf("%s\n", (*text)[i]);
-		check_access((*text)[i]);
+		// check_access((*text)[i]);
 		i++;
 	}
 	// flood_fill

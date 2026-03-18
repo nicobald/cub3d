@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_args.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
+/*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/14 23:53:38 by utilisateur       #+#    #+#             */
-/*   Updated: 2026/03/16 19:28:40 by nbaldes          ###   ########.fr       */
+/*   Updated: 2026/03/17 17:19:58 by laudinot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,29 +36,29 @@ int	check_args(char **argv)
 	return (0);
 }
 
-int	check_access(char *file)
-{
-	struct stat	file_data;
+// int	check_access(char *file)
+// {
+// 	struct stat	file_data;
 
-	if (access(file, F_OK) == -1)
-	{
-		ft_putstr_fd("Error: file not found.\n", 2);
-		return (1);
-	}
-	if (stat(file, &file_data) == -1)
-	{
-		ft_putstr_fd("Error: Failed to retrieve file information.\n", 2);
-		return (1);
-	}
-	if (S_ISREG(file_data.st_mode) == 0)
-	{
-		ft_putstr_fd("Error: Expected a regular file.\n", 2);
-		return (1);
-	}
-	if (access(file, R_OK) == -1)
-	{
-		ft_putstr_fd("Error: cannot read the file.\n", 2);
-		return (1);
-	}
-	return (0);
-}
+// 	if (access(file, F_OK) == -1)
+// 	{
+// 		ft_putstr_fd("Error: file not found.\n", 2);
+// 		return (1);
+// 	}
+// 	if (stat(file, &file_data) == -1)
+// 	{
+// 		ft_putstr_fd("Error: Failed to retrieve file information.\n", 2);
+// 		return (1);
+// 	}
+// 	if (S_ISREG(file_data.st_mode) == 0)
+// 	{
+// 		ft_putstr_fd("Error: Expected a regular file.\n", 2);
+// 		return (1);
+// 	}
+// 	if (access(file, R_OK) == -1)
+// 	{
+// 		ft_putstr_fd("Error: cannot read the file.\n", 2);
+// 		return (1);
+// 	}
+// 	return (0);
+// }
