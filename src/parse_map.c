@@ -6,7 +6,7 @@
 /*   By: utilisateur <utilisateur@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 18:05:43 by laudinot          #+#    #+#             */
-/*   Updated: 2026/03/19 21:12:38 by utilisateur      ###   ########.fr       */
+/*   Updated: 2026/03/19 22:08:02 by utilisateur      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,16 +93,15 @@ int	tab_colors(int **fcolors, char **text)
 {
 	int		i;
 	char	**colors;
+	char *tmp;
 
 	i = 0;
-	colors = malloc(sizeof(char *) * 7);
-	if (!colors)
-		return (1);
 	(*fcolors) = malloc(sizeof(int) * 6);
-	if (!fcolors)
+	if (!*fcolors)
 		return (1);
-	colors[6] = NULL;
-	colors = ft_split(ft_strjoin_coma(text[4], text[5]), ',');
+	tmp = ft_strjoin_coma(text[4], text[5]);
+	colors = ft_split(tmp, ',');
+	free(tmp);
 	while (colors[i])
 	{
 		(*fcolors)[i] = ft_atoi(colors[i]);

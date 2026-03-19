@@ -6,7 +6,7 @@
 /*   By: utilisateur <utilisateur@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 17:57:33 by nbaldes           #+#    #+#             */
-/*   Updated: 2026/03/19 21:13:57 by utilisateur      ###   ########.fr       */
+/*   Updated: 2026/03/19 22:10:09 by utilisateur      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 void	init_env(t_env *env, t_data_game *game)
 {
-	env->win = malloc(sizeof(t_window));
-	if (!env->win)
+	game->player = malloc(sizeof(t_player));
+	if (!game->player)
 		printf("Malloc error\n");
-	env->win->win_ptr = NULL;
-	env->win->mlx_ptr = NULL;
+	game->player->x_pixel_position = 0;
+	game->player->y_pixel_position = 0;
 	env->nb_line = 0;
 	env->count.no_count = 0;
 	env->count.so_count = 0;
@@ -31,11 +31,6 @@ void	init_env(t_env *env, t_data_game *game)
 	env->type = NULL;
 	game->text = NULL;
 	game->map = NULL;
-	game->player = malloc(sizeof(t_player));
-	if (!game->player)
-		printf("Malloc error\n");
-	game->player->x_pixel_position = 0;
-	game->player->y_pixel_position = 0;
 	return ;
 }
 
@@ -52,6 +47,16 @@ int	parsing(char **argv, t_env *env, t_data_game *game)
 	return (0);
 }
 
+int init_game(t_data_game *game)
+{
+	game->win = malloc(sizeof(t_window));
+	if (!game->win)
+		printf("Malloc error\n");
+	game->win->win_ptr = NULL;
+	game->win->mlx_ptr = NULL;
+	return(0);
+}
+
 int	main(int argc, char **argv)
 {
 	t_env		env;
@@ -61,14 +66,17 @@ int	main(int argc, char **argv)
 	init_env(&env, &game);
 	if (parsing(argv, &env, &game) == 1)
 	{
-		free_parsing(&env, &game.text, &game.map);
+		free_parsing(&env, &game.text, &game.map, game.player);
 		return (1);
 	}
 	// print_tab(game.text);
 	// print_tab(game.map);
-	create_window(&env, &game);
-	free_tab(&game.text);
-	free_tab(&game.map);
-	free(game.colors);
+	if (init_game(&game))
+		return(1);
+	create_window(&game);
+	// free_tab(&game.text);
+	// free_tab(&game.map);
+	// free(game.colors);
+	// free(game.player);
 	return (0);
 }
