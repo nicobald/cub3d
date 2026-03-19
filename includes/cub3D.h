@@ -22,11 +22,17 @@
 # define MAP	6
 # define EMP	7
 # define STR	8
-
+# define GREEN 0x00FF7F
+# define BLACK 0x000000
+# define WHITE 0xFFFFFF
+# define RED   0xFF0033
+# define CUSTOM   0xFFEE33
 // # ifndef COL_SIZE
 // #  define COL_SIZE 32
 // # endif
 
+# define FALSE 0
+# define TRUE 1
 # define BUFFER_SIZE 10
 # define SCREEN_WIDTH 800
 # define SCREEN_HEIGHT 800
@@ -39,6 +45,7 @@
 # include "minilibx-linux/mlx.h"
 # include "minilibx-linux/mlx_int.h"
 # include <fcntl.h>
+
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -48,6 +55,8 @@ typedef struct player
 {
 	int		x;
 	int		y;
+	int		x_pixel_position;
+	int		y_pixel_position;
 	char	orientation;
 }				t_player;
 
@@ -84,10 +93,12 @@ typedef struct s_data_game
 {
 	char		**text;
 	char		**map;
-	int			x_len;
+	int			x_pixel_per_unit;	// deviendra float?
+	int			y_pixel_per_unit;   //SCREEN_WIDTH / game->x_len
+	int			x_len;				// longueur x du tableau 
 	int			y_len;
 	int			*colors;
-	t_player	player;
+	t_player	*player;
 }				t_data_game;
 
 //check_map
@@ -129,5 +140,5 @@ char			*ft_strrtrim(char const *s1, char const *set);
 void			print_tab(char **str);
 
 //mlx
-int				create_window(t_env *env);
+int				create_window(t_env *env, t_data_game *game);
 #endif
