@@ -26,7 +26,7 @@
 # define BLACK 0x000000
 # define WHITE 0xFFFFFF
 # define RED   0xFF0033
-
+# define CUSTOM   0xFFEE33
 // # ifndef COL_SIZE
 // #  define COL_SIZE 32
 // # endif
@@ -55,6 +55,8 @@ typedef struct player
 {
 	int		x;
 	int		y;
+	int		x_pixel_position;
+	int		y_pixel_position;
 	char	orientation;
 }				t_player;
 

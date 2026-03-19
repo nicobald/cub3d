@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louis <louis@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 18:05:43 by laudinot          #+#    #+#             */
-/*   Updated: 2026/03/18 17:37:48 by laudinot         ###   ########.fr       */
+/*   Updated: 2026/03/19 18:29:15 by louis            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ int	is_there_player(char *str, t_data_game *game)
 		{
 			game->player->x = i;
 			game->player->orientation = str[i];
+			// printf("test : %c" , game->player->orientation);
 			return (TRUE);
 		}
 		i++;

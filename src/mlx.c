@@ -6,7 +6,7 @@
 /*   By: louis <louis@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 16:10:14 by laudinot          #+#    #+#             */
-/*   Updated: 2026/03/19 17:48:29 by louis            ###   ########.fr       */
+/*   Updated: 2026/03/19 18:26:37 by louis            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,35 @@ int	choose_color(char c)
 	return (0);
 }
 
+void	draw_line(t_env *env, t_data_game *game, int x, int y)
+{
+	while (game->player->x_pixel_position < SCREEN_WIDTH && game->player->x_pixel_position >= 0 
+		&& game->player->y_pixel_position < SCREEN_WIDTH && game->player->y_pixel_position >= 0)
+		{
+			mlx_pixel_put(env->win->mlx_ptr, env->win->win_ptr, game->player->x_pixel_position, game->player->y_pixel_position, CUSTOM);
+			game->player->x_pixel_position += x;
+			game->player->y_pixel_position += y;
+			printf(" test\n");
+		}
+		printf("fin de draw line\n");
+}
+
+void	draw_direction(t_data_game *game, t_env *env)
+{
+	printf("game->player->orientation vaut %c\n", game->player->orientation);
+	game->player->x_pixel_position = (game->player->x * game->x_pixel_per_unit) + game->x_pixel_per_unit / 2;
+	game->player->y_pixel_position = (game->player->y * game->y_pixel_per_unit) + game->y_pixel_per_unit / 2;
+	if (game->player->orientation == 'N')
+		draw_line(env, game, 0, -1);
+	else if (game->player->orientation == 'S')
+		draw_line(env, game, 0, 1);
+	else if (game->player->orientation == 'W')
+		draw_line(env, game, -1, 0);
+	else if (game->player->orientation == 'E')
+		draw_line(env, game, 1, 0);
+	printf("fin de draw direction\n");
+}
+
 void	draw_texture(t_data_game *game, int x, int y, t_env *env)
 {
 	int	i;
@@ -33,7 +62,7 @@ void	draw_texture(t_data_game *game, int x, int y, t_env *env)
 	int	x_len_to_start_draw;
 	int	y_len_to_start_draw;
 
-	printf("drawing x = %d y = %d\n", x, y);
+	// printf("drawing x = %d y = %d\n", x, y);
 
 	i = 0;
 	x_len_to_start_draw = (x * game->x_pixel_per_unit);
@@ -102,6 +131,7 @@ int	create_window(t_env *env, t_data_game *game)
 	env->win->win_ptr = mlx_new_window(env->win->mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT, "Dofus3D");
 	calculate_map(game);
 	print_map(game, env);
+	draw_direction(game, env);
 	// env->win->img_ptr = mlx_new_image(env->win->mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT);
 	// mlx_put_image_to_window(env->win->mlx_ptr, env->win->win_ptr, env->win->img_ptr, 0, 0);
 	// window->mlx_adress = mlx_get_data_addr(window->img_ptr, NULL, NULL, NULL);
