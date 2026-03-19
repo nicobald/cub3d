@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louis <louis@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 16:10:14 by laudinot          #+#    #+#             */
-/*   Updated: 2026/03/18 19:39:41 by laudinot         ###   ########.fr       */
+/*   Updated: 2026/03/19 17:48:29 by louis            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ void	draw_texture(t_data_game *game, int x, int y, t_env *env)
 		{
 			// printf("j = %d, pixel to draw X = %d Y = %d\n", j, x_len_to_start_draw + j, y_len_to_start_draw + i);
 			mlx_pixel_put(env->win->mlx_ptr, env->win->win_ptr,
-				y_len_to_start_draw + i, x_len_to_start_draw + j,
+				x_len_to_start_draw + j, y_len_to_start_draw + i,
 				choose_color(game->map[y][x]));
-			usleep(100);
+			// usleep(100);
 			j++;
 		}
 		i++;
