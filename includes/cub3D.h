@@ -53,8 +53,12 @@
 
 typedef struct player
 {
-	int		x;
-	int		y;
+	int		pos_x;
+	int		pos_y;
+    double 		dir_x; // dirrection du regard
+    double 		dir_y;
+    double 		plane_x; // champ de vision FOV
+    double 		plane_y;
 	int		x_pixel_position;
 	int		y_pixel_position;
 	char	orientation;

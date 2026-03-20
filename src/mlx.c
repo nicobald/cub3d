@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louis <louis@student.42.fr>                +#+  +:+       +#+        */
+/*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 16:10:14 by laudinot          #+#    #+#             */
-/*   Updated: 2026/03/19 18:26:37 by louis            ###   ########.fr       */
+/*   Updated: 2026/03/20 15:00:59 by laudinot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,24 +28,56 @@ int	choose_color(char c)
 
 void	draw_line(t_env *env, t_data_game *game, int x, int y)
 {
-	while (game->player->x_pixel_position < SCREEN_WIDTH && game->player->x_pixel_position >= 0 
-		&& game->player->y_pixel_position < SCREEN_WIDTH && game->player->y_pixel_position >= 0)
+	int	x_start;
+	int	y_start;
+
+	x_start = game->player->x_pixel_position;
+	y_start = game->player->y_pixel_position;
+	while (x_start < SCREEN_WIDTH && x_start >= 0 
+		&& y_start < SCREEN_WIDTH && y_start >= 0)
 		{
-			mlx_pixel_put(env->win->mlx_ptr, env->win->win_ptr, game->player->x_pixel_position, game->player->y_pixel_position, CUSTOM);
-			game->player->x_pixel_position += x;
-			game->player->y_pixel_position += y;
-			printf(" test\n");
+			mlx_pixel_put(env->win->mlx_ptr, env->win->win_ptr, x_start, y_start, CUSTOM);
+			x_start += x;
+			y_start += y;
+			// printf("test\n");
 		}
 		printf("fin de draw line\n");
+}
+
+void	draw_grille(t_data_game *game, t_env *env)
+{
+	int	x;
+	int	y;
+
+	x = game->x_pixel_per_unit;
+	while (x < SCREEN_WIDTH)
+	{
+		y = 0;
+		while (++y < SCREEN_HEIGHT)
+			mlx_pixel_put(env->win->mlx_ptr, env->win->win_ptr, x, y, BLACK);
+		x += game->x_pixel_per_unit;
+	}
+	y = game->y_pixel_per_unit;
+	while (y < SCREEN_WIDTH)
+	{
+		x = 0;
+		while (++x < SCREEN_HEIGHT)
+			mlx_pixel_put(env->win->mlx_ptr, env->win->win_ptr, x, y, BLACK);
+		y += game->x_pixel_per_unit;
+	}
 }
 
 void	draw_direction(t_data_game *game, t_env *env)
 {
 	printf("game->player->orientation vaut %c\n", game->player->orientation);
-	game->player->x_pixel_position = (game->player->x * game->x_pixel_per_unit) + game->x_pixel_per_unit / 2;
-	game->player->y_pixel_position = (game->player->y * game->y_pixel_per_unit) + game->y_pixel_per_unit / 2;
+	game->player->x_pixel_position = (game->player->pos_x * game->x_pixel_per_unit) + game->x_pixel_per_unit / 2;
+	game->player->y_pixel_position = (game->player->pos_y * game->y_pixel_per_unit) + game->y_pixel_per_unit / 2;
 	if (game->player->orientation == 'N')
+	{
 		draw_line(env, game, 0, -1);
+		draw_line(env, game, -1, -1);
+		draw_line(env, game, 1, -1);
+	}
 	else if (game->player->orientation == 'S')
 		draw_line(env, game, 0, 1);
 	else if (game->player->orientation == 'W')
@@ -131,6 +163,7 @@ int	create_window(t_env *env, t_data_game *game)
 	env->win->win_ptr = mlx_new_window(env->win->mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT, "Dofus3D");
 	calculate_map(game);
 	print_map(game, env);
+	draw_grille(game, env);
 	draw_direction(game, env);
 	// env->win->img_ptr = mlx_new_image(env->win->mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT);
 	// mlx_put_image_to_window(env->win->mlx_ptr, env->win->win_ptr, env->win->img_ptr, 0, 0);
