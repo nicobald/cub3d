@@ -6,7 +6,7 @@
 /*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 16:10:14 by laudinot          #+#    #+#             */
-/*   Updated: 2026/03/20 15:00:59 by laudinot         ###   ########.fr       */
+/*   Updated: 2026/03/20 15:32:45 by laudinot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	choose_color(char c)
 	return (0);
 }
 
-void	draw_line(t_env *env, t_data_game *game, int x, int y)
+void	draw_line(t_data_game *game, int x, int y)
 {
 	int	x_start;
 	int	y_start;
@@ -79,15 +79,15 @@ void	draw_direction(t_data_game *game, t_env *env)
 		draw_line(env, game, 1, -1);
 	}
 	else if (game->player->orientation == 'S')
-		draw_line(env, game, 0, 1);
+		draw_line(game, 0, 1);
 	else if (game->player->orientation == 'W')
-		draw_line(env, game, -1, 0);
+		draw_line(game, -1, 0);
 	else if (game->player->orientation == 'E')
-		draw_line(env, game, 1, 0);
+		draw_line(game, 1, 0);
 	printf("fin de draw direction\n");
 }
 
-void	draw_texture(t_data_game *game, int x, int y, t_env *env)
+void	draw_texture(t_data_game *game, int x, int y)
 {
 	int	i;
 	int	j;
@@ -107,7 +107,7 @@ void	draw_texture(t_data_game *game, int x, int y, t_env *env)
 		while (j < game->x_pixel_per_unit)
 		{
 			// printf("j = %d, pixel to draw X = %d Y = %d\n", j, x_len_to_start_draw + j, y_len_to_start_draw + i);
-			mlx_pixel_put(env->win->mlx_ptr, env->win->win_ptr,
+			mlx_pixel_put(game->win->mlx_ptr, game->win->win_ptr,
 				x_len_to_start_draw + j, y_len_to_start_draw + i,
 				choose_color(game->map[y][x]));
 			// usleep(100);
@@ -124,7 +124,7 @@ void	calculate_map(t_data_game *game)
 	printf("pixel = %d x %d \n", game->x_pixel_per_unit, game->y_pixel_per_unit);
 }
 
-void	print_map(t_data_game *game, t_env *env)
+void	print_map(t_data_game *game)
 {
 	int	i;
 	int	j;
@@ -137,15 +137,15 @@ void	print_map(t_data_game *game, t_env *env)
 		while (game->map[i][j])
 		{
 			if (game->map[i][j] == '1')
-				draw_texture(game, j , i, env);
+				draw_texture(game, j , i);
 			else if (game->map[i][j] == '0')
-				draw_texture(game, j , i, env);
+				draw_texture(game, j , i);
 			else if (game->map[i][j] == 'N' || game->map[i][j] == 'S' || game->map[i][j] == 'W' || game->map[i][j] == 'E')
-				draw_texture(game, j , i, env);
+				draw_texture(game, j , i);
 			else if(game->map[i][j] == ' ')
 			{
 				// printf("x = %d y = %d quand rentre dans vide\n", j , i);
-				draw_texture(game, j , i, env);
+				draw_texture(game, j , i);
 			}
 			j++;
 		}
@@ -154,13 +154,28 @@ void	print_map(t_data_game *game, t_env *env)
 	printf("print_map terminee j = %d i = %d\n", j, i);
 }
 
-int	create_window(t_env *env, t_data_game *game)
+int	free_game(t_data_game *game)
 {
-	env->win->mlx_ptr = mlx_init();
-	if (env->win->mlx_ptr == 0)
+	if (game->win->win_ptr && game->win->mlx_ptr)
+		mlx_destroy_window(game->win->mlx_ptr, game->win->win_ptr);
+	if (game->win->mlx_ptr)
+		mlx_destroy_display(game->win->mlx_ptr);
+	free(game->win->mlx_ptr);
+	free_tab(&game->text);
+	free_tab(&game->map);
+	free(game->colors);
+	free(game->player);
+	exit(0);
+	return (0);
+}
+
+int	create_window(t_data_game *game)
+{
+	game->win->mlx_ptr = mlx_init();
+	if (game->win->mlx_ptr == 0)
 		return (printf("Mlx init failed \n"));
-	printf("adresse window->mlx_ptr = %p\n", env->win->mlx_ptr);
-	env->win->win_ptr = mlx_new_window(env->win->mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT, "Dofus3D");
+	printf("adresse window->mlx_ptr = %p\n", game->win->mlx_ptr);
+	game->win->win_ptr = mlx_new_window(game->win->mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT, "Dofus3D");
 	calculate_map(game);
 	print_map(game, env);
 	draw_grille(game, env);
@@ -168,7 +183,8 @@ int	create_window(t_env *env, t_data_game *game)
 	// env->win->img_ptr = mlx_new_image(env->win->mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT);
 	// mlx_put_image_to_window(env->win->mlx_ptr, env->win->win_ptr, env->win->img_ptr, 0, 0);
 	// window->mlx_adress = mlx_get_data_addr(window->img_ptr, NULL, NULL, NULL);
-	mlx_loop(env->win->mlx_ptr);
+	mlx_hook(game->win->win_ptr, 17, 0, free_game, game);
+	mlx_loop(game->win->mlx_ptr);
 	printf("apres loop\n");	
 	return (0);
 }

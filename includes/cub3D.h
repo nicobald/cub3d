@@ -89,7 +89,6 @@ typedef struct s_env
 	char		**tab;
 	int			*type;
 	t_count		count;
-	t_window	*win;
 
 }				t_env;
 
@@ -101,7 +100,9 @@ typedef struct s_data_game
 	int			y_pixel_per_unit;   //SCREEN_WIDTH / game->x_len
 	int			x_len;				// longueur x du tableau 
 	int			y_len;
+	int			*colors;
 	t_player	*player;
+	t_window	*win;
 }				t_data_game;
 
 //check_map
@@ -137,11 +138,11 @@ void			free_tab(char ***tab);
 int				tab_is_digit(char **tab);
 int				count_words(const char *s);
 char			*second_word_dup(char *s);
-void			free_parsing(t_env *env, char ***text, char ***map);
+void			free_parsing(t_env *env, char ***text, char ***map, t_player *player);
 int				split_check_color(char *line);
 char			*ft_strrtrim(char const *s1, char const *set);
 void			print_tab(char **str);
 
 //mlx
-int				create_window(t_env *env, t_data_game *game);
+int				create_window(t_data_game *game);
 #endif

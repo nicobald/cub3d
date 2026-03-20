@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: utilisateur <utilisateur@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/15 00:38:05 by utilisateur       #+#    #+#             */
-/*   Updated: 2026/03/18 16:38:44 by laudinot         ###   ########.fr       */
+/*   Updated: 2026/03/19 21:13:08 by utilisateur      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

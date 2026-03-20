@@ -6,7 +6,7 @@
 /*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 18:05:43 by laudinot          #+#    #+#             */
-/*   Updated: 2026/03/20 14:45:50 by laudinot         ###   ########.fr       */
+/*   Updated: 2026/03/20 15:32:53 by laudinot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,28 @@ int	get_map_x(char **str)
 	return ((len - 1) - first_space);
 }
 
+int	tab_colors(int **fcolors, char **text)
+{
+	int		i;
+	char	**colors;
+	char *tmp;
+
+	i = 0;
+	(*fcolors) = malloc(sizeof(int) * 6);
+	if (!*fcolors)
+		return (1);
+	tmp = ft_strjoin_coma(text[4], text[5]);
+	colors = ft_split(tmp, ',');
+	free(tmp);
+	while (colors[i])
+	{
+		(*fcolors)[i] = ft_atoi(colors[i]);
+		i++;
+	}
+	free_tab(&colors);
+	return (0);
+}
+
 int	is_there_player(char *str, t_data_game *game)
 {
 	int	i;
@@ -123,6 +145,7 @@ void	parse_map_info(t_data_game *game)
 {
 	game->y_len = get_map_y(game->map);
 	game->x_len = get_map_x(game->map);
+	tab_colors(&game->colors, game->text);
 	get_player_position(game);
 	printf("Map X : %d\nMap Y : %d\n",game->x_len, game->y_len);
 	printf("Player position X : %d Y : %d\n", game->player->pos_x, game->player->pos_y);

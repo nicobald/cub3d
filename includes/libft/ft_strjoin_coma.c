@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin_slash.c                                 :+:      :+:    :+:   */
+/*   ft_strjoin_coma.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 16:28:22 by nbaldes           #+#    #+#             */
-/*   Updated: 2025/12/04 16:28:47 by nbaldes          ###   ########.fr       */
+/*   Updated: 2026/03/18 17:55:47 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	ft_strjoin_copy(char *result, const char *s1, const char *s2)
 		result[i] = s1[i];
 		i++;
 	}
-	result[i] = '/';
+	result[i] = ',';
 	i++;
 	while (s2[j])
 	{
@@ -34,7 +34,7 @@ static void	ft_strjoin_copy(char *result, const char *s1, const char *s2)
 	result[i + j] = '\0';
 }
 
-char	*ft_strjoin_slash(const char *s1, const char *s2)
+char	*ft_strjoin_coma(const char *s1, const char *s2)
 {
 	char	*result;
 	int		lentot;
