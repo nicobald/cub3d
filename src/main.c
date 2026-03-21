@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: utilisateur <utilisateur@student.42.fr>    +#+  +:+       +#+        */
+/*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 17:57:33 by nbaldes           #+#    #+#             */
-/*   Updated: 2026/03/19 22:10:09 by utilisateur      ###   ########.fr       */
+/*   Updated: 2026/03/21 17:57:55 by laudinot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ void	init_env(t_env *env, t_data_game *game)
 	game->player = malloc(sizeof(t_player));
 	if (!game->player)
 		printf("Malloc error\n");
-	game->player->x_pixel_position = 0;
-	game->player->y_pixel_position = 0;
 	env->nb_line = 0;
 	env->count.no_count = 0;
 	env->count.so_count = 0;

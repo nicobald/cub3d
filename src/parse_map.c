@@ -6,7 +6,7 @@
 /*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 18:05:43 by laudinot          #+#    #+#             */
-/*   Updated: 2026/03/20 15:32:53 by laudinot         ###   ########.fr       */
+/*   Updated: 2026/03/21 17:49:35 by laudinot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int	is_there_player(char *str, t_data_game *game)
 	{
 		if (str[i] == 'N' || str[i] == 'S' || str[i] == 'E' || str[i] == 'W')
 		{
-			game->player->pos_x = i;
+			game->player->pos_x = i + 0.5;
 			game->player->orientation = str[i];
 			// printf("test : %c" , game->player->orientation);
 			return (TRUE);
@@ -137,7 +137,7 @@ void	get_player_position(t_data_game *game)
 	i = 0;
 	while (is_there_player(game->map[i], game) == FALSE)
 		i++;
-	game->player->pos_y = i;
+	game->player->pos_y = i + 0.5;
 }
 
 
@@ -148,5 +148,5 @@ void	parse_map_info(t_data_game *game)
 	tab_colors(&game->colors, game->text);
 	get_player_position(game);
 	printf("Map X : %d\nMap Y : %d\n",game->x_len, game->y_len);
-	printf("Player position X : %d Y : %d\n", game->player->pos_x, game->player->pos_y);
+	printf("Player position X : %f Y : %f\n", game->player->pos_x, game->player->pos_y);
 }

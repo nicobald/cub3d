@@ -31,6 +31,7 @@
 // #  define COL_SIZE 32
 // # endif
 
+# define PI	3.141592653589793
 # define FALSE 0
 # define TRUE 1
 # define BUFFER_SIZE 10
@@ -47,21 +48,20 @@
 # include <fcntl.h>
 
 # include <stdio.h>
+# include <math.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <sys/stat.h>
 
 typedef struct player
 {
-	int		pos_x;
-	int		pos_y;
-    double 		dir_x; // dirrection du regard
+	double		pos_x; //
+	double		pos_y;
+    double 		dir_x; 
     double 		dir_y;
     double 		plane_x; // champ de vision FOV
     double 		plane_y;
-	int		x_pixel_position;
-	int		y_pixel_position;
-	char	orientation;
+	int			orientation;
 }				t_player;
 
 typedef struct s_count
@@ -145,4 +145,5 @@ void			print_tab(char **str);
 
 //mlx
 int				create_window(t_data_game *game);
+void	put_direction(t_data_game *game);
 #endif
