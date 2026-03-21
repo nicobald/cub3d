@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: utilisateur <utilisateur@student.42.fr>    +#+  +:+       +#+        */
+/*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 16:10:14 by laudinot          #+#    #+#             */
-/*   Updated: 2026/03/21 00:58:18 by utilisateur      ###   ########.fr       */
+/*   Updated: 2026/03/21 16:16:10 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,7 @@ int	create_window(t_data_game *game)
 	// env->win->img_ptr = mlx_new_image(env->win->mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT);
 	// mlx_put_image_to_window(env->win->mlx_ptr, env->win->win_ptr, env->win->img_ptr, 0, 0);
 	// window->mlx_adress = mlx_get_data_addr(window->img_ptr, NULL, NULL, NULL);
+	mlx_key_hook(game->win->win_ptr, control_key, game);
 	mlx_hook(game->win->win_ptr, 17, 0, free_game, game);
 	mlx_loop(game->win->mlx_ptr);
 	printf("apres loop\n");	
