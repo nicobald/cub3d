@@ -151,4 +151,7 @@ void			print_tab(char **str);
 int				free_game(t_data_game *game);
 int				create_window(t_data_game *game);
 void	put_direction(t_data_game *game);
+void	draw_direction(t_data_game *game);
+void	print_map(t_data_game *game);
+void	draw_grille(t_data_game *game);
 #endif
