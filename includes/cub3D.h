@@ -97,7 +97,7 @@ typedef struct s_data_game
 	char		**text;
 	char		**map;
 	int			x_pixel_per_unit;	// deviendra float?
-	int			y_pixel_per_unit;   //SCREEN_WIDTH / game->x_len
+	int			y_pixel_per_unit;//SCREEN_WIDTH / game->x_len
 	int			x_len;				// longueur x du tableau 
 	int			y_len;
 	int			*colors;
@@ -131,6 +131,9 @@ void			parse_map_info(t_data_game *game);
 //parse_type
 int				parse_type(char *line);
 
+//key_hook
+int				control_key(int keycode, t_data_game *game);
+
 //utils
 char			*get_next_line(int fd);
 int				alloc_tab(char ***tab, int nb_line);
@@ -138,12 +141,14 @@ void			free_tab(char ***tab);
 int				tab_is_digit(char **tab);
 int				count_words(const char *s);
 char			*second_word_dup(char *s);
-void			free_parsing(t_env *env, char ***text, char ***map, t_player *player);
+void			free_parsing(t_env *env, char ***text, char ***map,
+					t_player *player);
 int				split_check_color(char *line);
 char			*ft_strrtrim(char const *s1, char const *set);
 void			print_tab(char **str);
 
 //mlx
+int				free_game(t_data_game *game);
 int				create_window(t_data_game *game);
 void	put_direction(t_data_game *game);
 #endif

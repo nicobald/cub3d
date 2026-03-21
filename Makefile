@@ -22,6 +22,7 @@ SRCS = src/error_file.c \
 	   src/parse_map.c \
 	   src/check_map.c \
 	   src/direction.c \
+	   src/key_hook.c \
 
 # Objets
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)

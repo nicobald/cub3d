@@ -6,7 +6,7 @@
 /*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 17:57:33 by nbaldes           #+#    #+#             */
-/*   Updated: 2026/03/21 17:57:55 by laudinot         ###   ########.fr       */
+/*   Updated: 2026/03/21 18:49:24 by laudinot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,14 @@ int	parsing(char **argv, t_env *env, t_data_game *game)
 	return (0);
 }
 
-int init_game(t_data_game *game)
+int	init_game(t_data_game *game)
 {
 	game->win = malloc(sizeof(t_window));
 	if (!game->win)
 		printf("Malloc error\n");
 	game->win->win_ptr = NULL;
 	game->win->mlx_ptr = NULL;
-	return(0);
+	return (0);
 }
 
 int	main(int argc, char **argv)
@@ -70,7 +70,7 @@ int	main(int argc, char **argv)
 	// print_tab(game.text);
 	// print_tab(game.map);
 	if (init_game(&game))
-		return(1);
+		return (1);
 	create_window(&game);
 	// free_tab(&game.text);
 	// free_tab(&game.map);
