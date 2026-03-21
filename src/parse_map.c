@@ -6,7 +6,7 @@
 /*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 18:05:43 by laudinot          #+#    #+#             */
-/*   Updated: 2026/03/18 18:26:00 by nbaldes          ###   ########.fr       */
+/*   Updated: 2026/03/21 15:20:41 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,74 @@ int	get_map_y(char **str)
 	i = 0;
 	while (str[i])
 		i++;
-	return (i);
+	return (i - 1);
+}
+
+void	remove_first_space(char **str, int nb)
+{
+	int		i;
+	char	*ptr;
+
+	i = 0;
+	while (str[i])
+	{
+		ptr = str[i];
+		str[i] = ft_strdup(&str[i][nb]);
+		free(ptr);
+		i++;
+	}
+}
+
+int	get_first_space(char *str)
+{
+	int	i;
+	int	ret;
+
+	i = -1;
+	ret = 0;
+
+	while (str[++i])
+	{
+		if (str[i] == ' ' || (str[i] >= 7 && str[i] <= 13))
+			ret++;
+		else
+			return (ret);
+	}
+	return (ret);
 }
 
 int	get_map_x(char **str)
 {
 	int	i;
 	int	len;
+	int	first_space;
 
 	i = 0;
-	len = ft_strlen(str[0]);
+	len = 0;
 	while (str[i])
 	{
 		if (ft_strlen(str[i]) > len)
 			len = ft_strlen(str[i]);
 		i++;
 	}
-	return (len);
+	first_space = get_first_space(str[0]);
+	i = 1;
+	while (str[i])
+	{
+		// printf("first space ligne n%d = %d\n", i, get_first_space(str[i]));
+		if (first_space > get_first_space(str[i]))
+		{
+			first_space = get_first_space(str[i]);
+			// printf("rentre la %d\n", i);	
+		}
+		i++;
+	}
+	printf(" %d %d\n", len , first_space);
+	print_tab(str);
+	remove_first_space(str, first_space);
+	print_tab(str);
+
+	return ((len - 1) - first_space);
 }
 
 int	tab_colors(int **fcolors, char **text)
@@ -61,10 +112,42 @@ int	tab_colors(int **fcolors, char **text)
 	return (0);
 }
 
+int	is_there_player(char *str, t_data_game *game)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == 'N' || str[i] == 'S' || str[i] == 'E' || str[i] == 'W')
+		{
+			game->player->x = i;
+			game->player->orientation = str[i];
+			// printf("test : %c" , game->player->orientation);
+			return (TRUE);
+		}
+		i++;
+	}
+	return (FALSE);
+}
+
+void	get_player_position(t_data_game *game)
+{
+	int	i;
+
+	i = 0;
+	while (is_there_player(game->map[i], game) == FALSE)
+		i++;
+	game->player->y = i;
+}
+
+
 void	parse_map_info(t_data_game *game)
 {
 	game->y_len = get_map_y(game->map);
 	game->x_len = get_map_x(game->map);
 	tab_colors(&game->colors, game->text);
-	printf ("Map X : %d\nMap Y : %d\n", game->x_len, game->y_len);
+	get_player_position(game);
+	printf("Map X : %d\nMap Y : %d\n",game->x_len, game->y_len);
+	printf("Player position X : %d Y : %d\n", game->player->x, game->player->y);
 }
