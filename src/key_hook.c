@@ -6,7 +6,7 @@
 /*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/21 15:45:05 by nbaldes           #+#    #+#             */
-/*   Updated: 2026/03/23 17:07:46 by nbaldes          ###   ########.fr       */
+/*   Updated: 2026/03/23 18:00:45 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,49 @@ int	rotate_right(t_data_game *game)
 	return (0);
 }
 
+int	move_left(t_data_game *game)
+{
+	game->player->pos_x = game->player->pos_x + MOVE_SPEED * (cos((game->player->orientation - 90) * PI / 180));
+	game->player->pos_y = game->player->pos_y + MOVE_SPEED * (sin((game->player->orientation - 90) * PI / 180));
+	print_map(game);
+	draw_grille(game);
+	draw_player(game);
+	draw_direction(game);
+	return (0);
+}
+
+int	move_right(t_data_game *game)
+{
+	game->player->pos_x = game->player->pos_x + MOVE_SPEED * (cos((game->player->orientation + 90) * PI / 180));
+	game->player->pos_y = game->player->pos_y + MOVE_SPEED * (sin((game->player->orientation + 90) * PI / 180));
+	print_map(game);
+	draw_grille(game);
+	draw_player(game);
+	draw_direction(game);
+	return (0);
+}
+
+int	move_up(t_data_game *game)
+{
+	game->player->pos_x = game->player->pos_x + MOVE_SPEED * (cos((game->player->orientation) * PI / 180));
+	game->player->pos_y = game->player->pos_y + MOVE_SPEED * (sin((game->player->orientation) * PI / 180));
+	print_map(game);
+	draw_grille(game);
+	draw_player(game);
+	draw_direction(game);
+	return (0);
+}
+
+int	move_down(t_data_game *game)
+{
+	game->player->pos_x = game->player->pos_x + MOVE_SPEED * (cos((game->player->orientation + 180) * PI / 180));
+	game->player->pos_y = game->player->pos_y + MOVE_SPEED * (sin((game->player->orientation + 180) * PI / 180));
+	print_map(game);
+	draw_grille(game);
+	draw_player(game);
+	draw_direction(game);
+	return (0);
+}
 
 int	key_press(int keycode, t_data_game *game)
 {
@@ -73,14 +116,14 @@ int	key_release(int keycode, t_data_game *game)
 
 int	control_key(t_data_game *game)
 {
-	// if (keycode == W_KEY)
-	// 	move_up(game);
-	// else if (keycode == A_KEY)
-	// 	move_left(game);
-	// else if (keycode == D_KEY)
-	// 	move_right(game);
-	// else if (keycode == S_KEY)
-	// 	move_down(game);
+	if (game->key->w_key == 1)
+		move_up(game);
+	else if (game->key->a_key == 1)
+		move_left(game);
+	else if (game->key->d_key == 1)
+		move_right(game);
+	else if (game->key->s_key == 1)
+		move_down(game);
 	if (game->key->left_key == 1)
 		rotate_left(game);
 	if (game->key->right_key == 1)
