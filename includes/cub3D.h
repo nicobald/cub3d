@@ -30,14 +30,15 @@
 // # ifndef COL_SIZE
 // #  define COL_SIZE 32
 // # endif
-
-# define PI	3.141592653589793
 # define FALSE 0
 # define TRUE 1
+
+# define PI	3.141592653589793
 # define BUFFER_SIZE 10
 # define SCREEN_WIDTH 800
 # define SCREEN_HEIGHT 800
 # define MOVE_SPEED 0.2
+# define FOV 50
 // # ifndef ROW_SIZE
 // #  define ROW_SIZE 32
 // # endif
@@ -150,7 +151,7 @@ void			print_tab(char **str);
 //mlx
 int				free_game(t_data_game *game);
 int				create_window(t_data_game *game);
-void	put_direction(t_data_game *game);
+void	set_direction(t_data_game *game);
 void	draw_direction(t_data_game *game);
 void	print_map(t_data_game *game);
 void	draw_grille(t_data_game *game);

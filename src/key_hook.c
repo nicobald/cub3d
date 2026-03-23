@@ -6,28 +6,34 @@
 /*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/21 15:45:05 by nbaldes           #+#    #+#             */
-/*   Updated: 2026/03/23 16:45:14 by laudinot         ###   ########.fr       */
+/*   Updated: 2026/03/23 18:37:16 by laudinot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-int	direction_left(t_data_game *game)
+int	direction_right(t_data_game *game)
 {
 	if (game->player->orientation < 360)
 		game->player->orientation++;
 	if (game->player->orientation == 360)
 		game->player->orientation = 0;
+	print_map(game);
+	draw_grille(game);
+	draw_player(game);
 	draw_direction(game);
 	return (0);
 }
 
-int	direction_right(t_data_game *game)
+int	direction_left(t_data_game *game)
 {
 	if (game->player->orientation > 0)
 		game->player->orientation--;
 	if (game->player->orientation == 0)
 		game->player->orientation = 360;
+	print_map(game);
+	draw_grille(game);
+	draw_player(game);
 	draw_direction(game);
 	return (0);
 }
