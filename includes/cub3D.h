@@ -22,6 +22,13 @@
 # define MAP	6
 # define EMP	7
 # define STR	8
+# define W_KEY	119
+# define A_KEY	97
+# define D_KEY	100
+# define S_KEY	115
+# define LEFT_KEY 65361
+# define RIGHT_KEY 65363
+# define ESCAPE_KEY 65307
 # define GREEN 0x00FF7F
 # define BLACK 0x000000
 # define WHITE 0xFFFFFF
@@ -64,6 +71,18 @@ typedef struct player
 	int			orientation;
 }				t_player;
 
+typedef struct s_key
+{
+	int	w_key;
+	int	a_key;
+	int	d_key;
+	int	s_key;
+	int	left_key;
+	int	right_key;
+	int	escape_key;
+
+}				t_key;
+
 typedef struct s_count
 {
 	int			no_count;
@@ -103,6 +122,7 @@ typedef struct s_data_game
 	int			*colors;
 	t_player	*player;
 	t_window	*win;
+	t_key		*key;
 }				t_data_game;
 
 //check_map
@@ -132,7 +152,11 @@ void			parse_map_info(t_data_game *game);
 int				parse_type(char *line);
 
 //key_hook
-int				control_key(int keycode, t_data_game *game);
+int				control_key(t_data_game *game);
+int				key_press(int keycode, t_data_game *game);
+int				key_release(int keycode, t_data_game *game);
+int				rotate_left(t_data_game *game);
+int				rotate_right(t_data_game *game);
 
 //utils
 char			*get_next_line(int fd);
