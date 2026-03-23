@@ -6,7 +6,7 @@
 /*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 16:10:14 by laudinot          #+#    #+#             */
-/*   Updated: 2026/03/23 16:10:07 by nbaldes          ###   ########.fr       */
+/*   Updated: 2026/03/23 17:07:55 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	choose_color(char c)
 	else if (c == ' ' || (c >= 9 && c <= 13))
 		return (RED);
 	else if (c == 'N' || c == 'S' || c == 'W' || c == 'E' )
-		return (RED);
+		return (WHITE);
 	return (0);
 }
 
@@ -80,6 +80,28 @@ void	draw_texture(t_data_game *game, int x, int y)
 	}
 }
 
+void	draw_player(t_data_game *game)
+{
+	int	x_pixel;
+	int	y_pixel;
+	int	i;
+	
+	printf("pos player X : %f Y : %f\n", game->player->pos_x, game->player->pos_y);
+
+	x_pixel = ((game->player->pos_x / (game->x_len + 1)) *  SCREEN_WIDTH);
+	y_pixel = ((game->player->pos_y / (game->y_len + 1)) *  SCREEN_HEIGHT);
+
+	i = 6;
+	
+	while (i >= -6)
+	{
+		mlx_pixel_put(game->win->mlx_ptr, game->win->win_ptr, x_pixel + i, y_pixel + i, RED);
+		mlx_pixel_put(game->win->mlx_ptr, game->win->win_ptr, x_pixel - i, y_pixel + i, RED);
+		i--;
+	}
+
+}
+
 void	calculate_map(t_data_game *game)
 {
 	game->x_pixel_per_unit = SCREEN_WIDTH / (game->x_len + 1);
@@ -93,7 +115,7 @@ void	print_map(t_data_game *game)
 	int	j;
 
 	i = 0;
-	print_tab(game->map);
+	// print_tab(game->map);
 	while (game->map[i])
 	{
 		j = 0;
@@ -114,7 +136,7 @@ void	print_map(t_data_game *game)
 		}
 		i++;
 	}
-	printf("print_map terminee j = %d i = %d\n", j, i);
+	// printf("print_map terminee j = %d i = %d\n", j, i);
 }
 
 int	free_game(t_data_game *game)
@@ -142,6 +164,7 @@ int	create_window(t_data_game *game)
 	calculate_map(game);
 	print_map(game);
 	draw_grille(game);
+	draw_player(game);
 	put_direction(game);
 	// env->win->img_ptr = mlx_new_image(env->win->mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT);
 	// mlx_put_image_to_window(env->win->mlx_ptr, env->win->win_ptr, env->win->img_ptr, 0, 0);
