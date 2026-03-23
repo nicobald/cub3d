@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
+/*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 16:10:14 by laudinot          #+#    #+#             */
-/*   Updated: 2026/03/21 16:16:10 by nbaldes          ###   ########.fr       */
+/*   Updated: 2026/03/21 18:49:33 by laudinot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,23 +26,6 @@ int	choose_color(char c)
 	return (0);
 }
 
-void	draw_line(t_data_game *game, int x, int y)
-{
-	int	x_start;
-	int	y_start;
-
-	x_start = game->player->x_pixel_position;
-	y_start = game->player->y_pixel_position;
-	while (x_start < SCREEN_WIDTH && x_start >= 0 
-		&& y_start < SCREEN_WIDTH && y_start >= 0)
-		{
-			mlx_pixel_put(game->win->mlx_ptr, game->win->win_ptr, x_start, y_start, CUSTOM);
-			x_start += x;
-			y_start += y;
-			// printf("test\n");
-		}
-		printf("fin de draw line\n");
-}
 
 void	draw_grille(t_data_game *game)
 {
@@ -65,26 +48,6 @@ void	draw_grille(t_data_game *game)
 			mlx_pixel_put(game->win->mlx_ptr, game->win->win_ptr, x, y, BLACK);
 		y += game->x_pixel_per_unit;
 	}
-}
-
-void	draw_direction(t_data_game *game)
-{
-	printf("game->player->orientation vaut %c\n", game->player->orientation);
-	game->player->x_pixel_position = (game->player->pos_x * game->x_pixel_per_unit) + game->x_pixel_per_unit / 2;
-	game->player->y_pixel_position = (game->player->pos_y * game->y_pixel_per_unit) + game->y_pixel_per_unit / 2;
-	if (game->player->orientation == 'N')
-	{
-		draw_line(game, 0, -1);
-		draw_line(game, -1, -1);
-		draw_line(game, 1, -1);
-	}
-	else if (game->player->orientation == 'S')
-		draw_line(game, 0, 1);
-	else if (game->player->orientation == 'W')
-		draw_line(game, -1, 0);
-	else if (game->player->orientation == 'E')
-		draw_line(game, 1, 0);
-	printf("fin de draw direction\n");
 }
 
 void	draw_texture(t_data_game *game, int x, int y)
@@ -179,7 +142,7 @@ int	create_window(t_data_game *game)
 	calculate_map(game);
 	print_map(game);
 	draw_grille(game);
-	draw_direction(game);
+	put_direction(game);
 	// env->win->img_ptr = mlx_new_image(env->win->mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT);
 	// mlx_put_image_to_window(env->win->mlx_ptr, env->win->win_ptr, env->win->img_ptr, 0, 0);
 	// window->mlx_adress = mlx_get_data_addr(window->img_ptr, NULL, NULL, NULL);

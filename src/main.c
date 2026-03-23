@@ -6,7 +6,7 @@
 /*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 17:57:33 by nbaldes           #+#    #+#             */
-/*   Updated: 2026/03/23 15:03:53 by nbaldes          ###   ########.fr       */
+/*   Updated: 2026/03/23 15:07:30 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ void	init_env(t_env *env, t_data_game *game)
 	game->player = malloc(sizeof(t_player));
 	if (!game->player)
 		printf("Malloc error\n");
-	game->player->x_pixel_position = 0;
-	game->player->y_pixel_position = 0;
 	env->nb_line = 0;
 	env->count.no_count = 0;
 	env->count.so_count = 0;
