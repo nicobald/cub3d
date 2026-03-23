@@ -6,7 +6,7 @@
 /*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 17:57:33 by nbaldes           #+#    #+#             */
-/*   Updated: 2026/03/23 16:05:56 by nbaldes          ###   ########.fr       */
+/*   Updated: 2026/03/23 19:25:41 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,14 @@ int	init_game(t_data_game *game)
 		printf("Malloc error\n");
 	game->win->mlx_ptr = NULL;
 	game->win->win_ptr = NULL;
+	if (game->player->orientation == 'N')
+		game->player->orientation = 90;
+	else if (game->player->orientation == 'S')
+		game->player->orientation = 270;
+	else if (game->player->orientation == 'W')
+		game->player->orientation = 180;
+	else if (game->player->orientation == 'E')
+		game->player->orientation = 0;
 	return (0);
 }
 
