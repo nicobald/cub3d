@@ -6,7 +6,7 @@
 /*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/21 15:40:32 by laudinot          #+#    #+#             */
-/*   Updated: 2026/03/21 19:01:04 by laudinot         ###   ########.fr       */
+/*   Updated: 2026/03/23 15:29:11 by laudinot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ void	draw_direction(t_data_game *game)
 	ray_x = game->player->pos_x + t * game->player->dir_x;
 	ray_y = game->player->pos_y + t * game->player->dir_y;
 
-	while (ray_x <= game->x_len && ray_x >= 0 && ray_y <= game->y_len && ray_y >= 0)
+	while (ray_x <= game->x_len + 1 && ray_x >= 0 && ray_y <= game->y_len + 1 && ray_y >= 0)
 	{
-		pixel_ray_x = (ray_x / game->x_len) * SCREEN_WIDTH;
-		pixel_ray_y = (ray_y / game->y_len) * SCREEN_HEIGHT;
-		printf("DOIT PRINT SUR X : %d Y : %d\n", pixel_ray_x, pixel_ray_y);
+		pixel_ray_x = (ray_x / (game->x_len + 1)) * SCREEN_WIDTH;
+		pixel_ray_y = (ray_y / (game->y_len + 1)) * SCREEN_HEIGHT;
+		// printf("DOIT PRINT SUR X : %d Y : %d\n", pixel_ray_x, pixel_ray_y);
 		mlx_pixel_put(game->win->mlx_ptr, game->win->win_ptr, pixel_ray_x, pixel_ray_y, CUSTOM);
 		t += 0.01;
 		ray_x = game->player->pos_x + t * game->player->dir_x;

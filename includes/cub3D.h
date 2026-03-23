@@ -37,7 +37,7 @@
 # define BUFFER_SIZE 10
 # define SCREEN_WIDTH 800
 # define SCREEN_HEIGHT 800
-
+# define MOVE_SPEED 0.2
 // # ifndef ROW_SIZE
 // #  define ROW_SIZE 32
 // # endif
@@ -154,4 +154,5 @@ void	put_direction(t_data_game *game);
 void	draw_direction(t_data_game *game);
 void	print_map(t_data_game *game);
 void	draw_grille(t_data_game *game);
+void	draw_player(t_data_game *game);
 #endif
