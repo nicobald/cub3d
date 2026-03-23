@@ -6,7 +6,7 @@
 /*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 18:05:43 by laudinot          #+#    #+#             */
-/*   Updated: 2026/03/21 15:20:41 by nbaldes          ###   ########.fr       */
+/*   Updated: 2026/03/23 15:04:33 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,16 +93,15 @@ int	tab_colors(int **fcolors, char **text)
 {
 	int		i;
 	char	**colors;
+	char *tmp;
 
 	i = 0;
-	colors = malloc(sizeof(char *) * 7);
-	if (!colors)
-		return (1);
 	(*fcolors) = malloc(sizeof(int) * 6);
-	if (!fcolors)
+	if (!*fcolors)
 		return (1);
-	colors[6] = NULL;
-	colors = ft_split(ft_strjoin_coma(text[4], text[5]), ',');
+	tmp = ft_strjoin_coma(text[4], text[5]);
+	colors = ft_split(tmp, ',');
+	free(tmp);
 	while (colors[i])
 	{
 		(*fcolors)[i] = ft_atoi(colors[i]);
@@ -121,7 +120,7 @@ int	is_there_player(char *str, t_data_game *game)
 	{
 		if (str[i] == 'N' || str[i] == 'S' || str[i] == 'E' || str[i] == 'W')
 		{
-			game->player->x = i;
+			game->player->pos_x = i;
 			game->player->orientation = str[i];
 			// printf("test : %c" , game->player->orientation);
 			return (TRUE);
@@ -138,7 +137,7 @@ void	get_player_position(t_data_game *game)
 	i = 0;
 	while (is_there_player(game->map[i], game) == FALSE)
 		i++;
-	game->player->y = i;
+	game->player->pos_y = i;
 }
 
 

@@ -53,11 +53,15 @@
 
 typedef struct player
 {
-	int		x;
-	int		y;
-	int		x_pixel_position;
-	int		y_pixel_position;
-	char	orientation;
+	int			pos_x;
+	int			pos_y;
+	double		dir_x; // dirrection du regard
+	double		dir_y;
+	double		plane_x; // champ de vision FOV
+	double		plane_y;
+	int			x_pixel_position;
+	int			y_pixel_position;
+	char		orientation;
 }				t_player;
 
 typedef struct s_count
@@ -85,7 +89,6 @@ typedef struct s_env
 	char		**tab;
 	int			*type;
 	t_count		count;
-	t_window	*win;
 
 }				t_env;
 
@@ -94,11 +97,12 @@ typedef struct s_data_game
 	char		**text;
 	char		**map;
 	int			x_pixel_per_unit;	// deviendra float?
-	int			y_pixel_per_unit;   //SCREEN_WIDTH / game->x_len
+	int			y_pixel_per_unit;//SCREEN_WIDTH / game->x_len
 	int			x_len;				// longueur x du tableau 
 	int			y_len;
 	int			*colors;
 	t_player	*player;
+	t_window	*win;
 }				t_data_game;
 
 //check_map
@@ -127,6 +131,9 @@ void			parse_map_info(t_data_game *game);
 //parse_type
 int				parse_type(char *line);
 
+//key_hook
+int				control_key(int keycode, t_data_game *game);
+
 //utils
 char			*get_next_line(int fd);
 int				alloc_tab(char ***tab, int nb_line);
@@ -134,11 +141,13 @@ void			free_tab(char ***tab);
 int				tab_is_digit(char **tab);
 int				count_words(const char *s);
 char			*second_word_dup(char *s);
-void			free_parsing(t_env *env, char ***text, char ***map);
+void			free_parsing(t_env *env, char ***text, char ***map,
+					t_player *player);
 int				split_check_color(char *line);
 char			*ft_strrtrim(char const *s1, char const *set);
 void			print_tab(char **str);
 
 //mlx
-int				create_window(t_env *env, t_data_game *game);
+int				free_game(t_data_game *game);
+int				create_window(t_data_game *game);
 #endif

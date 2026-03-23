@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   utils_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: utilisateur <utilisateur@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 20:09:20 by nbaldes           #+#    #+#             */
-/*   Updated: 2026/03/18 16:15:19 by laudinot         ###   ########.fr       */
+/*   Updated: 2026/03/21 00:54:54 by utilisateur      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	free_parsing(t_env *env, char ***text, char ***map)
+void	free_parsing(t_env *env, char ***text, char ***map, t_player *player)
 {
 	free(env->type);
 	free_tab(&env->tab);
 	free_tab(map);
 	free_tab(text);
-	free(env->win);
+	free(player);
 	return ;
 }
 
