@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 17:57:33 by nbaldes           #+#    #+#             */
-/*   Updated: 2026/03/21 18:49:24 by laudinot         ###   ########.fr       */
+/*   Updated: 2026/03/23 19:25:41 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,19 @@ int	init_game(t_data_game *game)
 	game->win = malloc(sizeof(t_window));
 	if (!game->win)
 		printf("Malloc error\n");
-	game->win->win_ptr = NULL;
+	game->key = malloc(sizeof(t_key));
+	if (!game->key)
+		printf("Malloc error\n");
 	game->win->mlx_ptr = NULL;
+	game->win->win_ptr = NULL;
+	if (game->player->orientation == 'N')
+		game->player->orientation = 90;
+	else if (game->player->orientation == 'S')
+		game->player->orientation = 270;
+	else if (game->player->orientation == 'W')
+		game->player->orientation = 180;
+	else if (game->player->orientation == 'E')
+		game->player->orientation = 0;
 	return (0);
 }
 

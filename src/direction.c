@@ -6,7 +6,7 @@
 /*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/21 15:40:32 by laudinot          #+#    #+#             */
-/*   Updated: 2026/03/23 17:56:54 by laudinot         ###   ########.fr       */
+/*   Updated: 2026/03/24 10:08:30 by laudinot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,5 @@ void	draw_direction(t_data_game *game)
 }
 void	set_direction(t_data_game *game)
 {
-	if (game->player->orientation == 'N')
-		game->player->orientation = 90;
-	else if (game->player->orientation == 'S')
-		game->player->orientation = 270;
-	else if (game->player->orientation == 'W')
-		game->player->orientation = 180;
-	else if (game->player->orientation == 'E')
-		game->player->orientation = 0;
 	draw_direction(game);
 }

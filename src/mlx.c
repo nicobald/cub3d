@@ -6,7 +6,7 @@
 /*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 16:10:14 by laudinot          #+#    #+#             */
-/*   Updated: 2026/03/23 17:46:51 by laudinot         ###   ########.fr       */
+/*   Updated: 2026/03/24 10:09:35 by laudinot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,12 @@ int	create_window(t_data_game *game)
 	// env->win->img_ptr = mlx_new_image(env->win->mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT);
 	// mlx_put_image_to_window(env->win->mlx_ptr, env->win->win_ptr, env->win->img_ptr, 0, 0);
 	// window->mlx_adress = mlx_get_data_addr(window->img_ptr, NULL, NULL, NULL);
-	mlx_key_hook(game->win->win_ptr, control_key, game);
+	mlx_hook(game->win->win_ptr, 2, 1L << 0, key_press, game);
+	mlx_hook(game->win->win_ptr, 3, 1L << 1, key_release, game);
+	gettimeofday(&game->time, NULL);
+	game->last_time = game->time.tv_sec + game->time.tv_usec / 1000000.0;
+	// printf("inital time = %f\n", game->last_time);
+	mlx_loop_hook(game->win->mlx_ptr, control_key, game);
 	mlx_hook(game->win->win_ptr, 17, 0, free_game, game);
 	mlx_loop(game->win->mlx_ptr);
 	printf("apres loop\n");	
