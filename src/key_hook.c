@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   key_hook.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/21 15:45:05 by nbaldes           #+#    #+#             */
-/*   Updated: 2026/03/24 10:09:21 by laudinot         ###   ########.fr       */
+/*   Updated: 2026/03/25 03:08:39 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,6 @@ int	rotate_right(t_data_game *game)
 	double	rot_speed;
 
 	rot_speed = 180.0;
-	print_map(game);
-	draw_grille(game);
-	draw_player(game);
 	if (game->player->orientation < 360)
 	{
 		game->player->orientation += rot_speed * game->delta_time;
@@ -27,7 +24,6 @@ int	rotate_right(t_data_game *game)
 	}
 	if (game->player->orientation >= 360)
 		game->player->orientation -= 360;
-	draw_direction(game);
 	return (0);
 }
 
@@ -36,9 +32,6 @@ int	rotate_left(t_data_game *game)
 	double	rot_speed;
 
 	rot_speed = 180.0;
-	print_map(game);
-	draw_grille(game);
-	draw_player(game);
 	if (game->player->orientation > 0)
 	{
 		game->player->orientation -= rot_speed * game->delta_time;
@@ -46,7 +39,6 @@ int	rotate_left(t_data_game *game)
 	}
 	if (game->player->orientation < 0)
 		game->player->orientation += 360;
-	draw_direction(game);
 	return (0);
 }
 
@@ -54,10 +46,6 @@ int	move_left(t_data_game *game)
 {
 	game->player->pos_x = game->player->pos_x + MOVE_SPEED * (cos((game->player->orientation - 90) * PI / 180));
 	game->player->pos_y = game->player->pos_y + MOVE_SPEED * (sin((game->player->orientation - 90) * PI / 180));
-	print_map(game);
-	draw_grille(game);
-	draw_player(game);
-	draw_direction(game);
 	return (0);
 }
 
@@ -65,10 +53,6 @@ int	move_right(t_data_game *game)
 {
 	game->player->pos_x = game->player->pos_x + MOVE_SPEED * (cos((game->player->orientation + 90) * PI / 180));
 	game->player->pos_y = game->player->pos_y + MOVE_SPEED * (sin((game->player->orientation + 90) * PI / 180));
-	print_map(game);
-	draw_grille(game);
-	draw_player(game);
-	draw_direction(game);
 	return (0);
 }
 
@@ -76,10 +60,6 @@ int	move_up(t_data_game *game)
 {
 	game->player->pos_x = game->player->pos_x + MOVE_SPEED * (cos((game->player->orientation) * PI / 180));
 	game->player->pos_y = game->player->pos_y + MOVE_SPEED * (sin((game->player->orientation) * PI / 180));
-	print_map(game);
-	draw_grille(game);
-	draw_player(game);
-	draw_direction(game);
 	return (0);
 }
 
@@ -87,10 +67,6 @@ int	move_down(t_data_game *game)
 {
 	game->player->pos_x = game->player->pos_x + MOVE_SPEED * (cos((game->player->orientation + 180) * PI / 180));
 	game->player->pos_y = game->player->pos_y + MOVE_SPEED * (sin((game->player->orientation + 180) * PI / 180));
-	print_map(game);
-	draw_grille(game);
-	draw_player(game);
-	draw_direction(game);
 	return (0);
 }
 
@@ -153,5 +129,6 @@ int	control_key(t_data_game *game)
 		rotate_right(game);
 	if (game->key->escape_key == 1)
 		free_game(game);
+	draw_image(game);
 	return (0);
 }

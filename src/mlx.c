@@ -3,18 +3,50 @@
 /*                                                        :::      ::::::::   */
 /*   mlx.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 16:10:14 by laudinot          #+#    #+#             */
-/*   Updated: 2026/03/24 10:09:35 by laudinot         ###   ########.fr       */
+/*   Updated: 2026/03/25 03:12:30 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
+void	img_pix_put(t_image *img, int x, int y, int color)
+{
+    char    *pixel;
+    int		i;
+
+    i = img->bpp - 8;
+    pixel = img->addr + (y * img->line_len + x * (img->bpp / 8));
+    while (i >= 0)
+    {
+        /* big endian, MSB is the leftmost bit */
+        if (img->endian != 0)
+            *pixel++ = (color >> i) & 0xFF;
+        /* little endian, LSB is the leftmost bit */
+        else
+            *pixel++ = (color >> (img->bpp - 8 - i)) & 0xFF;
+        i -= 8;
+    }
+}
+
+int draw_image(t_data_game *game)
+{
+	game->image.mlx_img = mlx_new_image(game->win->mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT);
+	game->image.addr = mlx_get_data_addr(game->image.mlx_img, &game->image.bpp, &game->image.line_len, &game->image.endian);
+	printf("addr = %p, bpp = %d, line len = %d, endian = %d\n", game->image.addr, game->image.bpp, game->image.line_len, game->image.endian);
+	print_map(game);
+	draw_grille(game);
+	draw_player(game);
+	draw_direction(game);
+	mlx_put_image_to_window(game->win->mlx_ptr, game->win->win_ptr, game->image.mlx_img, 0, 0);
+	return (0);
+}
+
 int	choose_color(char c)
 {
-	// printf("test dans choose color\n");
+	// printf("test dans choose color case de map = %c\n", c);
 	if (c == '1')
 		return (GREEN);
 	else if (c == '0')
@@ -37,7 +69,7 @@ void	draw_grille(t_data_game *game)
 	{
 		y = 0;
 		while (++y < SCREEN_HEIGHT)
-			mlx_pixel_put(game->win->mlx_ptr, game->win->win_ptr, x, y, BLACK);
+			img_pix_put(&game->image, x, y, BLACK);
 		x += game->x_pixel_per_unit;
 	}
 	y = game->y_pixel_per_unit;
@@ -45,7 +77,7 @@ void	draw_grille(t_data_game *game)
 	{
 		x = 0;
 		while (++x < SCREEN_HEIGHT)
-			mlx_pixel_put(game->win->mlx_ptr, game->win->win_ptr, x, y, BLACK);
+			img_pix_put(&game->image, x, y, BLACK);
 		y += game->x_pixel_per_unit;
 	}
 }
@@ -54,26 +86,23 @@ void	draw_texture(t_data_game *game, int x, int y)
 {
 	int	i;
 	int	j;
-	int	x_len_to_start_draw;
-	int	y_len_to_start_draw;
+	int	x_start;
+	int	y_start;
 
-	// printf("drawing x = %d y = %d\n", x, y);
+	x_start = x * game->x_pixel_per_unit;
+	y_start = y * game->y_pixel_per_unit;
 
 	i = 0;
-	x_len_to_start_draw = (x * game->x_pixel_per_unit);
-	y_len_to_start_draw = (y * game->y_pixel_per_unit);
 	while (i < game->y_pixel_per_unit)
 	{
-		// printf("%d\n", i);
 		j = 0;
-		// printf(" game->x_pixel_per_unit = %d\n", game->x_pixel_per_unit);
 		while (j < game->x_pixel_per_unit)
 		{
-			// printf("j = %d, pixel to draw X = %d Y = %d\n", j, x_len_to_start_draw + j, y_len_to_start_draw + i);
-			mlx_pixel_put(game->win->mlx_ptr, game->win->win_ptr,
-				x_len_to_start_draw + j, y_len_to_start_draw + i,
+			// printf("i = %d, j = %d, x = %d, y = %d, x_start = %d, y_start = %d, game->x_pixel_per_unit = %d, game->y_pixel_per_unit = %d\n", i, j, x, y, x_start, y_start, game->x_pixel_per_unit, game->y_pixel_per_unit);
+			img_pix_put(&game->image,
+				x_start + j,
+				y_start + i,
 				choose_color(game->map[y][x]));
-			// usleep(100);
 			j++;
 		}
 		i++;
@@ -95,8 +124,10 @@ void	draw_player(t_data_game *game)
 	
 	while (i >= -6)
 	{
-		mlx_pixel_put(game->win->mlx_ptr, game->win->win_ptr, x_pixel + i, y_pixel + i, RED);
-		mlx_pixel_put(game->win->mlx_ptr, game->win->win_ptr, x_pixel - i, y_pixel + i, RED);
+		// mlx_pixel_put(game->win->mlx_ptr, game->win->win_ptr, x_pixel + i, y_pixel + i, RED);
+		// mlx_pixel_put(game->win->mlx_ptr, game->win->win_ptr, x_pixel - i, y_pixel + i, RED);
+		img_pix_put(&game->image, x_pixel + i, y_pixel + i, RED);
+		img_pix_put(&game->image, x_pixel - i, y_pixel + i, RED);
 		i--;
 	}
 
@@ -104,9 +135,10 @@ void	draw_player(t_data_game *game)
 
 void	calculate_map(t_data_game *game)
 {
-	game->x_pixel_per_unit = SCREEN_WIDTH / (game->x_len + 1);
-	game->y_pixel_per_unit = SCREEN_HEIGHT / (game->y_len + 1);
-	printf("pixel = %d x %d \n", game->x_pixel_per_unit, game->y_pixel_per_unit);
+	printf("debut calculate map\n");
+	game->x_pixel_per_unit = SCREEN_WIDTH / (game->x_len);
+	game->y_pixel_per_unit = SCREEN_HEIGHT / (game->y_len);
+	printf("pixel = %d x %d game->x_len %d, game-> y_len = %d\n", game->x_pixel_per_unit, game->y_pixel_per_unit, game->x_len, game->y_len);
 }
 
 void	print_map(t_data_game *game)
@@ -162,10 +194,7 @@ int	create_window(t_data_game *game)
 	printf("adresse window->mlx_ptr = %p\n", game->win->mlx_ptr);
 	game->win->win_ptr = mlx_new_window(game->win->mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT, "Dofus3D");
 	calculate_map(game);
-	print_map(game);
-	draw_grille(game);
-	draw_player(game);
-	set_direction(game);
+	// draw_image(game);
 	// env->win->img_ptr = mlx_new_image(env->win->mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT);
 	// mlx_put_image_to_window(env->win->mlx_ptr, env->win->win_ptr, env->win->img_ptr, 0, 0);
 	// window->mlx_adress = mlx_get_data_addr(window->img_ptr, NULL, NULL, NULL);
@@ -176,6 +205,7 @@ int	create_window(t_data_game *game)
 	// printf("inital time = %f\n", game->last_time);
 	mlx_loop_hook(game->win->mlx_ptr, control_key, game);
 	mlx_hook(game->win->win_ptr, 17, 0, free_game, game);
+	// draw_image(game);
 	mlx_loop(game->win->mlx_ptr);
 	printf("apres loop\n");	
 	return (0);
