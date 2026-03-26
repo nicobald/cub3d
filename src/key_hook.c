@@ -6,7 +6,7 @@
 /*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/21 15:45:05 by nbaldes           #+#    #+#             */
-/*   Updated: 2026/03/25 03:08:39 by nbaldes          ###   ########.fr       */
+/*   Updated: 2026/03/26 15:04:14 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,5 +130,7 @@ int	control_key(t_data_game *game)
 	if (game->key->escape_key == 1)
 		free_game(game);
 	draw_image(game);
+	if(game->image.mlx_img)
+		mlx_destroy_image(game->win->mlx_ptr, game->image.mlx_img);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 16:10:14 by laudinot          #+#    #+#             */
-/*   Updated: 2026/03/25 03:12:30 by nbaldes          ###   ########.fr       */
+/*   Updated: 2026/03/26 15:09:39 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int draw_image(t_data_game *game)
 {
 	game->image.mlx_img = mlx_new_image(game->win->mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT);
 	game->image.addr = mlx_get_data_addr(game->image.mlx_img, &game->image.bpp, &game->image.line_len, &game->image.endian);
-	printf("addr = %p, bpp = %d, line len = %d, endian = %d\n", game->image.addr, game->image.bpp, game->image.line_len, game->image.endian);
+	// printf("addr = %p, bpp = %d, line len = %d, endian = %d\n", game->image.addr, game->image.bpp, game->image.line_len, game->image.endian);
 	print_map(game);
 	draw_grille(game);
 	draw_player(game);
@@ -134,10 +134,11 @@ void	draw_player(t_data_game *game)
 }
 
 void	calculate_map(t_data_game *game)
+
 {
 	printf("debut calculate map\n");
-	game->x_pixel_per_unit = SCREEN_WIDTH / (game->x_len);
-	game->y_pixel_per_unit = SCREEN_HEIGHT / (game->y_len);
+	game->x_pixel_per_unit = SCREEN_WIDTH / (game->x_len + 1);
+	game->y_pixel_per_unit = SCREEN_HEIGHT / (game->y_len + 1);
 	printf("pixel = %d x %d game->x_len %d, game-> y_len = %d\n", game->x_pixel_per_unit, game->y_pixel_per_unit, game->x_len, game->y_len);
 }
 
