@@ -6,11 +6,29 @@
 /*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/21 15:40:32 by laudinot          #+#    #+#             */
-/*   Updated: 2026/03/24 10:08:30 by laudinot         ###   ########.fr       */
+/*   Updated: 2026/03/27 11:33:34 by laudinot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
+// void	calculate_wall(t_data_game *game, int orientation)
+// {
+	
+// }
+
+int	check_if_hit_wall(t_data_game *game, double x_pos, double y_pos)
+{
+	int	x;
+	int	y;
+
+	x = (int)x_pos;
+	y = (int)y_pos;
+	if (game->map[y][x] == '1')
+		return (TRUE);
+	else
+		return (FALSE);
+}
 
 void	draw_direction(t_data_game *game)
 {
@@ -39,6 +57,8 @@ void	draw_direction(t_data_game *game)
 			t += 0.01;
 			ray_x = game->player->pos_x + t * game->player->dir_x;
 			ray_y = game->player->pos_y + t * game->player->dir_y;
+			if (check_if_hit_wall(game, ray_x , ray_y) == TRUE)
+				break ;
 		}
 		i++;
 	}
@@ -58,11 +78,14 @@ void	draw_direction(t_data_game *game)
 			t += 0.01;
 			ray_x = game->player->pos_x + t * game->player->dir_x;
 			ray_y = game->player->pos_y + t * game->player->dir_y;
+			if (check_if_hit_wall(game, ray_x , ray_y) == TRUE)
+				break ;
 		}
 		i--;
 	}
 }
 void	set_direction(t_data_game *game)
 {
+	// (void)game;
 	draw_direction(game);
 }

@@ -45,7 +45,7 @@
 # define SCREEN_WIDTH 800
 # define SCREEN_HEIGHT 800
 # define MOVE_SPEED 0.01
-# define FOV 50
+# define FOV 20
 // # ifndef ROW_SIZE
 // #  define ROW_SIZE 32
 // # endif
@@ -66,7 +66,7 @@ typedef struct player
 {
 	double		pos_x; //
 	double		pos_y;
-    double 		dir_x; 
+    double 		dir_x;
     double 		dir_y;
     double 		plane_x; // champ de vision FOV
     double 		plane_y;
