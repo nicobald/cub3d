@@ -24,7 +24,6 @@ int	rotate_right(t_data_game *game)
 	}
 	if (game->player->orientation >= 360)
 		game->player->orientation -= 360;
-	dda(game);
 	return (0);
 }
 
@@ -40,7 +39,6 @@ int	rotate_left(t_data_game *game)
 	}
 	if (game->player->orientation < 0)
 		game->player->orientation += 360;
-	dda(game);
 	return (0);
 }
 
@@ -48,7 +46,6 @@ int	move_left(t_data_game *game)
 {
 	game->player->pos.x = game->player->pos.x + MOVE_SPEED * (cos((game->player->orientation - 90) * PI / 180));
 	game->player->pos.y = game->player->pos.y + MOVE_SPEED * (sin((game->player->orientation - 90) * PI / 180));
-	dda(game);
 	return (0);
 }
 
@@ -56,7 +53,6 @@ int	move_right(t_data_game *game)
 {
 	game->player->pos.x = game->player->pos.x + MOVE_SPEED * (cos((game->player->orientation + 90) * PI / 180));
 	game->player->pos.y = game->player->pos.y + MOVE_SPEED * (sin((game->player->orientation + 90) * PI / 180));
-	dda(game);
 	return (0);
 }
 
@@ -64,7 +60,6 @@ int	move_up(t_data_game *game)
 {
 	game->player->pos.x = game->player->pos.x + MOVE_SPEED * (cos((game->player->orientation) * PI / 180));
 	game->player->pos.y = game->player->pos.y + MOVE_SPEED * (sin((game->player->orientation) * PI / 180));
-	dda(game);
 	return (0);
 }
 
@@ -72,7 +67,6 @@ int	move_down(t_data_game *game)
 {
 	game->player->pos.x = game->player->pos.x + MOVE_SPEED * (cos((game->player->orientation + 180) * PI / 180));
 	game->player->pos.y = game->player->pos.y + MOVE_SPEED * (sin((game->player->orientation + 180) * PI / 180));
-	dda(game);
 	return (0);
 }
 
@@ -134,7 +128,5 @@ int	control_key(t_data_game *game)
 	if (game->key->escape_key == 1)
 		free_game(game);
 	draw_image(game);
-	// if(game->image.mlx_img)
-	// 	mlx_destroy_image(game->win->mlx_ptr, game->image.mlx_img);
 	return (0);
 }

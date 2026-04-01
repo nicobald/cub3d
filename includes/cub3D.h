@@ -13,27 +13,29 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# define NO		0
-# define SO		1
-# define WE		2
-# define EA		3
-# define F		4
-# define C		5
-# define MAP	6
-# define EMP	7
-# define STR	8
-# define W_KEY	119
-# define A_KEY	97
-# define D_KEY	100
-# define S_KEY	115
-# define LEFT_KEY 65361
-# define RIGHT_KEY 65363
+# define NO			0
+# define SO			1
+# define WE			2
+# define EA			3
+# define F			4
+# define C			5
+# define MAP		6
+# define EMP		7
+# define STR		8
+# define W_KEY		119
+# define A_KEY		97
+# define D_KEY		100
+# define S_KEY		115
+# define LEFT_KEY	65361
+# define RIGHT_KEY 	65363
 # define ESCAPE_KEY 65307
-# define GREEN 0x00FF7F
-# define BLACK 0x000000
-# define WHITE 0xFFFFFF
-# define RED   0xFF0033
-# define CUSTOM   0xFFEE33
+# define GREEN 		0x00FF7F
+# define BLACK 		0x000000
+# define WHITE 		0xFFFFFF
+# define RED   		0xFF0033
+# define BLUE		0x000080
+# define YELLOW		0xFFFF00
+# define CUSTOM   	0xFFEE33
 // # ifndef COL_SIZE
 // #  define COL_SIZE 32
 // # endif
@@ -62,13 +64,22 @@
 # include <sys/stat.h>
 # include <sys/time.h>
 
-typedef struct coord
+typedef struct s_coord
 {
 	double	x;
 	double	y;
 }			t_coord;
 
-typedef struct player
+typedef struct s_texturing
+{
+	int			mapX;
+	int			mapY;
+	int			stepX;
+	int			stepY;
+	double		perpWallDist;
+}				t_texturing;
+
+typedef struct s_player
 {
 	t_coord		wall_d;
 	t_coord		pos;
@@ -132,9 +143,9 @@ typedef struct s_data_game
 	char			**text;
 	char			**map;
 	char			player_start_dir;
-	int				x_pixel_per_unit;	// deviendra float?
-	int				y_pixel_per_unit;//SCREEN_WIDTH / game->x_len
-	int				x_len;				// longueur x du tableau 
+	int				x_pixel_per_unit;
+	int				y_pixel_per_unit;
+	int				x_len;
 	int				y_len;
 	int				*colors;
 	double			last_time;
@@ -144,6 +155,7 @@ typedef struct s_data_game
 	t_window		*win;
 	t_key			*key;
 	t_image			image;
+	t_texturing		*data_text;
 	struct timeval	time;
 }				t_data_game;
 
@@ -204,4 +216,8 @@ void			draw_grille(t_data_game *game);
 void			draw_player(t_data_game *game);
 void			img_pix_put(t_image *img, int x, int y, int color);
 int 			draw_image(t_data_game *game);
+
+//dda
+void			texturing(t_data_game *game);
+void 			calc_pix_to_draw(t_data_game *game);
 #endif

@@ -56,9 +56,9 @@ int	init_game(t_data_game *game)
 	game->key = malloc(sizeof(t_key));
 	if (!game->key)
 		printf("Malloc error\n");
-	// game->image = malloc(sizeof(t_image));
-	// if (!game->image)
-	// 	printf("Malloc error\n");
+	game->data_text = malloc(sizeof(t_texturing));
+	if (!game->data_text)
+		printf("Malloc error\n");
 	game->win->mlx_ptr = NULL;
 	game->win->win_ptr = NULL;
 	if (game->player_start_dir == 'N')

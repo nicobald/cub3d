@@ -83,8 +83,8 @@ void	draw_direction(t_data_game *game)
 
 double dda_distance(t_data_game *game)
 {
-    int mapX = (int)(game->player->pos.x);
-    int mapY = (int)(game->player->pos.y);
+    game->data_text->mapX = (int)(game->player->pos.x);
+    game->data_text->mapY = (int)(game->player->pos.y);
 
     double deltaDistX;
     double deltaDistY;
@@ -102,31 +102,27 @@ double dda_distance(t_data_game *game)
     double sideDistX;
     double sideDistY;
 
-    int stepX;
-    int stepY;
-
-    // 🔹 STEP X
     if (game->player->ray_dir.x < 0)
     {
-        stepX = -1;
-        sideDistX = (game->player->pos.x - mapX) * deltaDistX;
+        game->data_text->stepX = -1;
+        sideDistX = (game->player->pos.x - game->data_text->mapX) * deltaDistX;
     }
     else
     {
-        stepX = 1;
-        sideDistX = (mapX + 1.0 - game->player->pos.x) * deltaDistX;
+        game->data_text->stepX = 1;
+        sideDistX = (game->data_text->mapX + 1.0 - game->player->pos.x) * deltaDistX;
     }
 
     // 🔹 STEP Y
     if (game->player->ray_dir.y < 0)
     {
-        stepY = -1;
-        sideDistY = (game->player->pos.y - mapY) * deltaDistY;
+        game->data_text->stepY = -1;
+        sideDistY = (game->player->pos.y - game->data_text->mapY) * deltaDistY;
     }
     else
     {
-        stepY = 1;
-        sideDistY = (mapY + 1.0 - game->player->pos.y) * deltaDistY;
+        game->data_text->stepY = 1;
+        sideDistY = (game->data_text->mapY + 1.0 - game->player->pos.y) * deltaDistY;
     }
 
     int hit = 0;
@@ -138,27 +134,78 @@ double dda_distance(t_data_game *game)
         if (sideDistX < sideDistY)
         {
             sideDistX += deltaDistX;
-            mapX += stepX;
+            game->data_text->mapX += game->data_text->stepX;
             side = 0;
         }
         else
         {
             sideDistY += deltaDistY;
-            mapY += stepY;
+            game->data_text->mapY += game->data_text->stepY;
             side = 1;
         }
-        if (game->map[mapY][mapX] == '1')
+        if (game->map[game->data_text->mapY][game->data_text->mapX] == '1')
             hit = 1;
     }
 
     // 🎯 DISTANCE FINALE
     double perpWallDist;
-
     if (side == 0)
-        perpWallDist = (mapX - game->player->pos.x + (1 - stepX) / 2.0) / game->player->ray_dir.x;
+        perpWallDist = (game->data_text->mapX - game->player->pos.x + (1 - game->data_text->stepX) / 2.0) / game->player->ray_dir.x;
     else
-		perpWallDist = (mapY - game->player->pos.y + (1 - stepY) / 2.0) / game->player->ray_dir.y;
+		perpWallDist = (game->data_text->mapY - game->player->pos.y + (1 - game->data_text->stepY) / 2.0) / game->player->ray_dir.y;
     return perpWallDist;
+}
+
+void	choose_wall(t_data_game *game)
+{
+	// worldMap = map avec un int different pour chaque face en fonction de la position du personnage
+	// int worldMap[mapWidth][mapHeight]=
+// {
+//   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,0,0,0,0,0,2,2,2,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
+//   {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,3,0,0,0,3,0,0,0,1},
+//   {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,0,0,0,0,0,2,2,0,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
+//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,4,0,0,0,0,5,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,4,0,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+// };
+// changer le switch en if else avec NO/SO/WE/EA Apres avoir refait la map.
+    int color;
+
+	switch(worldMap[game->data_text->mapX][game->data_text->mapY])
+    {
+    	case 1:  color = RED; 
+			break; //red
+    	case 2:  color = GREEN;
+			break; //green
+    	case 3:  color = BLUE;
+			break; //blue
+    	case 4:  color = WHITE;
+			break; //white
+    	default: color = YELLOW;
+			break; //yellow
+    }
+	// integrer x et side dans struct pour recuperer la data
+    if (side == 1)
+		color = color / 2;
+    verLine(x, drawStart, drawEnd, color);
 }
 
 void	dda(t_data_game *game)
@@ -184,8 +231,40 @@ void	dda(t_data_game *game)
 		// FOV ≈ 66°
 		game->player->plane.x = -game->player->player_dir.y * 0.66;
 		game->player->plane.y =  game->player->player_dir.x * 0.66;
-		game->tab_distance[x] = dda_distance(game);
-		// printf("%d distance = %f\n",x, game->tab_distance[x]);
+		game->data_text->perpWallDist = dda_distance(game);
+		calc_pix_to_draw(game);
+		choose_wall(game);
 		x++;
 	}
 }
+
+void calc_pix_to_draw(t_data_game *game)
+{
+	int h;
+	int lineHeight;
+	int drawStart;
+	int drawEnd;
+	
+	printf("map.y = %d\n", game->data_text->mapY);
+	printf("stepY = %d\n", game->data_text->stepY);
+	h = game->data_text->mapY + (1 - game->data_text->stepY) / 2;
+	printf("h = %d\n", h);
+	printf("perpWallDist = %f\n", game->data_text->perpWallDist);
+	lineHeight = (int)(h / game->data_text->perpWallDist);
+	printf("lineHeight = %d\n", lineHeight);
+    drawStart = -lineHeight / 2 + h / 2;
+    drawEnd = lineHeight / 2 + h / 2;
+    if(drawStart < 0)
+		drawStart = 0;
+    if(drawEnd >= h)
+		drawEnd = h - 1;
+	printf("drawStart = %d, drawEnd = %d\n", drawStart, drawEnd);
+}
+
+// void texturing(t_data_game *game)
+// {
+	
+// }
+
+// stepX/stepY
+// perpWallDist

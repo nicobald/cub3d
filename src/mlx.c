@@ -38,6 +38,8 @@ int draw_image(t_data_game *game)
 	draw_player(game);
 	draw_direction(game);
 	mlx_put_image_to_window(game->win->mlx_ptr, game->win->win_ptr, game->image.mlx_img, 0, 0);
+	dda(game);
+	// texturing(game);
 	return (0);
 }
 
