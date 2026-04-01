@@ -44,7 +44,7 @@
 # define BUFFER_SIZE 10
 # define SCREEN_WIDTH 800
 # define SCREEN_HEIGHT 800
-# define MOVE_SPEED 0.01
+# define MOVE_SPEED 0.003
 # define FOV 50
 // # ifndef ROW_SIZE
 // #  define ROW_SIZE 32
@@ -77,7 +77,7 @@ typedef struct s_image
 {
     void	*mlx_img;
     char	*addr;
-    int		bpp; /* bits per pixel */
+    int		bpp;
     int		line_len;
     int		endian;
 }	t_image;

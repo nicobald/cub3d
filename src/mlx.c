@@ -6,7 +6,7 @@
 /*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 16:10:14 by laudinot          #+#    #+#             */
-/*   Updated: 2026/03/26 15:09:39 by nbaldes          ###   ########.fr       */
+/*   Updated: 2026/04/01 11:23:37 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,6 @@ void	img_pix_put(t_image *img, int x, int y, int color)
 
 int draw_image(t_data_game *game)
 {
-	game->image.mlx_img = mlx_new_image(game->win->mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT);
-	game->image.addr = mlx_get_data_addr(game->image.mlx_img, &game->image.bpp, &game->image.line_len, &game->image.endian);
-	// printf("addr = %p, bpp = %d, line len = %d, endian = %d\n", game->image.addr, game->image.bpp, game->image.line_len, game->image.endian);
 	print_map(game);
 	draw_grille(game);
 	draw_player(game);
@@ -89,8 +86,8 @@ void	draw_texture(t_data_game *game, int x, int y)
 	int	x_start;
 	int	y_start;
 
-	x_start = x * game->x_pixel_per_unit;
-	y_start = y * game->y_pixel_per_unit;
+	x_start = (x * game->x_pixel_per_unit);
+	y_start = (y * game->y_pixel_per_unit);
 
 	i = 0;
 	while (i < game->y_pixel_per_unit)
@@ -98,7 +95,6 @@ void	draw_texture(t_data_game *game, int x, int y)
 		j = 0;
 		while (j < game->x_pixel_per_unit)
 		{
-			// printf("i = %d, j = %d, x = %d, y = %d, x_start = %d, y_start = %d, game->x_pixel_per_unit = %d, game->y_pixel_per_unit = %d\n", i, j, x, y, x_start, y_start, game->x_pixel_per_unit, game->y_pixel_per_unit);
 			img_pix_put(&game->image,
 				x_start + j,
 				y_start + i,
@@ -115,10 +111,10 @@ void	draw_player(t_data_game *game)
 	int	y_pixel;
 	int	i;
 	
-	printf("pos player X : %f Y : %f\n", game->player->pos_x, game->player->pos_y);
+	// printf("pos player X : %f Y : %f\n", game->player->pos_x, game->player->pos_y);
 
-	x_pixel = ((game->player->pos_x / (game->x_len + 1)) *  SCREEN_WIDTH);
-	y_pixel = ((game->player->pos_y / (game->y_len + 1)) *  SCREEN_HEIGHT);
+	x_pixel = ((game->player->pos_x / (game->x_len + 1)) *  SCREEN_WIDTH) / 4;
+	y_pixel = ((game->player->pos_y / (game->y_len + 1)) *  SCREEN_HEIGHT) / 4;
 
 	i = 6;
 	
@@ -137,8 +133,8 @@ void	calculate_map(t_data_game *game)
 
 {
 	printf("debut calculate map\n");
-	game->x_pixel_per_unit = SCREEN_WIDTH / (game->x_len + 1);
-	game->y_pixel_per_unit = SCREEN_HEIGHT / (game->y_len + 1);
+	game->x_pixel_per_unit = (SCREEN_WIDTH / (game->x_len + 1)) / 4;
+	game->y_pixel_per_unit = (SCREEN_HEIGHT / (game->y_len + 1)) / 4;
 	printf("pixel = %d x %d game->x_len %d, game-> y_len = %d\n", game->x_pixel_per_unit, game->y_pixel_per_unit, game->x_len, game->y_len);
 }
 
@@ -148,7 +144,6 @@ void	print_map(t_data_game *game)
 	int	j;
 
 	i = 0;
-	// print_tab(game->map);
 	while (game->map[i])
 	{
 		j = 0;
@@ -162,7 +157,6 @@ void	print_map(t_data_game *game)
 				draw_texture(game, j , i);
 			else if(game->map[i][j] == ' ')
 			{
-				// printf("x = %d y = %d quand rentre dans vide\n", j , i);
 				draw_texture(game, j , i);
 			}
 			j++;
@@ -195,18 +189,14 @@ int	create_window(t_data_game *game)
 	printf("adresse window->mlx_ptr = %p\n", game->win->mlx_ptr);
 	game->win->win_ptr = mlx_new_window(game->win->mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT, "Dofus3D");
 	calculate_map(game);
-	// draw_image(game);
-	// env->win->img_ptr = mlx_new_image(env->win->mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT);
-	// mlx_put_image_to_window(env->win->mlx_ptr, env->win->win_ptr, env->win->img_ptr, 0, 0);
-	// window->mlx_adress = mlx_get_data_addr(window->img_ptr, NULL, NULL, NULL);
+	game->image.mlx_img = mlx_new_image(game->win->mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT);
+	game->image.addr = mlx_get_data_addr(game->image.mlx_img, &game->image.bpp, &game->image.line_len, &game->image.endian);
 	mlx_hook(game->win->win_ptr, 2, 1L << 0, key_press, game);
 	mlx_hook(game->win->win_ptr, 3, 1L << 1, key_release, game);
 	gettimeofday(&game->time, NULL);
 	game->last_time = game->time.tv_sec + game->time.tv_usec / 1000000.0;
-	// printf("inital time = %f\n", game->last_time);
 	mlx_loop_hook(game->win->mlx_ptr, control_key, game);
 	mlx_hook(game->win->win_ptr, 17, 0, free_game, game);
-	// draw_image(game);
 	mlx_loop(game->win->mlx_ptr);
 	printf("apres loop\n");	
 	return (0);
