@@ -31,53 +31,53 @@ void	draw_direction(t_data_game *game)
 	double	ray_y;
 	int		pixel_ray_x;
 	int		pixel_ray_y;
-	// int		fov;
-	// int		i;
+	int		fov;
+	int		i;
 	double	t;
 
-	// fov = FOV / 2;
-	// i = 0;
-	// while (i < fov)
-	// {
+	fov = FOV / 2;
+	i = 0;
+	while (i < fov)
+	{
 		t = 0;
 		game->player->player_dir.x = cos((game->player->orientation) * PI / 180);
 		game->player->player_dir.y = sin((game->player->orientation) * PI / 180);
-		ray_x = game->player->pos.x + t * game->player->player_dir.x;
-		ray_y = game->player->pos.y + t * game->player->player_dir.y;
+		ray_x = (game->player->pos.x + t * game->player->player_dir.x) / 4;
+		ray_y = (game->player->pos.y + t * game->player->player_dir.y) / 4;
 		while (ray_x <= game->x_len + 1 && ray_x >= 0 && ray_y <= game->y_len + 1 && ray_y >= 0)
 		{
-			pixel_ray_x = (ray_x / (game->x_len + 1)) * SCREEN_WIDTH;
-			pixel_ray_y = (ray_y / (game->y_len + 1)) * SCREEN_HEIGHT;
-			mlx_pixel_put(game->win->mlx_ptr, game->win->win_ptr, pixel_ray_x, pixel_ray_y, CUSTOM);
+			pixel_ray_x = ((ray_x / (game->x_len + 1)) * SCREEN_WIDTH) / 4;
+			pixel_ray_y = ((ray_y / (game->y_len + 1)) * SCREEN_HEIGHT) / 4;
+			img_pix_put(&game->image, pixel_ray_x, pixel_ray_y, CUSTOM);
 			t += 0.01;
 			ray_x = game->player->pos.x + t * game->player->player_dir.x;
 			ray_y = game->player->pos.y + t * game->player->player_dir.y;
-			// if (check_if_hit_wall(game, ray_x , ray_y) == TRUE)
-			// 	break ;
+			if (check_if_hit_wall(game, ray_x , ray_y) == TRUE)
+				break ;
 		}
-		// i++;
-	// // }
-	// i = 0;
-	// while (i > -fov)
-	// {
-	// 	t = 0;
-	// 	game->player->dir.x = cos((game->player->orientation + i) * PI / 180);
-	// 	game->player->dir.y = sin((game->player->orientation + i) * PI / 180);
-	// 	ray_x = game->player->pos.x + t * game->player->dir.x;
-	// 	ray_y = game->player->pos.y + t * game->player->dir.y;
-	// 	while (ray_x <= game->x_len + 1 && ray_x >= 0 && ray_y <= game->y_len + 1 && ray_y >= 0)
-	// 	{
-	// 		pixel_ray_x = (ray_x / (game->x_len + 1)) * SCREEN_WIDTH;
-	// 		pixel_ray_y = (ray_y / (game->y_len + 1)) * SCREEN_HEIGHT;
-	// 		mlx_pixel_put(game->win->mlx_ptr, game->win->win_ptr, pixel_ray_x, pixel_ray_y, CUSTOM);
-	// 		t += 0.01;
-	// 		ray_x = game->player->pos.x + t * game->player->dir.x;
-	// 		ray_y = game->player->pos.y + t * game->player->dir.y;
-	// 		if (check_if_hit_wall(game, ray_x , ray_y) == TRUE)
-	// 			break ;
-	// 	}
-	// 	i--;
-	// }
+		i++;
+	}
+	i = 0;
+	while (i > -fov)
+	{
+		t = 0;
+		game->player->player_dir.x = cos((game->player->orientation + i) * PI / 180);
+		game->player->player_dir.y = sin((game->player->orientation + i) * PI / 180);
+		ray_x = (game->player->pos.x + t * game->player->player_dir.x) / 4;
+		ray_y = (game->player->pos.y + t * game->player->player_dir.y) / 4;
+		while (ray_x <= game->x_len + 1 && ray_x >= 0 && ray_y <= game->y_len + 1 && ray_y >= 0)
+		{
+			pixel_ray_x = ((ray_x / (game->x_len + 1)) * SCREEN_WIDTH) / 4;
+			pixel_ray_y = ((ray_y / (game->y_len + 1)) * SCREEN_HEIGHT) / 4;
+			img_pix_put(&game->image, pixel_ray_x, pixel_ray_y, CUSTOM);
+			t += 0.01;
+			ray_x = game->player->pos.x + t * game->player->player_dir.x;
+			ray_y = game->player->pos.y + t * game->player->player_dir.y;
+			if (check_if_hit_wall(game, ray_x , ray_y) == TRUE)
+				break ;
+		}
+		i--;
+	}
 }
 
 
