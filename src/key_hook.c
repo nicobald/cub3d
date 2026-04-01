@@ -6,7 +6,7 @@
 /*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/21 15:45:05 by nbaldes           #+#    #+#             */
-/*   Updated: 2026/03/25 03:08:39 by nbaldes          ###   ########.fr       */
+/*   Updated: 2026/04/01 10:53:46 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,9 +112,7 @@ int	control_key(t_data_game *game)
 {
 	gettimeofday(&game->time, NULL);
 	game->delta_time = (game->time.tv_sec + game->time.tv_usec / 1000000.0) - game->last_time;
-	// printf("control key delta time = %f\n", game->delta_time);
 	game->last_time = game->time.tv_sec + game->time.tv_usec / 1000000.0;
-	// printf("control key new last time = %f\n", game->last_time);
 	if (game->key->w_key == 1)
 		move_up(game);
 	if (game->key->a_key == 1)
