@@ -6,7 +6,7 @@
 /*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 17:57:33 by nbaldes           #+#    #+#             */
-/*   Updated: 2026/04/01 12:34:03 by laudinot         ###   ########.fr       */
+/*   Updated: 2026/04/01 14:22:25 by laudinot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,9 @@ int	init_game(t_data_game *game)
 	game->key = malloc(sizeof(t_key));
 	if (!game->key)
 		printf("Malloc error\n");
+	// game->image = malloc(sizeof(t_image));
+	// if (!game->image)
+	// 	printf("Malloc error\n");
 	game->win->mlx_ptr = NULL;
 	game->win->win_ptr = NULL;
 	if (game->player_start_dir == 'N')

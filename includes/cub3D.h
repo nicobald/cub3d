@@ -44,8 +44,8 @@
 # define BUFFER_SIZE 10
 # define SCREEN_WIDTH 800
 # define SCREEN_HEIGHT 800
-# define MOVE_SPEED 0.01
-# define FOV 20
+# define MOVE_SPEED 0.003
+# define FOV 50
 // # ifndef ROW_SIZE
 // #  define ROW_SIZE 32
 // # endif
@@ -78,6 +78,15 @@ typedef struct player
 	double		orientation;
 	double		angle;
 }				t_player;
+
+typedef struct s_image
+{
+    void	*mlx_img;
+    char	*addr;
+    int		bpp;
+    int		line_len;
+    int		endian;
+}	t_image;
 
 typedef struct s_key
 {
@@ -134,6 +143,7 @@ typedef struct s_data_game
 	t_player		*player;
 	t_window		*win;
 	t_key			*key;
+	t_image			image;
 	struct timeval	time;
 }				t_data_game;
 
@@ -186,10 +196,12 @@ void			print_tab(char **str);
 //mlx
 int				free_game(t_data_game *game);
 int				create_window(t_data_game *game);
-void	set_direction(t_data_game *game);
-void	draw_direction(t_data_game *game);
-void	print_map(t_data_game *game);
-void	draw_grille(t_data_game *game);
-void	draw_player(t_data_game *game);
-void	dda(t_data_game *game);
+void			dda(t_data_game *game);
+void			set_direction(t_data_game *game);
+void			draw_direction(t_data_game *game);
+void			print_map(t_data_game *game);
+void			draw_grille(t_data_game *game);
+void			draw_player(t_data_game *game);
+void			img_pix_put(t_image *img, int x, int y, int color);
+int 			draw_image(t_data_game *game);
 #endif

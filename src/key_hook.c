@@ -6,7 +6,7 @@
 /*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/21 15:45:05 by nbaldes           #+#    #+#             */
-/*   Updated: 2026/04/01 11:09:01 by laudinot         ###   ########.fr       */
+/*   Updated: 2026/04/01 14:20:16 by laudinot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,6 @@ int	rotate_right(t_data_game *game)
 	double	rot_speed;
 
 	rot_speed = 180.0;
-	print_map(game);
-	draw_grille(game);
-	draw_player(game);
 	if (game->player->orientation < 360)
 	{
 		game->player->orientation += rot_speed * game->delta_time;
@@ -37,9 +34,6 @@ int	rotate_left(t_data_game *game)
 	double	rot_speed;
 
 	rot_speed = 180.0;
-	print_map(game);
-	draw_grille(game);
-	draw_player(game);
 	if (game->player->orientation > 0)
 	{
 		game->player->orientation -= rot_speed * game->delta_time;
@@ -142,9 +136,7 @@ int	control_key(t_data_game *game)
 {
 	gettimeofday(&game->time, NULL);
 	game->delta_time = (game->time.tv_sec + game->time.tv_usec / 1000000.0) - game->last_time;
-	// printf("control key delta time = %f\n", game->delta_time);
 	game->last_time = game->time.tv_sec + game->time.tv_usec / 1000000.0;
-	// printf("control key new last time = %f\n", game->last_time);
 	if (game->key->w_key == 1)
 		move_up(game);
 	if (game->key->a_key == 1)
@@ -159,5 +151,8 @@ int	control_key(t_data_game *game)
 		rotate_right(game);
 	if (game->key->escape_key == 1)
 		free_game(game);
+	draw_image(game);
+	// if(game->image.mlx_img)
+	// 	mlx_destroy_image(game->win->mlx_ptr, game->image.mlx_img);
 	return (0);
 }
