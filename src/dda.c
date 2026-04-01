@@ -190,14 +190,23 @@ void	draw_column_pixels(t_data_game *game)
 
 	y = 0;
 	while (y < game->data_text->drawStart)
-		img_pix_put(&game->image, game->data_text->screenX, y++,
+	{
+		img_pix_put(&game->image, game->data_text->screenX, y,
 			game->data_text->sky_color);
+		y++;
+	}
 	while (y <= game->data_text->drawEnd)
-		img_pix_put(&game->image, game->data_text->screenX, y++,
+	{
+		img_pix_put(&game->image, game->data_text->screenX, y,
 			game->data_text->wall_color);
+		y++;
+	}
 	while (y < SCREEN_HEIGHT)
-		img_pix_put(&game->image, game->data_text->screenX, y++,
+	{
+		img_pix_put(&game->image, game->data_text->screenX, y,
 			game->data_text->floor_color);
+		y++;
+	}
 }
 
 void	calc_pix_to_draw(t_data_game *game)
