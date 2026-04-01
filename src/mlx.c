@@ -6,7 +6,7 @@
 /*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 16:10:14 by laudinot          #+#    #+#             */
-/*   Updated: 2026/04/01 14:32:12 by laudinot         ###   ########.fr       */
+/*   Updated: 2026/04/01 14:40:53 by laudinot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,8 +113,8 @@ void	draw_player(t_data_game *game)
 	
 	// printf("pos player X : %f Y : %f\n", game->player->pos_x, game->player->pos_y);
 
-	x_pixel = ((game->player->pos_x / (game->x_len + 1)) *  SCREEN_WIDTH) / 4;
-	y_pixel = ((game->player->pos_y / (game->y_len + 1)) *  SCREEN_HEIGHT) / 4;
+	x_pixel = ((game->player->pos.x / (game->x_len + 1)) *  SCREEN_WIDTH) / 4;
+	y_pixel = ((game->player->pos.y / (game->y_len + 1)) *  SCREEN_HEIGHT) / 4;
 
 	i = 6;
 	

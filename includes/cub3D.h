@@ -44,7 +44,7 @@
 # define BUFFER_SIZE 10
 # define SCREEN_WIDTH 800
 # define SCREEN_HEIGHT 800
-# define MOVE_SPEED 0.003
+# define MOVE_SPEED 0.006
 # define FOV 50
 // # ifndef ROW_SIZE
 // #  define ROW_SIZE 32

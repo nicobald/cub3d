@@ -6,7 +6,7 @@
 /*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/21 15:40:32 by laudinot          #+#    #+#             */
-/*   Updated: 2026/04/01 12:50:02 by laudinot         ###   ########.fr       */
+/*   Updated: 2026/04/01 14:42:10 by laudinot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ void	dda(t_data_game *game)
 {
 	int	x;
 	double cameraX;
-	printf("Debut de dda\n");
+	// printf("Debut de dda\n");
 	x = 0;
 	while (x < SCREEN_WIDTH)
 	{
@@ -177,7 +177,7 @@ void	dda(t_data_game *game)
 		if (fabs(game->player->ray_dir.y) < 1e-6)
 			game->player->ray_dir.y = 1e-6;
 		game->player->angle = game->player->orientation * PI / 180.0;
-		printf("angle = %f\n", game->player->angle);
+		// printf("angle = %f\n", game->player->angle);
 		game->player->player_dir.x = cos(game->player->angle);
 		game->player->player_dir.y = sin(game->player->angle);
 
@@ -185,7 +185,7 @@ void	dda(t_data_game *game)
 		game->player->plane.x = -game->player->player_dir.y * 0.66;
 		game->player->plane.y =  game->player->player_dir.x * 0.66;
 		game->tab_distance[x] = dda_distance(game);
-		printf("%d distance = %f\n",x, game->tab_distance[x]);
+		// printf("%d distance = %f\n",x, game->tab_distance[x]);
 		x++;
 	}
 }
