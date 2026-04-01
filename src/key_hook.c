@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   key_hook.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
+/*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/21 15:45:05 by nbaldes           #+#    #+#             */
-/*   Updated: 2026/04/01 11:23:06 by nbaldes          ###   ########.fr       */
+/*   Updated: 2026/04/01 14:09:59 by laudinot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ int	control_key(t_data_game *game)
 	if (game->key->escape_key == 1)
 		free_game(game);
 	draw_image(game);
-	if(game->image.mlx_img)
-		mlx_destroy_image(game->win->mlx_ptr, game->image.mlx_img);
+	// if(game->image.mlx_img)
+	// 	mlx_destroy_image(game->win->mlx_ptr, game->image.mlx_img);
 	return (0);
 }
