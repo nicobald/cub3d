@@ -62,15 +62,21 @@
 # include <sys/stat.h>
 # include <sys/time.h>
 
+typedef struct coord
+{
+	double	x;
+	double	y;
+}			t_coord;
+
 typedef struct player
 {
-	double		pos_x; //
-	double		pos_y;
-    double 		dir_x;
-    double 		dir_y;
-    double 		plane_x; // champ de vision FOV
-    double 		plane_y;
+	t_coord		wall_d;
+	t_coord		pos;
+	t_coord		player_dir;
+	t_coord		ray_dir;
+	t_coord 	plane;
 	double		orientation;
+	double		angle;
 }				t_player;
 
 typedef struct s_key
@@ -116,6 +122,7 @@ typedef struct s_data_game
 {
 	char			**text;
 	char			**map;
+	char			player_start_dir;
 	int				x_pixel_per_unit;	// deviendra float?
 	int				y_pixel_per_unit;//SCREEN_WIDTH / game->x_len
 	int				x_len;				// longueur x du tableau 
@@ -123,6 +130,7 @@ typedef struct s_data_game
 	int				*colors;
 	double			last_time;
 	double			delta_time;
+	double			*tab_distance;
 	t_player		*player;
 	t_window		*win;
 	t_key			*key;
@@ -183,4 +191,5 @@ void	draw_direction(t_data_game *game);
 void	print_map(t_data_game *game);
 void	draw_grille(t_data_game *game);
 void	draw_player(t_data_game *game);
+void	dda(t_data_game *game);
 #endif

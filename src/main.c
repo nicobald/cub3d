@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
+/*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 17:57:33 by nbaldes           #+#    #+#             */
-/*   Updated: 2026/03/23 19:25:41 by nbaldes          ###   ########.fr       */
+/*   Updated: 2026/04/01 12:34:03 by laudinot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,9 @@ int	parsing(char **argv, t_env *env, t_data_game *game)
 
 int	init_game(t_data_game *game)
 {
+	game->tab_distance = malloc(sizeof(double) * SCREEN_WIDTH);
+	if (!game->tab_distance)
+		printf("Malloc error\n");
 	game->win = malloc(sizeof(t_window));
 	if (!game->win)
 		printf("Malloc error\n");
@@ -55,13 +58,13 @@ int	init_game(t_data_game *game)
 		printf("Malloc error\n");
 	game->win->mlx_ptr = NULL;
 	game->win->win_ptr = NULL;
-	if (game->player->orientation == 'N')
+	if (game->player_start_dir == 'N')
 		game->player->orientation = 90;
-	else if (game->player->orientation == 'S')
+	else if (game->player_start_dir == 'S')
 		game->player->orientation = 270;
-	else if (game->player->orientation == 'W')
+	else if (game->player_start_dir == 'W')
 		game->player->orientation = 180;
-	else if (game->player->orientation == 'E')
+	else if (game->player_start_dir == 'E')
 		game->player->orientation = 0;
 	return (0);
 }

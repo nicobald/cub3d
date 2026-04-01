@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
+/*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 18:05:43 by laudinot          #+#    #+#             */
-/*   Updated: 2026/03/23 15:07:59 by nbaldes          ###   ########.fr       */
+/*   Updated: 2026/04/01 11:23:44 by laudinot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,8 +120,8 @@ int	is_there_player(char *str, t_data_game *game)
 	{
 		if (str[i] == 'N' || str[i] == 'S' || str[i] == 'E' || str[i] == 'W')
 		{
-			game->player->pos_x = i + 0.5;
-			game->player->orientation = str[i];
+			game->player->pos.x = i + 0.5;
+			game->player_start_dir = str[i];
 			// printf("test : %c" , game->player->orientation);
 			return (TRUE);
 		}
@@ -137,7 +137,7 @@ void	get_player_position(t_data_game *game)
 	i = 0;
 	while (is_there_player(game->map[i], game) == FALSE)
 		i++;
-	game->player->pos_y = i + 0.5;
+	game->player->pos.y = i + 0.5;
 }
 
 
@@ -148,5 +148,5 @@ void	parse_map_info(t_data_game *game)
 	tab_colors(&game->colors, game->text);
 	get_player_position(game);
 	printf("Map X : %d\nMap Y : %d\n",game->x_len, game->y_len);
-	printf("Player position X : %f Y : %f\n", game->player->pos_x, game->player->pos_y);
+	printf("Player position X : %f Y : %f\n", game->player->pos.x, game->player->pos.y);
 }

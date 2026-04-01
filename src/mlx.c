@@ -6,7 +6,7 @@
 /*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 16:10:14 by laudinot          #+#    #+#             */
-/*   Updated: 2026/03/24 10:09:35 by laudinot         ###   ########.fr       */
+/*   Updated: 2026/04/01 11:10:08 by laudinot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,10 @@ void	draw_player(t_data_game *game)
 	int	y_pixel;
 	int	i;
 	
-	printf("pos player X : %f Y : %f\n", game->player->pos_x, game->player->pos_y);
+	printf("pos player X : %f Y : %f\n", game->player->pos.x, game->player->pos.y);
 
-	x_pixel = ((game->player->pos_x / (game->x_len + 1)) *  SCREEN_WIDTH);
-	y_pixel = ((game->player->pos_y / (game->y_len + 1)) *  SCREEN_HEIGHT);
+	x_pixel = ((game->player->pos.x / (game->x_len + 1)) *  SCREEN_WIDTH);
+	y_pixel = ((game->player->pos.y / (game->y_len + 1)) *  SCREEN_HEIGHT);
 
 	i = 6;
 	
@@ -165,7 +165,9 @@ int	create_window(t_data_game *game)
 	print_map(game);
 	draw_grille(game);
 	draw_player(game);
-	set_direction(game);
+	draw_direction(game);
+	dda(game);
+	// set_direction(game);
 	// env->win->img_ptr = mlx_new_image(env->win->mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT);
 	// mlx_put_image_to_window(env->win->mlx_ptr, env->win->win_ptr, env->win->img_ptr, 0, 0);
 	// window->mlx_adress = mlx_get_data_addr(window->img_ptr, NULL, NULL, NULL);
