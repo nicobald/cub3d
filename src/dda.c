@@ -21,250 +21,203 @@ int	check_if_hit_wall(t_data_game *game, double x_pos, double y_pos)
 	y = (int)y_pos;
 	if (game->map[y][x] == '1')
 		return (TRUE);
-	else
-		return (FALSE);
+	return (FALSE);
+}
+
+void	init_ray(t_data_game *game, double angle)
+{
+	game->data_text->t = 0;
+	game->player->player_dir.x = cos(angle * PI / 180.0);
+	game->player->player_dir.y = sin(angle * PI / 180.0);
+	game->data_text->ray_x = (game->player->pos.x
+			+ game->data_text->t * game->player->player_dir.x) / 4;
+	game->data_text->ray_y = (game->player->pos.y
+			+ game->data_text->t * game->player->player_dir.y) / 4;
+}
+
+void	cast_ray(t_data_game *game)
+{
+	while (game->data_text->ray_x <= game->x_len + 1
+		&& game->data_text->ray_x >= 0
+		&& game->data_text->ray_y <= game->y_len + 1
+		&& game->data_text->ray_y >= 0)
+	{
+		game->data_text->pixel_ray_x = ((game->data_text->ray_x
+					/ (game->x_len + 1)) * SCREEN_WIDTH) / 4;
+		game->data_text->pixel_ray_y = ((game->data_text->ray_y
+					/ (game->y_len + 1)) * SCREEN_HEIGHT) / 4;
+		img_pix_put(&game->image, game->data_text->pixel_ray_x,
+			game->data_text->pixel_ray_y, CUSTOM);
+		game->data_text->t += 0.01;
+		game->data_text->ray_x = game->player->pos.x
+			+ game->data_text->t * game->player->player_dir.x;
+		game->data_text->ray_y = game->player->pos.y
+			+ game->data_text->t * game->player->player_dir.y;
+		if (check_if_hit_wall(game, game->data_text->ray_x,
+				game->data_text->ray_y) == TRUE)
+			break ;
+	}
 }
 
 void	draw_direction(t_data_game *game)
 {
-	double	ray_x;
-	double	ray_y;
-	int		pixel_ray_x;
-	int		pixel_ray_y;
-	int		fov;
-	int		i;
-	double	t;
-
-	fov = FOV / 2;
-	i = 0;
-	while (i < fov)
+	game->data_text->fov = FOV / 2;
+	game->data_text->i = 0;
+	while (game->data_text->i < game->data_text->fov)
 	{
-		t = 0;
-		game->player->player_dir.x = cos((game->player->orientation) * PI / 180);
-		game->player->player_dir.y = sin((game->player->orientation) * PI / 180);
-		ray_x = (game->player->pos.x + t * game->player->player_dir.x) / 4;
-		ray_y = (game->player->pos.y + t * game->player->player_dir.y) / 4;
-		while (ray_x <= game->x_len + 1 && ray_x >= 0 && ray_y <= game->y_len + 1 && ray_y >= 0)
-		{
-			pixel_ray_x = ((ray_x / (game->x_len + 1)) * SCREEN_WIDTH) / 4;
-			pixel_ray_y = ((ray_y / (game->y_len + 1)) * SCREEN_HEIGHT) / 4;
-			img_pix_put(&game->image, pixel_ray_x, pixel_ray_y, CUSTOM);
-			t += 0.01;
-			ray_x = game->player->pos.x + t * game->player->player_dir.x;
-			ray_y = game->player->pos.y + t * game->player->player_dir.y;
-			if (check_if_hit_wall(game, ray_x , ray_y) == TRUE)
-				break ;
-		}
-		i++;
+		init_ray(game, game->player->orientation);
+		cast_ray(game);
+		game->data_text->i++;
 	}
-	i = 0;
-	while (i > -fov)
+	game->data_text->i = 0;
+	while (game->data_text->i > -game->data_text->fov)
 	{
-		t = 0;
-		game->player->player_dir.x = cos((game->player->orientation + i) * PI / 180);
-		game->player->player_dir.y = sin((game->player->orientation + i) * PI / 180);
-		ray_x = (game->player->pos.x + t * game->player->player_dir.x) / 4;
-		ray_y = (game->player->pos.y + t * game->player->player_dir.y) / 4;
-		while (ray_x <= game->x_len + 1 && ray_x >= 0 && ray_y <= game->y_len + 1 && ray_y >= 0)
-		{
-			pixel_ray_x = ((ray_x / (game->x_len + 1)) * SCREEN_WIDTH) / 4;
-			pixel_ray_y = ((ray_y / (game->y_len + 1)) * SCREEN_HEIGHT) / 4;
-			img_pix_put(&game->image, pixel_ray_x, pixel_ray_y, CUSTOM);
-			t += 0.01;
-			ray_x = game->player->pos.x + t * game->player->player_dir.x;
-			ray_y = game->player->pos.y + t * game->player->player_dir.y;
-			if (check_if_hit_wall(game, ray_x , ray_y) == TRUE)
-				break ;
-		}
-		i--;
+		init_ray(game, game->player->orientation + game->data_text->i);
+		cast_ray(game);
+		game->data_text->i--;
 	}
 }
 
-
-double dda_distance(t_data_game *game)
+void	init_dda_side_dist(t_data_game *game)
 {
-    game->data_text->mapX = (int)(game->player->pos.x);
-    game->data_text->mapY = (int)(game->player->pos.y);
-
-    double deltaDistX;
-    double deltaDistY;
-
-    if (game->player->ray_dir.x == 0)
-        deltaDistX = 1e30;
-    else
-        deltaDistX = fabs(1 / game->player->ray_dir.x);
-
-    if (game->player->ray_dir.y == 0)
-        deltaDistY = 1e30;
-    else
-        deltaDistY = fabs(1 / game->player->ray_dir.y);
-
-    double sideDistX;
-    double sideDistY;
-
-    if (game->player->ray_dir.x < 0)
-    {
-        game->data_text->stepX = -1;
-        sideDistX = (game->player->pos.x - game->data_text->mapX) * deltaDistX;
-    }
-    else
-    {
-        game->data_text->stepX = 1;
-        sideDistX = (game->data_text->mapX + 1.0 - game->player->pos.x) * deltaDistX;
-    }
-
-    // 🔹 STEP Y
-    if (game->player->ray_dir.y < 0)
-    {
-        game->data_text->stepY = -1;
-        sideDistY = (game->player->pos.y - game->data_text->mapY) * deltaDistY;
-    }
-    else
-    {
-        game->data_text->stepY = 1;
-        sideDistY = (game->data_text->mapY + 1.0 - game->player->pos.y) * deltaDistY;
-    }
-
-    int hit = 0;
-    int side;
-
-    // 🔁 DDA LOOP
-    while (hit == 0)
-    {
-        if (sideDistX < sideDistY)
-        {
-            sideDistX += deltaDistX;
-            game->data_text->mapX += game->data_text->stepX;
-            side = 0;
-        }
-        else
-        {
-            sideDistY += deltaDistY;
-            game->data_text->mapY += game->data_text->stepY;
-            side = 1;
-        }
-        if (game->map[game->data_text->mapY][game->data_text->mapX] == '1')
-            hit = 1;
-    }
-
-    // 🎯 DISTANCE FINALE
-    double perpWallDist;
-    if (side == 0)
-        perpWallDist = (game->data_text->mapX - game->player->pos.x + (1 - game->data_text->stepX) / 2.0) / game->player->ray_dir.x;
-    else
-		perpWallDist = (game->data_text->mapY - game->player->pos.y + (1 - game->data_text->stepY) / 2.0) / game->player->ray_dir.y;
-    return perpWallDist;
+	if (game->player->ray_dir.x < 0)
+	{
+		game->data_text->stepX = -1;
+		game->data_text->sideDistX = (game->player->pos.x - game->data_text->mapX)
+			* game->data_text->deltaDistX;
+	}
+	else
+	{
+		game->data_text->stepX = 1;
+		game->data_text->sideDistX = (game->data_text->mapX + 1.0
+				- game->player->pos.x) * game->data_text->deltaDistX;
+	}
+	if (game->player->ray_dir.y < 0)
+	{
+		game->data_text->stepY = -1;
+		game->data_text->sideDistY = (game->player->pos.y - game->data_text->mapY)
+			* game->data_text->deltaDistY;
+	}
+	else
+	{
+		game->data_text->stepY = 1;
+		game->data_text->sideDistY = (game->data_text->mapY + 1.0
+				- game->player->pos.y) * game->data_text->deltaDistY;
+	}
 }
 
-void	choose_wall(t_data_game *game)
+void	dda_loop(t_data_game *game)
 {
-	// worldMap = map avec un int different pour chaque face en fonction de la position du personnage
-	// int worldMap[mapWidth][mapHeight]=
-// {
-//   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,0,0,0,0,0,2,2,2,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
-//   {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,3,0,0,0,3,0,0,0,1},
-//   {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,0,0,0,0,0,2,2,0,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
-//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,4,0,0,0,0,5,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,4,0,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
-// };
-// changer le switch en if else avec NO/SO/WE/EA Apres avoir refait la map.
-    int color;
+	game->data_text->side = 0;
+	while (1)
+	{
+		if (game->data_text->sideDistX < game->data_text->sideDistY)
+		{
+			game->data_text->sideDistX += game->data_text->deltaDistX;
+			game->data_text->mapX += game->data_text->stepX;
+			game->data_text->side = 0;
+		}
+		else
+		{
+			game->data_text->sideDistY += game->data_text->deltaDistY;
+			game->data_text->mapY += game->data_text->stepY;
+			game->data_text->side = 1;
+		}
+		if (game->data_text->mapY < 0 || game->data_text->mapY > game->y_len
+		|| game->data_text->mapX < 0
+		|| game->data_text->mapX >= (int)ft_strlen(game->map[game->data_text->mapY])
+		|| game->map[game->data_text->mapY][game->data_text->mapX] == '1'
+		|| game->map[game->data_text->mapY][game->data_text->mapX] == ' ')
+			break ;
+	}
+}
 
-	switch(worldMap[game->data_text->mapX][game->data_text->mapY])
-    {
-    	case 1:  color = RED; 
-			break; //red
-    	case 2:  color = GREEN;
-			break; //green
-    	case 3:  color = BLUE;
-			break; //blue
-    	case 4:  color = WHITE;
-			break; //white
-    	default: color = YELLOW;
-			break; //yellow
-    }
-	// integrer x et side dans struct pour recuperer la data
-    if (side == 1)
-		color = color / 2;
-    verLine(x, drawStart, drawEnd, color);
+double	dda_distance(t_data_game *game)
+{
+	game->data_text->mapX = (int)game->player->pos.x;
+	game->data_text->mapY = (int)game->player->pos.y;
+	if (game->player->ray_dir.x == 0)
+		game->data_text->deltaDistX = 1e30;
+	else
+		game->data_text->deltaDistX = fabs(1 / game->player->ray_dir.x);
+	if (game->player->ray_dir.y == 0)
+		game->data_text->deltaDistY = 1e30;
+	else
+		game->data_text->deltaDistY = fabs(1 / game->player->ray_dir.y);
+	init_dda_side_dist(game);
+	dda_loop(game);
+	if (game->data_text->side == 0)
+		game->data_text->perpWallDist = (game->data_text->mapX - game->player->pos.x
+				+ (1 - game->data_text->stepX) / 2.0) / game->player->ray_dir.x;
+	else
+		game->data_text->perpWallDist = (game->data_text->mapY - game->player->pos.y
+				+ (1 - game->data_text->stepY) / 2.0) / game->player->ray_dir.y;
+	return (game->data_text->perpWallDist);
 }
 
 void	dda(t_data_game *game)
 {
-	int	x;
-	double cameraX;
-	// printf("Debut de dda\n");
+	int		x;
+	double	camera_x;
+
+	game->player->angle = game->player->orientation * PI / 180.0;
+	game->player->player_dir.x = cos(game->player->angle);
+	game->player->player_dir.y = sin(game->player->angle);
+	game->player->plane.x = -game->player->player_dir.y * 0.66;
+	game->player->plane.y = game->player->player_dir.x * 0.66;
 	x = 0;
 	while (x < SCREEN_WIDTH)
 	{
-		cameraX = 2 * x / (double)SCREEN_WIDTH - 1;
-		game->player->ray_dir.x = game->player->player_dir.x + game->player->plane.x * cameraX;
-		game->player->ray_dir.y = game->player->player_dir.y + game->player->plane.y * cameraX;
+		camera_x = 2 * x / (double)SCREEN_WIDTH - 1;
+		game->player->ray_dir.x = game->player->player_dir.x
+			+ game->player->plane.x * camera_x;
+		game->player->ray_dir.y = game->player->player_dir.y
+			+ game->player->plane.y * camera_x;
 		if (fabs(game->player->ray_dir.x) < 1e-6)
 			game->player->ray_dir.x = 1e-6;
 		if (fabs(game->player->ray_dir.y) < 1e-6)
 			game->player->ray_dir.y = 1e-6;
-		game->player->angle = game->player->orientation * PI / 180.0;
-		// printf("angle = %f\n", game->player->angle);
-		game->player->player_dir.x = cos(game->player->angle);
-		game->player->player_dir.y = sin(game->player->angle);
-
-		// FOV ≈ 66°
-		game->player->plane.x = -game->player->player_dir.y * 0.66;
-		game->player->plane.y =  game->player->player_dir.x * 0.66;
 		game->data_text->perpWallDist = dda_distance(game);
+		game->data_text->screenX = x;
 		calc_pix_to_draw(game);
-		choose_wall(game);
 		x++;
 	}
 }
 
-void calc_pix_to_draw(t_data_game *game)
+void	draw_column_pixels(t_data_game *game)
 {
-	int h;
-	int lineHeight;
-	int drawStart;
-	int drawEnd;
-	
-	printf("map.y = %d\n", game->data_text->mapY);
-	printf("stepY = %d\n", game->data_text->stepY);
-	h = game->data_text->mapY + (1 - game->data_text->stepY) / 2;
-	printf("h = %d\n", h);
-	printf("perpWallDist = %f\n", game->data_text->perpWallDist);
-	lineHeight = (int)(h / game->data_text->perpWallDist);
-	printf("lineHeight = %d\n", lineHeight);
-    drawStart = -lineHeight / 2 + h / 2;
-    drawEnd = lineHeight / 2 + h / 2;
-    if(drawStart < 0)
-		drawStart = 0;
-    if(drawEnd >= h)
-		drawEnd = h - 1;
-	printf("drawStart = %d, drawEnd = %d\n", drawStart, drawEnd);
+	int	y;
+
+	y = 0;
+	while (y < game->data_text->drawStart)
+		img_pix_put(&game->image, game->data_text->screenX, y++,
+			game->data_text->sky_color);
+	while (y <= game->data_text->drawEnd)
+		img_pix_put(&game->image, game->data_text->screenX, y++,
+			game->data_text->wall_color);
+	while (y < SCREEN_HEIGHT)
+		img_pix_put(&game->image, game->data_text->screenX, y++,
+			game->data_text->floor_color);
 }
 
-// void texturing(t_data_game *game)
-// {
-	
-// }
-
-// stepX/stepY
-// perpWallDist
+void	calc_pix_to_draw(t_data_game *game)
+{
+	game->data_text->lineHeight = (int)(SCREEN_HEIGHT / game->data_text->perpWallDist);
+	game->data_text->drawStart = -game->data_text->lineHeight / 2 + SCREEN_HEIGHT / 2;
+	game->data_text->drawEnd = game->data_text->lineHeight / 2 + SCREEN_HEIGHT / 2;
+	if (game->data_text->drawStart < 0)
+		game->data_text->drawStart = 0;
+	if (game->data_text->drawEnd >= SCREEN_HEIGHT)
+		game->data_text->drawEnd = SCREEN_HEIGHT - 1;
+	if (game->data_text->side == 0 && game->player->ray_dir.x > 0)
+		game->data_text->wall_color = RED;
+	else if (game->data_text->side == 0)
+		game->data_text->wall_color = GREEN;
+	else if (game->player->ray_dir.y < 0)
+		game->data_text->wall_color = YELLOW;
+	else
+		game->data_text->wall_color = BLUE;
+	game->data_text->floor_color = 0x4CAF50;
+	game->data_text->sky_color = 0x87CEEB;
+	draw_column_pixels(game);
+}

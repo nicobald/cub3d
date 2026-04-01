@@ -76,6 +76,25 @@ typedef struct s_texturing
 	int			mapY;
 	int			stepX;
 	int			stepY;
+	int			side;
+	int			screenX;
+	int			lineHeight;
+	int			drawStart;
+	int			drawEnd;
+	int			wall_color;
+	int			floor_color;
+	int			sky_color;
+	int			fov;
+	int			i;
+	int			pixel_ray_x;
+	int			pixel_ray_y;
+	double		t;
+	double		ray_x;
+	double		ray_y;
+	double		deltaDistX;
+	double		deltaDistY;
+	double		sideDistX;
+	double		sideDistY;
 	double		perpWallDist;
 }				t_texturing;
 

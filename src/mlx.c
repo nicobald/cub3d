@@ -33,12 +33,13 @@ void	img_pix_put(t_image *img, int x, int y, int color)
 
 int draw_image(t_data_game *game)
 {
+	dda(game);
 	print_map(game);
 	draw_grille(game);
 	draw_player(game);
 	draw_direction(game);
-	mlx_put_image_to_window(game->win->mlx_ptr, game->win->win_ptr, game->image.mlx_img, 0, 0);
-	dda(game);
+	mlx_put_image_to_window(game->win->mlx_ptr, game->win->win_ptr,
+		game->image.mlx_img, 0, 0);
 	// texturing(game);
 	return (0);
 }
@@ -62,22 +63,26 @@ void	draw_grille(t_data_game *game)
 {
 	int	x;
 	int	y;
+	int	mini_w;
+	int	mini_h;
 
+	mini_w = SCREEN_WIDTH / 4;
+	mini_h = SCREEN_HEIGHT / 4;
 	x = game->x_pixel_per_unit;
-	while (x < SCREEN_WIDTH)
+	while (x < mini_w)
 	{
 		y = 0;
-		while (++y < SCREEN_HEIGHT)
+		while (++y < mini_h)
 			img_pix_put(&game->image, x, y, BLACK);
 		x += game->x_pixel_per_unit;
 	}
 	y = game->y_pixel_per_unit;
-	while (y < SCREEN_WIDTH)
+	while (y < mini_h)
 	{
 		x = 0;
-		while (++x < SCREEN_HEIGHT)
+		while (++x < mini_w)
 			img_pix_put(&game->image, x, y, BLACK);
-		y += game->x_pixel_per_unit;
+		y += game->y_pixel_per_unit;
 	}
 }
 
@@ -113,8 +118,6 @@ void	draw_player(t_data_game *game)
 	int	y_pixel;
 	int	i;
 	
-	// printf("pos player X : %f Y : %f\n", game->player->pos_x, game->player->pos_y);
-
 	x_pixel = ((game->player->pos.x / (game->x_len + 1)) *  SCREEN_WIDTH) / 4;
 	y_pixel = ((game->player->pos.y / (game->y_len + 1)) *  SCREEN_HEIGHT) / 4;
 
@@ -122,8 +125,6 @@ void	draw_player(t_data_game *game)
 	
 	while (i >= -6)
 	{
-		// mlx_pixel_put(game->win->mlx_ptr, game->win->win_ptr, x_pixel + i, y_pixel + i, RED);
-		// mlx_pixel_put(game->win->mlx_ptr, game->win->win_ptr, x_pixel - i, y_pixel + i, RED);
 		img_pix_put(&game->image, x_pixel + i, y_pixel + i, RED);
 		img_pix_put(&game->image, x_pixel - i, y_pixel + i, RED);
 		i--;
