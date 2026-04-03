@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 17:57:33 by nbaldes           #+#    #+#             */
-/*   Updated: 2026/04/01 14:22:25 by laudinot         ###   ########.fr       */
+/*   Updated: 2026/04/02 15:46:01 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,6 @@ int	parsing(char **argv, t_env *env, t_data_game *game)
 
 int	init_game(t_data_game *game)
 {
-	game->tab_distance = malloc(sizeof(double) * SCREEN_WIDTH);
-	if (!game->tab_distance)
-		printf("Malloc error\n");
 	game->win = malloc(sizeof(t_window));
 	if (!game->win)
 		printf("Malloc error\n");
@@ -69,6 +66,13 @@ int	init_game(t_data_game *game)
 		game->player->orientation = 180;
 	else if (game->player_start_dir == 'E')
 		game->player->orientation = 0;
+	game->key->w_key = 0;
+	game->key->a_key = 0;
+	game->key->d_key = 0;
+	game->key->s_key = 0;
+	game->key->left_key = 0;
+	game->key->right_key = 0;
+	game->key->escape_key = 0;
 	return (0);
 }
 

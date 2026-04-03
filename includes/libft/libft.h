@@ -6,7 +6,7 @@
 /*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:08:01 by laudinot          #+#    #+#             */
-/*   Updated: 2026/03/18 17:56:17 by nbaldes          ###   ########.fr       */
+/*   Updated: 2026/04/03 17:04:21 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int					ft_putstr(char *str);
 int					ft_putnbr(int n);
 int					ft_unsigned_putnbr(unsigned int n);
 int					ft_hexbase_low(unsigned int n);
-int					ft_hexbase_upp(unsigned int n);
+char				*ft_hexbase_upp(unsigned int n);
 int					ft_putadress(void *ptr);
 size_t				ft_strlcat(char *dst, const char *src, size_t dstsize);
 size_t				ft_strlcpy(char *dst, const char *src, size_t dstsize);
@@ -53,12 +53,14 @@ char				*ft_strjoin(const char *s1, const char *s2);
 char				*ft_substr(char const *s, unsigned int start, size_t len);
 char				*ft_strtrim(char const *s1, char const *set);
 char				*ft_itoa(int n);
+int					ft_putchar(char c);
 char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char				**ft_split(char const *s, char c);
 void				ft_revstr(char *str);
 void				fillstr(char *hex_adress, char *hexa, unsigned long adress,
 						int i);
 void				ft_putchar_fd(char c, int fd);
+
 void				ft_putstr_fd(char *s, int fd);
 void				ft_putendl_fd(char *s, int fd);
 void				ft_putnbr_fd(int n, int fd);

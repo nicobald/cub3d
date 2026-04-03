@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 18:05:43 by laudinot          #+#    #+#             */
-/*   Updated: 2026/04/01 11:23:44 by laudinot         ###   ########.fr       */
+/*   Updated: 2026/04/03 17:27:36 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,7 @@ void	parse_map_info(t_data_game *game)
 	game->y_len = get_map_y(game->map);
 	game->x_len = get_map_x(game->map);
 	tab_colors(&game->colors, game->text);
+	game->
 	get_player_position(game);
 	printf("Map X : %d\nMap Y : %d\n",game->x_len, game->y_len);
 	printf("Player position X : %f Y : %f\n", game->player->pos.x, game->player->pos.y);

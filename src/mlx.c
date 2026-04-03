@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 16:10:14 by laudinot          #+#    #+#             */
-/*   Updated: 2026/04/01 14:40:53 by laudinot         ###   ########.fr       */
+/*   Updated: 2026/04/03 17:27:56 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int draw_image(t_data_game *game)
 	draw_direction(game);
 	mlx_put_image_to_window(game->win->mlx_ptr, game->win->win_ptr,
 		game->image.mlx_img, 0, 0);
-	// texturing(game);
 	return (0);
 }
 
@@ -117,7 +116,7 @@ void	draw_player(t_data_game *game)
 	int	x_pixel;
 	int	y_pixel;
 	int	i;
-	
+
 	x_pixel = ((game->player->pos.x / (game->x_len + 1)) *  SCREEN_WIDTH) / 4;
 	y_pixel = ((game->player->pos.y / (game->y_len + 1)) *  SCREEN_HEIGHT) / 4;
 
@@ -171,6 +170,8 @@ void	print_map(t_data_game *game)
 
 int	free_game(t_data_game *game)
 {
+	if (game->image.mlx_img)
+		mlx_destroy_image(game->win->mlx_ptr, game->image.mlx_img);
 	if (game->win->win_ptr && game->win->mlx_ptr)
 		mlx_destroy_window(game->win->mlx_ptr, game->win->win_ptr);
 	if (game->win->mlx_ptr)
@@ -180,6 +181,9 @@ int	free_game(t_data_game *game)
 	free_tab(&game->map);
 	free(game->colors);
 	free(game->player);
+	free(game->key);
+	free(game->data_text);
+	free(game->win);
 	exit(0);
 	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/04 10:17:57 by laudinot          #+#    #+#              #
-#    Updated: 2026/03/18 17:58:48 by nbaldes          ###   ########.fr        #
+#    Updated: 2026/04/03 16:23:54 by nbaldes          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SRC =	ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c \
 	ft_memmove.c ft_memchr.c ft_memcmp.c ft_putchar_fd.c ft_putstr_fd.c \
 	ft_putendl_fd.c ft_putnbr_fd.c ft_substr.c ft_strtrim.c ft_itoa.c \
 	ft_calloc.c ft_split.c ft_striteri.c ft_strmapi.c ft_strjoin_coma.c \
+	ft_hexbase.c ft_revstr.c ft_putstr_fd.c ft_putstr.c ft_putchar.c \
 	
 BONUS_SRC =	ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstadd_back.c \
 			ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c \
