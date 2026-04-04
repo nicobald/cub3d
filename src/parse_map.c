@@ -146,7 +146,6 @@ void	parse_map_info(t_data_game *game)
 	game->y_len = get_map_y(game->map);
 	game->x_len = get_map_x(game->map);
 	tab_colors(&game->colors, game->text);
-	game->
 	get_player_position(game);
 	printf("Map X : %d\nMap Y : %d\n",game->x_len, game->y_len);
 	printf("Player position X : %f Y : %f\n", game->player->pos.x, game->player->pos.y);

@@ -209,6 +209,11 @@ void	draw_column_pixels(t_data_game *game)
 	}
 }
 
+static int	rgb_to_hex(int r, int g, int b)
+{
+	return ((r << 16) | (g << 8) | b);
+}
+
 void	calc_pix_to_draw(t_data_game *game)
 {
 	game->data_text->lineHeight = (int)(SCREEN_HEIGHT / game->data_text->perpWallDist);
@@ -218,15 +223,10 @@ void	calc_pix_to_draw(t_data_game *game)
 		game->data_text->drawStart = 0;
 	if (game->data_text->drawEnd >= SCREEN_HEIGHT)
 		game->data_text->drawEnd = SCREEN_HEIGHT - 1;
-	if (game->data_text->side == 0 && game->player->ray_dir.x > 0)
-		game->data_text->wall_color = RED;
-	else if (game->data_text->side == 0)
-		game->data_text->wall_color = GREEN;
-	else if (game->player->ray_dir.y < 0)
-		game->data_text->wall_color = YELLOW;
-	else
-		game->data_text->wall_color = BLUE;
-	game->data_text->floor_color = 0x4CAF50;
-	game->data_text->sky_color = 0x87CEEB;
+	game->data_text->wall_color = WHITE;
+	game->data_text->floor_color = rgb_to_hex(game->colors[0],
+			game->colors[1], game->colors[2]);
+	game->data_text->sky_color = rgb_to_hex(game->colors[3],
+			game->colors[4], game->colors[5]);
 	draw_column_pixels(game);
 }
