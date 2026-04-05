@@ -59,9 +59,9 @@ int	init_game(t_data_game *game)
 	game->win->mlx_ptr = NULL;
 	game->win->win_ptr = NULL;
 	if (game->player_start_dir == 'N')
-		game->player->orientation = 90;
-	else if (game->player_start_dir == 'S')
 		game->player->orientation = 270;
+	else if (game->player_start_dir == 'S')
+		game->player->orientation = 90;
 	else if (game->player_start_dir == 'W')
 		game->player->orientation = 180;
 	else if (game->player_start_dir == 'E')

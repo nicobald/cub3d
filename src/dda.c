@@ -184,10 +184,31 @@ void	dda(t_data_game *game)
 	}
 }
 
+static int	get_tex_pixel(t_data_game *game, int id, int x, int y)
+{
+	char	*src;
+
+	src = game->tex[id].addr
+		+ (y * game->tex[id].line_len + x * (game->tex[id].bpp / 8));
+	return (*(int *)src);
+}
+
 void	draw_column_pixels(t_data_game *game)
 {
-	int	y;
+	int		y;
+	int		tex_id;
+	int		tex_y;
+	int		color;
+	double	tex_step;
+	double	tex_pos;
 
+	tex_id = game->data_text->tex_id;
+	if (game->data_text->lineHeight > 0)
+		tex_step = (double)game->tex_h[tex_id] / (double)game->data_text->lineHeight;
+	else
+		tex_step = 0;
+	tex_pos = (game->data_text->drawStart - SCREEN_HEIGHT / 2
+			+ game->data_text->lineHeight / 2) * tex_step;
 	y = 0;
 	while (y < game->data_text->drawStart)
 	{
@@ -195,10 +216,16 @@ void	draw_column_pixels(t_data_game *game)
 			game->data_text->sky_color);
 		y++;
 	}
-	while (y <= game->data_text->drawEnd)
+	while (y <= game->data_text->drawEnd && game->data_text->lineHeight > 0)
 	{
-		img_pix_put(&game->image, game->data_text->screenX, y,
-			game->data_text->wall_color);
+		tex_y = (int)tex_pos % game->tex_h[tex_id];
+		if (tex_y < 0)
+			tex_y = 0;
+		tex_pos += tex_step;
+		color = get_tex_pixel(game, tex_id, game->data_text->tex_x, tex_y);
+		if (game->data_text->side == 1)
+			color = (color >> 1) & 0x7F7F7F;
+		img_pix_put(&game->image, game->data_text->screenX, y, color);
 		y++;
 	}
 	while (y < SCREEN_HEIGHT)
@@ -214,6 +241,49 @@ static int	rgb_to_hex(int r, int g, int b)
 	return ((r << 16) | (g << 8) | b);
 }
 
+static void	select_texture(t_data_game *game)
+{
+	if (game->data_text->side == 0)
+	{
+		if (game->player->ray_dir.x > 0)
+			game->data_text->tex_id = EA;
+		else
+			game->data_text->tex_id = WE;
+	}
+	else
+	{
+		if (game->player->ray_dir.y > 0)
+			game->data_text->tex_id = SO;
+		else
+			game->data_text->tex_id = NO;
+	}
+}
+
+
+static void	calc_tex_x(t_data_game *game)
+{
+	int	tex_id;
+
+	if (game->data_text->side == 0)
+		game->data_text->wall_x = game->player->pos.y
+			+ game->data_text->perpWallDist * game->player->ray_dir.y;
+	else
+		game->data_text->wall_x = game->player->pos.x
+			+ game->data_text->perpWallDist * game->player->ray_dir.x;
+	game->data_text->wall_x -= floor(game->data_text->wall_x);
+	tex_id = game->data_text->tex_id;
+	game->data_text->tex_x = (int)(game->data_text->wall_x
+			* (double)game->tex_w[tex_id]);
+	if (game->data_text->tex_x >= game->tex_w[tex_id])
+		game->data_text->tex_x = game->tex_w[tex_id] - 1;
+	if (game->data_text->side == 0 && game->player->ray_dir.x < 0)
+		game->data_text->tex_x = game->tex_w[tex_id]
+			- game->data_text->tex_x - 1;
+	if (game->data_text->side == 1 && game->player->ray_dir.y > 0)
+		game->data_text->tex_x = game->tex_w[tex_id]
+			- game->data_text->tex_x - 1;
+}
+
 void	calc_pix_to_draw(t_data_game *game)
 {
 	game->data_text->lineHeight = (int)(SCREEN_HEIGHT / game->data_text->perpWallDist);
@@ -223,10 +293,11 @@ void	calc_pix_to_draw(t_data_game *game)
 		game->data_text->drawStart = 0;
 	if (game->data_text->drawEnd >= SCREEN_HEIGHT)
 		game->data_text->drawEnd = SCREEN_HEIGHT - 1;
-	game->data_text->wall_color = WHITE;
 	game->data_text->floor_color = rgb_to_hex(game->colors[0],
 			game->colors[1], game->colors[2]);
 	game->data_text->sky_color = rgb_to_hex(game->colors[3],
 			game->colors[4], game->colors[5]);
+	select_texture(game);
+	calc_tex_x(game);
 	draw_column_pixels(game);
 }

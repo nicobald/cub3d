@@ -44,9 +44,9 @@
 
 # define PI	3.141592653589793
 # define BUFFER_SIZE 10
-# define SCREEN_WIDTH 1920
-# define SCREEN_HEIGHT 1080
-# define MOVE_SPEED 0.006
+# define SCREEN_WIDTH 800
+# define SCREEN_HEIGHT 800
+# define MOVE_SPEED 0.1
 # define FOV 50
 // # ifndef ROW_SIZE
 // #  define ROW_SIZE 32
@@ -88,6 +88,9 @@ typedef struct s_texturing
 	int			i;
 	int			pixel_ray_x;
 	int			pixel_ray_y;
+	int			tex_id;
+	int			tex_x;
+	double		wall_x;
 	double		t;
 	double		ray_x;
 	double		ray_y;
@@ -167,12 +170,15 @@ typedef struct s_data_game
 	int				x_len;
 	int				y_len;
 	int				*colors;
+	int				tex_w[4];
+	int				tex_h[4];
 	double			last_time;
 	double			delta_time;
 	t_player		*player;
 	t_window		*win;
 	t_key			*key;
 	t_image			image;
+	t_image			tex[4];
 	t_texturing		*data_text;
 	struct timeval	time;
 }				t_data_game;

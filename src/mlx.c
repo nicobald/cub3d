@@ -170,6 +170,15 @@ void	print_map(t_data_game *game)
 
 int	free_game(t_data_game *game)
 {
+	int	i;
+
+	i = 0;
+	while (i < 4)
+	{
+		if (game->tex[i].mlx_img)
+			mlx_destroy_image(game->win->mlx_ptr, game->tex[i].mlx_img);
+		i++;
+	}
 	if (game->image.mlx_img)
 		mlx_destroy_image(game->win->mlx_ptr, game->image.mlx_img);
 	if (game->win->win_ptr && game->win->mlx_ptr)
@@ -188,6 +197,26 @@ int	free_game(t_data_game *game)
 	return (0);
 }
 
+static void	load_textures(t_data_game *game)
+{
+	int	i;
+
+	i = 0;
+	while (i < 4)
+	{
+		game->tex[i].mlx_img = mlx_xpm_file_to_image(game->win->mlx_ptr,
+				game->text[i], &game->tex_w[i], &game->tex_h[i]);
+		if (!game->tex[i].mlx_img)
+		{
+			ft_putstr_fd("Error: cannot load texture\n", 2);
+			exit(1);
+		}
+		game->tex[i].addr = mlx_get_data_addr(game->tex[i].mlx_img,
+				&game->tex[i].bpp, &game->tex[i].line_len, &game->tex[i].endian);
+		i++;
+	}
+}
+
 int	create_window(t_data_game *game)
 {
 	game->win->mlx_ptr = mlx_init();
@@ -198,6 +227,7 @@ int	create_window(t_data_game *game)
 	calculate_map(game);
 	game->image.mlx_img = mlx_new_image(game->win->mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT);
 	game->image.addr = mlx_get_data_addr(game->image.mlx_img, &game->image.bpp, &game->image.line_len, &game->image.endian);
+	load_textures(game);
 	mlx_hook(game->win->win_ptr, 2, 1L << 0, key_press, game);
 	mlx_hook(game->win->win_ptr, 3, 1L << 1, key_release, game);
 	gettimeofday(&game->time, NULL);

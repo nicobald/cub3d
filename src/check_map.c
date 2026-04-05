@@ -57,7 +57,7 @@ int	check_flline_map(int i, int j, char **map, int nb_line)
 	{
 		if (map[i][j] != ' ' && map[i][j] != '1'
 			&& map[i][j] != '\n' && map[i][j] != '\0'
-			&& (map[i][j] <= 7 && map[i][j] >= 13))
+			&& !(map[i][j] >= 7 && map[i][j] <= 13))
 		{
 			ft_putstr_fd("Error : Map not closed", 2);
 			return (1);
