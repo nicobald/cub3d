@@ -6,21 +6,11 @@
 /*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 18:05:43 by laudinot          #+#    #+#             */
-/*   Updated: 2026/04/03 17:27:36 by nbaldes          ###   ########.fr       */
+/*   Updated: 2026/04/06 21:12:38 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
-
-int	get_map_y(char **str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i - 1);
-}
 
 void	remove_first_space(char **str, int nb)
 {
@@ -73,19 +63,11 @@ int	get_map_x(char **str)
 	i = 1;
 	while (str[i])
 	{
-		// printf("first space ligne n%d = %d\n", i, get_first_space(str[i]));
 		if (first_space > get_first_space(str[i]))
-		{
 			first_space = get_first_space(str[i]);
-			// printf("rentre la %d\n", i);	
-		}
 		i++;
 	}
-	printf(" %d %d\n", len , first_space);
-	print_tab(str);
 	remove_first_space(str, first_space);
-	print_tab(str);
-
 	return ((len - 1) - first_space);
 }
 
@@ -93,7 +75,7 @@ int	tab_colors(int **fcolors, char **text)
 {
 	int		i;
 	char	**colors;
-	char *tmp;
+	char	*tmp;
 
 	i = 0;
 	(*fcolors) = malloc(sizeof(int) * 6);
@@ -122,7 +104,6 @@ int	is_there_player(char *str, t_data_game *game)
 		{
 			game->player->pos.x = i + 0.5;
 			game->player_start_dir = str[i];
-			// printf("test : %c" , game->player->orientation);
 			return (TRUE);
 		}
 		i++;
@@ -130,23 +111,18 @@ int	is_there_player(char *str, t_data_game *game)
 	return (FALSE);
 }
 
-void	get_player_position(t_data_game *game)
+void	parse_map_info(t_data_game *game)
 {
 	int	i;
 
 	i = 0;
+	while (game->map[i])
+		i++;
+	game->y_len = i - 1;
+	i = 0;
+	game->x_len = get_map_x(game->map);
+	tab_colors(&game->colors, game->text);
 	while (is_there_player(game->map[i], game) == FALSE)
 		i++;
 	game->player->pos.y = i + 0.5;
-}
-
-
-void	parse_map_info(t_data_game *game)
-{
-	game->y_len = get_map_y(game->map);
-	game->x_len = get_map_x(game->map);
-	tab_colors(&game->colors, game->text);
-	get_player_position(game);
-	printf("Map X : %d\nMap Y : %d\n",game->x_len, game->y_len);
-	printf("Player position X : %f Y : %f\n", game->player->pos.x, game->player->pos.y);
 }

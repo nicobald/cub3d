@@ -72,15 +72,15 @@ typedef struct s_coord
 
 typedef struct s_texturing
 {
-	int			mapX;
-	int			mapY;
-	int			stepX;
-	int			stepY;
+	int			mapx;
+	int			mapy;
+	int			stepx;
+	int			stepy;
 	int			side;
-	int			screenX;
-	int			lineHeight;
-	int			drawStart;
-	int			drawEnd;
+	int			screenx;
+	int			lineheight;
+	int			drawstart;
+	int			drawend;
 	int			wall_color;
 	int			floor_color;
 	int			sky_color;
@@ -94,11 +94,11 @@ typedef struct s_texturing
 	double		t;
 	double		ray_x;
 	double		ray_y;
-	double		deltaDistX;
-	double		deltaDistY;
-	double		sideDistX;
-	double		sideDistY;
-	double		perpWallDist;
+	double		deltax;
+	double		deltay;
+	double		sidex;
+	double		sidey;
+	double		perpw;
 }				t_texturing;
 
 typedef struct s_player
@@ -107,18 +107,18 @@ typedef struct s_player
 	t_coord		pos;
 	t_coord		player_dir;
 	t_coord		ray_dir;
-	t_coord 	plane;
+	t_coord		plane;
 	double		orientation;
 	double		angle;
 }				t_player;
 
 typedef struct s_image
 {
-    void	*mlx_img;
-    char	*addr;
-    int		bpp;
-    int		line_len;
-    int		endian;
+	void	*mlx_img;
+	char	*addr;
+	int		bpp;
+	int		line_len;
+	int		endian;
 }	t_image;
 
 typedef struct s_key
@@ -174,6 +174,7 @@ typedef struct s_data_game
 	int				tex_h[4];
 	double			last_time;
 	double			delta_time;
+	double			tex_pos;
 	t_player		*player;
 	t_window		*win;
 	t_key			*key;
@@ -239,9 +240,9 @@ void			print_map(t_data_game *game);
 void			draw_grille(t_data_game *game);
 void			draw_player(t_data_game *game);
 void			img_pix_put(t_image *img, int x, int y, int color);
-int 			draw_image(t_data_game *game);
+int				draw_image(t_data_game *game);
 
 //dda
 void			texturing(t_data_game *game);
-void 			calc_pix_to_draw(t_data_game *game);
+void			calc_pix_to_draw(t_data_game *game);
 #endif

@@ -6,13 +6,13 @@
 /*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 17:57:33 by nbaldes           #+#    #+#             */
-/*   Updated: 2026/04/02 15:46:01 by nbaldes          ###   ########.fr       */
+/*   Updated: 2026/04/06 21:16:59 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	init_env(t_env *env, t_data_game *game)
+int	init_env(t_env *env, t_data_game *game)
 {
 	game->player = malloc(sizeof(t_player));
 	if (!game->player)
@@ -29,7 +29,10 @@ void	init_env(t_env *env, t_data_game *game)
 	env->type = NULL;
 	game->text = NULL;
 	game->map = NULL;
-	return ;
+	game->win = malloc(sizeof(t_window));
+	if (!game->win)
+		printf("Malloc error\n");
+	return (0);
 }
 
 int	parsing(char **argv, t_env *env, t_data_game *game)
@@ -47,9 +50,6 @@ int	parsing(char **argv, t_env *env, t_data_game *game)
 
 int	init_game(t_data_game *game)
 {
-	game->win = malloc(sizeof(t_window));
-	if (!game->win)
-		printf("Malloc error\n");
 	game->key = malloc(sizeof(t_key));
 	if (!game->key)
 		printf("Malloc error\n");
@@ -82,20 +82,15 @@ int	main(int argc, char **argv)
 	t_data_game	game;
 
 	(void)argc;
-	init_env(&env, &game);
+	if (init_env(&env, &game))
+		return (1);
 	if (parsing(argv, &env, &game) == 1)
 	{
 		free_parsing(&env, &game.text, &game.map, game.player);
 		return (1);
 	}
-	// print_tab(game.text);
-	// print_tab(game.map);
 	if (init_game(&game))
 		return (1);
 	create_window(&game);
-	// free_tab(&game.text);
-	// free_tab(&game.map);
-	// free(game.colors);
-	// free(game.player);
 	return (0);
 }

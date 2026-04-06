@@ -6,7 +6,7 @@
 /*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/21 15:40:32 by laudinot          #+#    #+#             */
-/*   Updated: 2026/04/02 16:36:03 by nbaldes          ###   ########.fr       */
+/*   Updated: 2026/04/06 21:46:46 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,27 +82,27 @@ void	init_dda_side_dist(t_data_game *game)
 {
 	if (game->player->ray_dir.x < 0)
 	{
-		game->data_text->stepX = -1;
-		game->data_text->sideDistX = (game->player->pos.x - game->data_text->mapX)
-			* game->data_text->deltaDistX;
+		game->data_text->stepx = -1;
+		game->data_text->sidex = (game->player->pos.x - game->data_text->mapx)
+			* game->data_text->deltax;
 	}
 	else
 	{
-		game->data_text->stepX = 1;
-		game->data_text->sideDistX = (game->data_text->mapX + 1.0
-				- game->player->pos.x) * game->data_text->deltaDistX;
+		game->data_text->stepx = 1;
+		game->data_text->sidex = (game->data_text->mapx + 1.0
+				- game->player->pos.x) * game->data_text->deltax;
 	}
 	if (game->player->ray_dir.y < 0)
 	{
-		game->data_text->stepY = -1;
-		game->data_text->sideDistY = (game->player->pos.y - game->data_text->mapY)
-			* game->data_text->deltaDistY;
+		game->data_text->stepy = -1;
+		game->data_text->sidey = (game->player->pos.y - game->data_text->mapy)
+			* game->data_text->deltay;
 	}
 	else
 	{
-		game->data_text->stepY = 1;
-		game->data_text->sideDistY = (game->data_text->mapY + 1.0
-				- game->player->pos.y) * game->data_text->deltaDistY;
+		game->data_text->stepy = 1;
+		game->data_text->sidey = (game->data_text->mapy + 1.0
+				- game->player->pos.y) * game->data_text->deltay;
 	}
 }
 
@@ -111,48 +111,49 @@ void	dda_loop(t_data_game *game)
 	game->data_text->side = 0;
 	while (1)
 	{
-		if (game->data_text->sideDistX < game->data_text->sideDistY)
+		if (game->data_text->sidex < game->data_text->sidey)
 		{
-			game->data_text->sideDistX += game->data_text->deltaDistX;
-			game->data_text->mapX += game->data_text->stepX;
+			game->data_text->sidex += game->data_text->deltax;
+			game->data_text->mapx += game->data_text->stepx;
 			game->data_text->side = 0;
 		}
 		else
 		{
-			game->data_text->sideDistY += game->data_text->deltaDistY;
-			game->data_text->mapY += game->data_text->stepY;
+			game->data_text->sidey += game->data_text->deltay;
+			game->data_text->mapy += game->data_text->stepy;
 			game->data_text->side = 1;
 		}
-		if (game->data_text->mapY < 0 || game->data_text->mapY > game->y_len
-		|| game->data_text->mapX < 0
-		|| game->data_text->mapX >= (int)ft_strlen(game->map[game->data_text->mapY])
-		|| game->map[game->data_text->mapY][game->data_text->mapX] == '1'
-		|| game->map[game->data_text->mapY][game->data_text->mapX] == ' ')
+		if (game->data_text->mapy < 0 || game->data_text->mapy > game->y_len
+			|| game->data_text->mapx < 0
+			|| game->data_text->mapx
+			>= (int)ft_strlen(game->map[game->data_text->mapy])
+			|| game->map[game->data_text->mapy][game->data_text->mapx] == '1'
+			|| game->map[game->data_text->mapy][game->data_text->mapx] == ' ')
 			break ;
 	}
 }
 
 double	dda_distance(t_data_game *game)
 {
-	game->data_text->mapX = (int)game->player->pos.x;
-	game->data_text->mapY = (int)game->player->pos.y;
+	game->data_text->mapx = (int)game->player->pos.x;
+	game->data_text->mapy = (int)game->player->pos.y;
 	if (game->player->ray_dir.x == 0)
-		game->data_text->deltaDistX = 1e30;
+		game->data_text->deltax = 1e30;
 	else
-		game->data_text->deltaDistX = fabs(1 / game->player->ray_dir.x);
+		game->data_text->deltax = fabs(1 / game->player->ray_dir.x);
 	if (game->player->ray_dir.y == 0)
-		game->data_text->deltaDistY = 1e30;
+		game->data_text->deltay = 1e30;
 	else
-		game->data_text->deltaDistY = fabs(1 / game->player->ray_dir.y);
+		game->data_text->deltay = fabs(1 / game->player->ray_dir.y);
 	init_dda_side_dist(game);
 	dda_loop(game);
 	if (game->data_text->side == 0)
-		game->data_text->perpWallDist = (game->data_text->mapX - game->player->pos.x
-				+ (1 - game->data_text->stepX) / 2.0) / game->player->ray_dir.x;
+		game->data_text->perpw = (game->data_text->mapx - game->player->pos.x
+				+ (1 - game->data_text->stepx) / 2.0) / game->player->ray_dir.x;
 	else
-		game->data_text->perpWallDist = (game->data_text->mapY - game->player->pos.y
-				+ (1 - game->data_text->stepY) / 2.0) / game->player->ray_dir.y;
-	return (game->data_text->perpWallDist);
+		game->data_text->perpw = (game->data_text->mapy - game->player->pos.y
+				+ (1 - game->data_text->stepy) / 2.0) / game->player->ray_dir.y;
+	return (game->data_text->perpw);
 }
 
 void	dda(t_data_game *game)
@@ -177,8 +178,8 @@ void	dda(t_data_game *game)
 			game->player->ray_dir.x = 1e-6;
 		if (fabs(game->player->ray_dir.y) < 1e-6)
 			game->player->ray_dir.y = 1e-6;
-		game->data_text->perpWallDist = dda_distance(game);
-		game->data_text->screenX = x;
+		game->data_text->perpw = dda_distance(game);
+		game->data_text->screenx = x;
 		calc_pix_to_draw(game);
 		x++;
 	}
@@ -195,44 +196,44 @@ static int	get_tex_pixel(t_data_game *game, int id, int x, int y)
 
 void	draw_column_pixels(t_data_game *game)
 {
-	int		y;
+	int		i;
 	int		tex_id;
 	int		tex_y;
 	int		color;
 	double	tex_step;
-	double	tex_pos;
 
 	tex_id = game->data_text->tex_id;
-	if (game->data_text->lineHeight > 0)
-		tex_step = (double)game->tex_h[tex_id] / (double)game->data_text->lineHeight;
+	if (game->data_text->lineheight > 0)
+		tex_step = (double)game->tex_h[tex_id]
+			/ (double)game->data_text->lineheight;
 	else
 		tex_step = 0;
-	tex_pos = (game->data_text->drawStart - SCREEN_HEIGHT / 2
-			+ game->data_text->lineHeight / 2) * tex_step;
-	y = 0;
-	while (y < game->data_text->drawStart)
+	game->tex_pos = (game->data_text->drawstart - SCREEN_HEIGHT / 2
+			+ game->data_text->lineheight / 2) * tex_step;
+	i = 0;
+	while (i < game->data_text->drawstart)
 	{
-		img_pix_put(&game->image, game->data_text->screenX, y,
+		img_pix_put(&game->image, game->data_text->screenx, i,
 			game->data_text->sky_color);
-		y++;
+		i++;
 	}
-	while (y <= game->data_text->drawEnd && game->data_text->lineHeight > 0)
+	while (i <= game->data_text->drawend && game->data_text->lineheight > 0)
 	{
-		tex_y = (int)tex_pos % game->tex_h[tex_id];
+		tex_y = (int)game->tex_pos % game->tex_h[tex_id];
 		if (tex_y < 0)
 			tex_y = 0;
-		tex_pos += tex_step;
+		game->tex_pos += tex_step;
 		color = get_tex_pixel(game, tex_id, game->data_text->tex_x, tex_y);
 		if (game->data_text->side == 1)
 			color = (color >> 1) & 0x7F7F7F;
-		img_pix_put(&game->image, game->data_text->screenX, y, color);
-		y++;
+		img_pix_put(&game->image, game->data_text->screenx, i, color);
+		i++;
 	}
-	while (y < SCREEN_HEIGHT)
+	while (i < SCREEN_HEIGHT)
 	{
-		img_pix_put(&game->image, game->data_text->screenX, y,
+		img_pix_put(&game->image, game->data_text->screenx, i,
 			game->data_text->floor_color);
-		y++;
+		i++;
 	}
 }
 
@@ -266,10 +267,10 @@ static void	calc_tex_x(t_data_game *game)
 
 	if (game->data_text->side == 0)
 		game->data_text->wall_x = game->player->pos.y
-			+ game->data_text->perpWallDist * game->player->ray_dir.y;
+			+ game->data_text->perpw * game->player->ray_dir.y;
 	else
 		game->data_text->wall_x = game->player->pos.x
-			+ game->data_text->perpWallDist * game->player->ray_dir.x;
+			+ game->data_text->perpw * game->player->ray_dir.x;
 	game->data_text->wall_x -= floor(game->data_text->wall_x);
 	tex_id = game->data_text->tex_id;
 	game->data_text->tex_x = (int)(game->data_text->wall_x
@@ -286,13 +287,15 @@ static void	calc_tex_x(t_data_game *game)
 
 void	calc_pix_to_draw(t_data_game *game)
 {
-	game->data_text->lineHeight = (int)(SCREEN_HEIGHT / game->data_text->perpWallDist);
-	game->data_text->drawStart = -game->data_text->lineHeight / 2 + SCREEN_HEIGHT / 2;
-	game->data_text->drawEnd = game->data_text->lineHeight / 2 + SCREEN_HEIGHT / 2;
-	if (game->data_text->drawStart < 0)
-		game->data_text->drawStart = 0;
-	if (game->data_text->drawEnd >= SCREEN_HEIGHT)
-		game->data_text->drawEnd = SCREEN_HEIGHT - 1;
+	game->data_text->lineheight = (int)(SCREEN_HEIGHT / game->data_text->perpw);
+	game->data_text->drawstart = -game->data_text->lineheight
+		/ 2 + SCREEN_HEIGHT / 2;
+	game->data_text->drawend = game->data_text->lineheight
+		/ 2 + SCREEN_HEIGHT / 2;
+	if (game->data_text->drawstart < 0)
+		game->data_text->drawstart = 0;
+	if (game->data_text->drawend >= SCREEN_HEIGHT)
+		game->data_text->drawend = SCREEN_HEIGHT - 1;
 	game->data_text->floor_color = rgb_to_hex(game->colors[0],
 			game->colors[1], game->colors[2]);
 	game->data_text->sky_color = rgb_to_hex(game->colors[3],

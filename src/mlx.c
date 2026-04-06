@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/17 16:10:14 by laudinot          #+#    #+#             */
-/*   Updated: 2026/04/03 17:27:56 by nbaldes          ###   ########.fr       */
+/*   Created: 2026/04/06 19:09:18 by nbaldes           #+#    #+#             */
+/*   Updated: 2026/04/06 19:15:40 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,22 @@
 
 void	img_pix_put(t_image *img, int x, int y, int color)
 {
-    char    *pixel;
-    int		i;
+	char	*pixel;
+	int		i;
 
-    i = img->bpp - 8;
-    pixel = img->addr + (y * img->line_len + x * (img->bpp / 8));
-    while (i >= 0)
-    {
-        /* big endian, MSB is the leftmost bit */
-        if (img->endian != 0)
-            *pixel++ = (color >> i) & 0xFF;
-        /* little endian, LSB is the leftmost bit */
-        else
-            *pixel++ = (color >> (img->bpp - 8 - i)) & 0xFF;
-        i -= 8;
-    }
+	i = img->bpp - 8;
+	pixel = img->addr + (y * img->line_len + x * (img->bpp / 8));
+	while (i >= 0)
+	{
+		if (img->endian != 0)
+			*pixel++ = (color >> i) & 0xFF;
+		else
+			*pixel++ = (color >> (img->bpp - 8 - i)) & 0xFF;
+		i -= 8;
+	}
 }
 
-int draw_image(t_data_game *game)
+int	draw_image(t_data_game *game)
 {
 	dda(game);
 	print_map(game);
@@ -45,7 +43,6 @@ int draw_image(t_data_game *game)
 
 int	choose_color(char c)
 {
-	// printf("test dans choose color case de map = %c\n", c);
 	if (c == '1')
 		return (GREEN);
 	else if (c == '0')
@@ -117,11 +114,12 @@ void	draw_player(t_data_game *game)
 	int	y_pixel;
 	int	i;
 
-	x_pixel = ((game->player->pos.x / (game->x_len + 1)) *  SCREEN_WIDTH) / 4;
-	y_pixel = ((game->player->pos.y / (game->y_len + 1)) *  SCREEN_HEIGHT) / 4;
+	x_pixel = ((game->player->pos.x / (game->x_len + 1))
+			* SCREEN_WIDTH) / 4;
+	y_pixel = ((game->player->pos.y / (game->y_len + 1))
+			* SCREEN_HEIGHT) / 4;
 
 	i = 6;
-	
 	while (i >= -6)
 	{
 		img_pix_put(&game->image, x_pixel + i, y_pixel + i, RED);
@@ -137,7 +135,6 @@ void	calculate_map(t_data_game *game)
 	printf("debut calculate map\n");
 	game->x_pixel_per_unit = (SCREEN_WIDTH / (game->x_len + 1)) / 4;
 	game->y_pixel_per_unit = (SCREEN_HEIGHT / (game->y_len + 1)) / 4;
-	printf("pixel = %d x %d game->x_len %d, game-> y_len = %d\n", game->x_pixel_per_unit, game->y_pixel_per_unit, game->x_len, game->y_len);
 }
 
 void	print_map(t_data_game *game)
@@ -155,9 +152,10 @@ void	print_map(t_data_game *game)
 				draw_texture(game, j , i);
 			else if (game->map[i][j] == '0')
 				draw_texture(game, j , i);
-			else if (game->map[i][j] == 'N' || game->map[i][j] == 'S' || game->map[i][j] == 'W' || game->map[i][j] == 'E')
+			else if (game->map[i][j] == 'N' || game->map[i][j] == 'S'
+				|| game->map[i][j] == 'W' || game->map[i][j] == 'E')
 				draw_texture(game, j , i);
-			else if(game->map[i][j] == ' ')
+			else if (game->map[i][j] == ' ')
 			{
 				draw_texture(game, j , i);
 			}
@@ -165,7 +163,6 @@ void	print_map(t_data_game *game)
 		}
 		i++;
 	}
-	// printf("print_map terminee j = %d i = %d\n", j, i);
 }
 
 int	free_game(t_data_game *game)
@@ -212,7 +209,8 @@ static void	load_textures(t_data_game *game)
 			exit(1);
 		}
 		game->tex[i].addr = mlx_get_data_addr(game->tex[i].mlx_img,
-				&game->tex[i].bpp, &game->tex[i].line_len, &game->tex[i].endian);
+				&game->tex[i].bpp, &game->tex[i].line_len,
+				&game->tex[i].endian);
 		i++;
 	}
 }
