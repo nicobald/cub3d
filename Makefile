@@ -22,7 +22,7 @@ SRCS = src/error_file.c \
 	   src/parse_map.c \
 	   src/check_map.c \
 	   src/raycast_minimap.c \
-	   src/raycast_dda.c \
+	   src/dda.c \
 	   src/draw_texture.c \
 	   src/key_hook.c \
 	   src/draw_mini_map.c
