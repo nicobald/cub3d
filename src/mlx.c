@@ -226,6 +226,7 @@ int	create_window(t_data_game *game)
 	game->image.mlx_img = mlx_new_image(game->win->mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT);
 	game->image.addr = mlx_get_data_addr(game->image.mlx_img, &game->image.bpp, &game->image.line_len, &game->image.endian);
 	load_textures(game);
+	draw_image(game);
 	mlx_hook(game->win->win_ptr, 2, 1L << 0, key_press, game);
 	mlx_hook(game->win->win_ptr, 3, 1L << 1, key_release, game);
 	gettimeofday(&game->time, NULL);
