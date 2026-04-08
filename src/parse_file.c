@@ -68,7 +68,6 @@ void	parse_text(int *type, t_count *count, int nb_line)
 	i = 0;
 	while (i < (nb_line))
 	{
-		// printf("type[%d] = %d\n", i, type[i]);
 		if (type[i] == NO)
 			count->no_count++;
 		if (type[i] == SO)
@@ -100,7 +99,6 @@ int	parse_file(t_env *env, char ***text, char ***map)
 	while (env->tab[i])
 	{
 		env->type[i] = parse_type(env->tab[i]);
-		// printf("la ligne %d est de type %d elle contiens %s", i, env->type[i], env->tab[i]);
 		i++;
 	}
 	if (error_file(env, text, map) == 1)

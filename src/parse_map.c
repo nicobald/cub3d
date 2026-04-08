@@ -12,21 +12,6 @@
 
 #include "cub3D.h"
 
-void	remove_first_space(char **str, int nb)
-{
-	int		i;
-	char	*ptr;
-
-	i = 0;
-	while (str[i])
-	{
-		ptr = str[i];
-		str[i] = ft_strdup(&str[i][nb]);
-		free(ptr);
-		i++;
-	}
-}
-
 int	get_first_space(char *str)
 {
 	int	i;

@@ -35,30 +35,3 @@ int	check_args(char **argv)
 	}
 	return (0);
 }
-
-// int	check_access(char *file)
-// {
-// 	struct stat	file_data;
-
-// 	if (access(file, F_OK) == -1)
-// 	{
-// 		ft_putstr_fd("Error: file not found.\n", 2);
-// 		return (1);
-// 	}
-// 	if (stat(file, &file_data) == -1)
-// 	{
-// 		ft_putstr_fd("Error: Failed to retrieve file information.\n", 2);
-// 		return (1);
-// 	}
-// 	if (S_ISREG(file_data.st_mode) == 0)
-// 	{
-// 		ft_putstr_fd("Error: Expected a regular file.\n", 2);
-// 		return (1);
-// 	}
-// 	if (access(file, R_OK) == -1)
-// 	{
-// 		ft_putstr_fd("Error: cannot read the file.\n", 2);
-// 		return (1);
-// 	}
-// 	return (0);
-// }

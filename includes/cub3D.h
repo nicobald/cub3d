@@ -228,7 +228,8 @@ void			free_parsing(t_env *env, char ***text, char ***map,
 					t_player *player);
 int				split_check_color(char *line);
 char			*ft_strrtrim(char const *s1, char const *set);
-void			print_tab(char **str);
+void			remove_first_space(char **str, int nb);
+int				rgb_to_hex(int r, int g, int b);
 
 //mlx
 int				free_game(t_data_game *game);
@@ -242,7 +243,20 @@ void			draw_player(t_data_game *game);
 void			img_pix_put(t_image *img, int x, int y, int color);
 int				draw_image(t_data_game *game);
 
-//dda
+	//dda
 void			texturing(t_data_game *game);
+void			cast_ray(t_data_game *game);
+double			dda_distance(t_data_game *game);
+void			select_texture(t_data_game *game);
+void			compute_texture_x(t_data_game *game);
+void			draw_textured_wall(t_data_game *game, int *y, double step,
+					double *tex_pos);
+void			draw_column_pixels(t_data_game *game);
 void			calc_pix_to_draw(t_data_game *game);
+
+//mini_map
+void			draw_texture(t_data_game *game, int x, int y);
+void			init_dda(t_data_game *game);
+void			dda_step(t_data_game *game);
+
 #endif

@@ -21,15 +21,18 @@ SRCS = src/error_file.c \
 	   src/mlx.c \
 	   src/parse_map.c \
 	   src/check_map.c \
-	   src/dda.c \
+	   src/raycast_minimap.c \
+	   src/raycast_dda.c \
+	   src/draw_texture.c \
 	   src/key_hook.c \
+	   src/draw_mini_map.c
 
 # Objets
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 # Compilating Flags
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g3 #-fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address -g
 INCLUDES = -I$(INCLUDE_DIR) -I$(LIBFT_DIR) -I$(MLX_DIR)
 
 MLX_FLAGS = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lz

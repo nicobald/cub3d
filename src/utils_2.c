@@ -33,7 +33,7 @@ int	split_check_color(char *line)
 	free(trimmed_line);
 	colors = ft_split(tab[1], ',');
 	free_tab(&tab);
-	if (tab_is_digit(colors) == 0)
+	if (tab_is_digit(colors) == 0 || !colors || !colors[0] || !colors[1] || !colors[2])
 	{
 		free_tab(&colors);
 		return (0);
@@ -70,15 +70,22 @@ char	*ft_strrtrim(char const *s1, char const *set)
 	return (str);
 }
 
-void	print_tab(char **str)
+void	remove_first_space(char **str, int nb)
 {
-	int	x;
+	int		i;
+	char	*ptr;
 
-	x = 0;
-	while (str[x])
+	i = 0;
+	while (str[i])
 	{
-		printf("%s\n", str[x]);
-		x++;
+		ptr = str[i];
+		str[i] = ft_strdup(&str[i][nb]);
+		free(ptr);
+		i++;
 	}
-	printf("\n");
+}
+
+int	rgb_to_hex(int r, int g, int b)
+{
+	return ((r << 16) | (g << 8) | b);
 }

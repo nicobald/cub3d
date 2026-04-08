@@ -36,12 +36,16 @@ void	try_move(t_data_game *game, double angle)
 {
 	double	next_x;
 	double	next_y;
+	double	buf;
 
+	buf = 0.001;
 	next_x = game->player->pos.x + MOVE_SPEED * cos(angle);
 	next_y = game->player->pos.y + MOVE_SPEED * sin(angle);
-	if (!is_wall(game, next_x, game->player->pos.y))
+	if (!is_wall(game, next_x + buf, game->player->pos.y)
+		&& !is_wall(game, next_x - buf, game->player->pos.y))
 		game->player->pos.x = next_x;
-	if (!is_wall(game, game->player->pos.x, next_y))
+	if (!is_wall(game, game->player->pos.x, next_y + buf)
+		&& !is_wall(game, game->player->pos.x, next_y - buf))
 		game->player->pos.y = next_y;
 }
 
@@ -53,7 +57,6 @@ int	rotate_right(t_data_game *game)
 	if (game->player->orientation < 360)
 	{
 		game->player->orientation += rot_speed * game->delta_time;
-		printf("rotate left orientation = %f\n", game->player->orientation);
 	}
 	if (game->player->orientation >= 360)
 		game->player->orientation -= 360;
@@ -65,11 +68,7 @@ int	rotate_left(t_data_game *game)
 	double	rot_speed;
 
 	rot_speed = 180.0;
-	if (game->player->orientation > 0)
-	{
-		game->player->orientation -= rot_speed * game->delta_time;
-		printf("rotate right orientation = %f\n", game->player->orientation);
-	}
+	game->player->orientation -= rot_speed * game->delta_time;
 	if (game->player->orientation < 0)
 		game->player->orientation += 360;
 	return (0);

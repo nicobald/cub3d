@@ -69,17 +69,24 @@ int	check_flline_map(int i, int j, char **map, int nb_line)
 int	check_oth_line_map(int i, int j, char **map)
 {
 	if (map[i][j] == ' ' &&
-	((map[i][j - 1] != '1' && map[i][j - 1] != ' ')
+	((j == 0 || j >= (int)ft_strlen(map[i]) - 1)
+	|| (j >= (int)ft_strlen(map[i - 1]) || j >= (int)ft_strlen(map[i + 1]))
+	|| (map[i][j - 1] != '1' && map[i][j - 1] != ' ')
 	|| (map[i][j + 1] != '1' && map[i][j + 1] != ' ')
 	|| (map[i - 1][j] != '1' && map[i - 1][j] != ' ')
 	|| (map[i + 1][j] != '1' && map[i + 1][j] != ' ')))
 	{
-		ft_putstr_fd("Error : Map not closed", 2);
+		ft_putstr_fd("Error : Map not closed\n", 2);
 		return (1);
 	}
-	else if (map[i][j] == '0' && (j >= ft_strlen(map[i - 1])))
+	else if ((map[i][j] == '0' || map[i][j] == 'N'
+		|| map[i][j] == 'S' || map[i][j] == 'E' || map[i][j] == 'W')
+		&& ((j == 0 || j >= (int)ft_strlen(map[i]) - 1)
+			|| j >= (int)ft_strlen(map[i - 1]) || j >= (int)ft_strlen(map[i + 1])
+			|| map[i][j - 1] == ' ' || map[i][j + 1] == ' '
+			|| map[i - 1][j] == ' ' || map[i + 1][j] == ' '))
 	{
-		ft_putstr_fd("Error : Map not closed", 2);
+		ft_putstr_fd("Error : Map not closed\n", 2);
 		return (1);
 	}
 	return (0);
@@ -93,16 +100,19 @@ int	check_line_map(int i, int j, char **map, int nb_line)
 			return (1);
 		else if (i != 0 && i != (nb_line - 1))
 		{
-			if (j == 0 || j > ft_strlen(map[i]))
+			if ((j == 0 || j == (int)ft_strlen(map[i]) - 1)
+				&& map[i][j] != '1' && map[i][j] != ' ')
+			{
+				ft_putstr_fd("Error : Map not closed", 2);
+				return (1);
+			}
+			if (j == 0 || j == (int)ft_strlen(map[i]) - 1)
 			{
 				j++;
 				continue ;
 			}
-			else
-			{
-				if (check_oth_line_map(i, j, map) == 1)
-					return (1);
-			}
+			if (check_oth_line_map(i, j, map) == 1)
+				return (1);
 		}
 		j++;
 	}

@@ -5,7 +5,7 @@
 /*													+:+ +:+		 +:+	 */
 /*   By: nbaldes <nbaldes@student.42.fr>			+#+  +:+	   +#+		*/
 /*												+#+#+#+#+#+   +#+		   */
-/*   Created: 2026/03/15 19:38:53 by utilisateur	   #+#	#+#			 */
+/*   Created: 2026/03/15 19:38:53 by nbaldes           	   #+#	#+#			 */
 /*   Updated: 2026/03/16 17:47:44 by nbaldes		  ###   ########.fr	   */
 /*																			*/
 /* ************************************************************************** */
@@ -14,27 +14,28 @@
 
 int	map_type(char *line, int len)
 {
-	int	fchar;
-	int	lchar;
+	int	i;
 
-	fchar = 0;
-	lchar = len - 2;
-	if (lchar < 0)
+	i = -1;
+	if (line[len - 1] == '\n')
+		len--;
+	if (len <= 0)
 		return (0);
-	while (line[fchar] == ' ' || line[fchar] == '	')
-		fchar++;
-	while ((line[lchar] == ' ' && lchar > 0)
-		|| (line[lchar] == '	' && lchar > 0))
-		lchar--;
-	if (line[fchar] != '1' || line[lchar] != '1')
-		return (0);
-	while (fchar < lchar)
+	while (len > 0 && (line[0] == ' ' || line[0] == '	'))
 	{
-		if (line[fchar] != '0' && line[fchar] != '1'
-			&& line[fchar] != 'N' && line[fchar] != 'S'
-			&& line[fchar] != 'E' && line[fchar] != 'W' && line[fchar] != ' ')
+		line++;
+		len--;
+	}
+	while (len > 0 && (line[len - 1] == ' ' || line[len - 1] == '	'))
+		len--;
+	if (len <= 0 || line[0] != '1' || line[len - 1] != '1')
+		return (0);
+	while (++i < len)
+	{
+		if (line[i] != '0' && line[i] != '1'
+			&& line[i] != 'N' && line[i] != 'S'
+			&& line[i] != 'E' && line[i] != 'W' && line[i] != ' ')
 			return (0);
-		fchar++;
 	}
 	return (1);
 }

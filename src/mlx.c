@@ -29,110 +29,9 @@ void	img_pix_put(t_image *img, int x, int y, int color)
 	}
 }
 
-int	draw_image(t_data_game *game)
-{
-	dda(game);
-	print_map(game);
-	draw_grille(game);
-	draw_player(game);
-	draw_direction(game);
-	mlx_put_image_to_window(game->win->mlx_ptr, game->win->win_ptr,
-		game->image.mlx_img, 0, 0);
-	return (0);
-}
-
-int	choose_color(char c)
-{
-	if (c == '1')
-		return (GREEN);
-	else if (c == '0')
-		return (WHITE);
-	else if (c == ' ' || (c >= 9 && c <= 13))
-		return (RED);
-	else if (c == 'N' || c == 'S' || c == 'W' || c == 'E' )
-		return (WHITE);
-	return (0);
-}
-
-
-void	draw_grille(t_data_game *game)
-{
-	int	x;
-	int	y;
-	int	mini_w;
-	int	mini_h;
-
-	mini_w = SCREEN_WIDTH / 4;
-	mini_h = SCREEN_HEIGHT / 4;
-	x = game->x_pixel_per_unit;
-	while (x < mini_w)
-	{
-		y = 0;
-		while (++y < mini_h)
-			img_pix_put(&game->image, x, y, BLACK);
-		x += game->x_pixel_per_unit;
-	}
-	y = game->y_pixel_per_unit;
-	while (y < mini_h)
-	{
-		x = 0;
-		while (++x < mini_w)
-			img_pix_put(&game->image, x, y, BLACK);
-		y += game->y_pixel_per_unit;
-	}
-}
-
-void	draw_texture(t_data_game *game, int x, int y)
-{
-	int	i;
-	int	j;
-	int	x_start;
-	int	y_start;
-
-	x_start = (x * game->x_pixel_per_unit);
-	y_start = (y * game->y_pixel_per_unit);
-
-	i = 0;
-	while (i < game->y_pixel_per_unit)
-	{
-		j = 0;
-		while (j < game->x_pixel_per_unit)
-		{
-			img_pix_put(&game->image,
-				x_start + j,
-				y_start + i,
-				choose_color(game->map[y][x]));
-			j++;
-		}
-		i++;
-	}
-}
-
-void	draw_player(t_data_game *game)
-{
-	int	x_pixel;
-	int	y_pixel;
-	int	i;
-
-	x_pixel = ((game->player->pos.x / (game->x_len + 1))
-			* SCREEN_WIDTH) / 4;
-	y_pixel = ((game->player->pos.y / (game->y_len + 1))
-			* SCREEN_HEIGHT) / 4;
-
-	i = 6;
-	while (i >= -6)
-	{
-		img_pix_put(&game->image, x_pixel + i, y_pixel + i, RED);
-		img_pix_put(&game->image, x_pixel - i, y_pixel + i, RED);
-		i--;
-	}
-
-}
-
 void	calculate_map(t_data_game *game)
 
 {
-	printf("debut calculate map\n");
 	game->x_pixel_per_unit = (SCREEN_WIDTH / (game->x_len + 1)) / 4;
 	game->y_pixel_per_unit = (SCREEN_HEIGHT / (game->y_len + 1)) / 4;
 }
@@ -220,7 +119,6 @@ int	create_window(t_data_game *game)
 	game->win->mlx_ptr = mlx_init();
 	if (game->win->mlx_ptr == 0)
 		return (printf("Mlx init failed \n"));
-	printf("adresse window->mlx_ptr = %p\n", game->win->mlx_ptr);
 	game->win->win_ptr = mlx_new_window(game->win->mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT, "Dofus3D");
 	calculate_map(game);
 	game->image.mlx_img = mlx_new_image(game->win->mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -233,7 +131,6 @@ int	create_window(t_data_game *game)
 	game->last_time = game->time.tv_sec + game->time.tv_usec / 1000000.0;
 	mlx_loop_hook(game->win->mlx_ptr, control_key, game);
 	mlx_hook(game->win->win_ptr, 17, 0, free_game, game);
-	mlx_loop(game->win->mlx_ptr);
-	printf("apres loop\n");	
+	mlx_loop(game->win->mlx_ptr);	
 	return (0);
 }
