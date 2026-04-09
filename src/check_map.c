@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 15:54:24 by nbaldes           #+#    #+#             */
-/*   Updated: 2026/03/18 16:37:14 by laudinot         ###   ########.fr       */
+/*   Updated: 2026/04/09 11:49:52 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,8 @@ int	check_oth_line_map(int i, int j, char **map)
 	else if ((map[i][j] == '0' || map[i][j] == 'N'
 		|| map[i][j] == 'S' || map[i][j] == 'E' || map[i][j] == 'W')
 		&& ((j == 0 || j >= (int)ft_strlen(map[i]) - 1)
-			|| j >= (int)ft_strlen(map[i - 1]) || j >= (int)ft_strlen(map[i + 1])
+			|| j >= (int)ft_strlen(map[i - 1])
+			|| j >= (int)ft_strlen(map[i + 1])
 			|| map[i][j - 1] == ' ' || map[i][j + 1] == ' '
 			|| map[i - 1][j] == ' ' || map[i + 1][j] == ' '))
 	{

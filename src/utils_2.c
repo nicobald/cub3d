@@ -6,7 +6,7 @@
 /*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 20:09:20 by nbaldes           #+#    #+#             */
-/*   Updated: 2026/04/06 21:13:01 by nbaldes          ###   ########.fr       */
+/*   Updated: 2026/04/09 13:00:14 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ int	split_check_color(char *line)
 	free(trimmed_line);
 	colors = ft_split(tab[1], ',');
 	free_tab(&tab);
-	if (tab_is_digit(colors) == 0 || !colors || !colors[0] || !colors[1] || !colors[2])
+	if (tab_is_digit(colors) == 0 || !colors
+		|| !colors[0] || !colors[1] || !colors[2])
 	{
 		free_tab(&colors);
 		return (0);

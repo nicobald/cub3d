@@ -6,7 +6,7 @@
 /*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/21 15:45:05 by nbaldes           #+#    #+#             */
-/*   Updated: 2026/04/02 16:51:25 by nbaldes          ###   ########.fr       */
+/*   Updated: 2026/04/09 11:53:31 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,48 +74,11 @@ int	rotate_left(t_data_game *game)
 	return (0);
 }
 
-int	key_press(int keycode, t_data_game *game)
-{
-	if (keycode == W_KEY)
-		game->key->w_key = 1;
-	if (keycode == A_KEY)
-		game->key->a_key = 1;
-	if (keycode == D_KEY)
-		game->key->d_key = 1;
-	if (keycode == S_KEY)
-		game->key->s_key = 1;
-	if (keycode == LEFT_KEY)
-		game->key->left_key = 1;
-	if (keycode == RIGHT_KEY)
-		game->key->right_key = 1;
-	if (keycode == ESCAPE_KEY)
-		game->key->escape_key = 1;
-	return (0);
-}
-
-int	key_release(int keycode, t_data_game *game)
-{
-	if (keycode == W_KEY)
-		game->key->w_key = 0;
-	if (keycode == A_KEY)
-		game->key->a_key = 0;
-	if (keycode == D_KEY)
-		game->key->d_key = 0;
-	if (keycode == S_KEY)
-		game->key->s_key = 0;
-	if (keycode == LEFT_KEY)
-		game->key->left_key = 0;
-	if (keycode == RIGHT_KEY)
-		game->key->right_key = 0;
-	if (keycode == ESCAPE_KEY)
-		game->key->escape_key = 0;
-	return (0);
-}
-
 int	control_key(t_data_game *game)
 {
 	gettimeofday(&game->time, NULL);
-	game->delta_time = (game->time.tv_sec + game->time.tv_usec / 1000000.0) - game->last_time;
+	game->delta_time = (game->time.tv_sec + game->time.tv_usec
+			/ 1000000.0) - game->last_time;
 	game->last_time = game->time.tv_sec + game->time.tv_usec / 1000000.0;
 	if (game->key->w_key == 1)
 		try_move(game, (game->player->orientation) * PI / 180);
