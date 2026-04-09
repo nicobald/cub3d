@@ -6,7 +6,7 @@
 /*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 18:20:00 by nbaldes           #+#    #+#             */
-/*   Updated: 2026/04/09 18:20:00 by nbaldes          ###   ########.fr       */
+/*   Updated: 2026/04/09 11:52:35 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,15 @@ void	compute_texture_x(t_data_game *game)
 	if (game->data_text->tex_x >= game->tex_w[tex_id])
 		game->data_text->tex_x = game->tex_w[tex_id] - 1;
 	if (game->data_text->side == 0 && game->player->ray_dir.x > 0)
-		game->data_text->tex_x = game->tex_w[tex_id] - game->data_text->tex_x - 1;
+		game->data_text->tex_x
+			= game->tex_w[tex_id] - game->data_text->tex_x - 1;
 	if (game->data_text->side == 1 && game->player->ray_dir.y < 0)
-		game->data_text->tex_x = game->tex_w[tex_id] - game->data_text->tex_x - 1;
+		game->data_text->tex_x
+			= game->tex_w[tex_id] - game->data_text->tex_x - 1;
 }
 
-void	draw_textured_wall(t_data_game *game, int *y, double step, double *tex_pos)
+void	draw_textured_wall(t_data_game *game
+		, int *y, double step, double *tex_pos)
 {
 	int	tex_y;
 

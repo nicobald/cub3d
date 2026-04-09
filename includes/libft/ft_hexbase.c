@@ -6,7 +6,7 @@
 /*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 08:21:53 by laudinot          #+#    #+#             */
-/*   Updated: 2026/04/03 17:22:02 by nbaldes          ###   ########.fr       */
+/*   Updated: 2026/04/09 11:49:10 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,6 @@ char	*ft_fillhex(char *hexa, unsigned int n)
 	unsigned int	nb;
 	char			*hexnb;
 
-	if (n == 0)
-	{
-		hexnb = malloc(2);
-		if (!hexnb)
-			return (NULL);
-		hexnb[0] = '0';
-		hexnb[1] = '\0';
-		return (hexnb);
-	}
 	i = 0;
 	nb = n;
 	while (nb != 0)

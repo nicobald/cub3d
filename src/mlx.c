@@ -6,7 +6,7 @@
 /*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 19:09:18 by nbaldes           #+#    #+#             */
-/*   Updated: 2026/04/06 19:15:40 by nbaldes          ###   ########.fr       */
+/*   Updated: 2026/04/09 13:02:09 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,49 +48,20 @@ void	print_map(t_data_game *game)
 		while (game->map[i][j])
 		{
 			if (game->map[i][j] == '1')
-				draw_texture(game, j , i);
+				draw_texture(game, j, i);
 			else if (game->map[i][j] == '0')
-				draw_texture(game, j , i);
+				draw_texture(game, j, i);
 			else if (game->map[i][j] == 'N' || game->map[i][j] == 'S'
 				|| game->map[i][j] == 'W' || game->map[i][j] == 'E')
-				draw_texture(game, j , i);
+				draw_texture(game, j, i);
 			else if (game->map[i][j] == ' ')
 			{
-				draw_texture(game, j , i);
+				draw_texture(game, j, i);
 			}
 			j++;
 		}
 		i++;
 	}
-}
-
-int	free_game(t_data_game *game)
-{
-	int	i;
-
-	i = 0;
-	while (i < 4)
-	{
-		if (game->tex[i].mlx_img)
-			mlx_destroy_image(game->win->mlx_ptr, game->tex[i].mlx_img);
-		i++;
-	}
-	if (game->image.mlx_img)
-		mlx_destroy_image(game->win->mlx_ptr, game->image.mlx_img);
-	if (game->win->win_ptr && game->win->mlx_ptr)
-		mlx_destroy_window(game->win->mlx_ptr, game->win->win_ptr);
-	if (game->win->mlx_ptr)
-		mlx_destroy_display(game->win->mlx_ptr);
-	free(game->win->mlx_ptr);
-	free_tab(&game->text);
-	free_tab(&game->map);
-	free(game->colors);
-	free(game->player);
-	free(game->key);
-	free(game->data_text);
-	free(game->win);
-	exit(0);
-	return (0);
 }
 
 static void	load_textures(t_data_game *game)
@@ -119,10 +90,13 @@ int	create_window(t_data_game *game)
 	game->win->mlx_ptr = mlx_init();
 	if (game->win->mlx_ptr == 0)
 		return (printf("Mlx init failed \n"));
-	game->win->win_ptr = mlx_new_window(game->win->mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT, "Dofus3D");
+	game->win->win_ptr = mlx_new_window(game->win->mlx_ptr,
+			SCREEN_WIDTH, SCREEN_HEIGHT, "Dofus3D");
 	calculate_map(game);
-	game->image.mlx_img = mlx_new_image(game->win->mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT);
-	game->image.addr = mlx_get_data_addr(game->image.mlx_img, &game->image.bpp, &game->image.line_len, &game->image.endian);
+	game->image.mlx_img = mlx_new_image(game->win->mlx_ptr,
+			SCREEN_WIDTH, SCREEN_HEIGHT);
+	game->image.addr = mlx_get_data_addr(game->image.mlx_img,
+			&game->image.bpp, &game->image.line_len, &game->image.endian);
 	load_textures(game);
 	draw_image(game);
 	mlx_hook(game->win->win_ptr, 2, 1L << 0, key_press, game);
@@ -131,6 +105,6 @@ int	create_window(t_data_game *game)
 	game->last_time = game->time.tv_sec + game->time.tv_usec / 1000000.0;
 	mlx_loop_hook(game->win->mlx_ptr, control_key, game);
 	mlx_hook(game->win->win_ptr, 17, 0, free_game, game);
-	mlx_loop(game->win->mlx_ptr);	
+	mlx_loop(game->win->mlx_ptr);
 	return (0);
 }

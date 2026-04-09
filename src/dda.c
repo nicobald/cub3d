@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   raycast_dda_core.c                                 :+:      :+:    :+:   */
+/*   dda.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 18:20:00 by nbaldes           #+#    #+#             */
-/*   Updated: 2026/04/09 18:20:00 by nbaldes          ###   ########.fr       */
+/*   Updated: 2026/04/09 11:50:57 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,11 @@ double	dda_distance(t_data_game *game)
 	dda_step(game);
 	run_dda_loop(game);
 	if (game->data_text->side == 0)
-		game->data_text->perpw = game->data_text->sidex - game->data_text->deltax;
+		game->data_text->perpw
+			= game->data_text->sidex - game->data_text->deltax;
 	else
-		game->data_text->perpw = game->data_text->sidey - game->data_text->deltay;
+		game->data_text->perpw
+			= game->data_text->sidey - game->data_text->deltay;
 	if (game->data_text->perpw < 1e-6)
 		game->data_text->perpw = 1e-6;
 	return (game->data_text->perpw);
@@ -64,8 +66,10 @@ double	dda_distance(t_data_game *game)
 void	calc_pix_to_draw(t_data_game *game)
 {
 	game->data_text->lineheight = (int)(SCREEN_HEIGHT / game->data_text->perpw);
-	game->data_text->drawstart = SCREEN_HEIGHT / 2 - game->data_text->lineheight / 2;
-	game->data_text->drawend = SCREEN_HEIGHT / 2 + game->data_text->lineheight / 2;
+	game->data_text->drawstart
+		= SCREEN_HEIGHT / 2 - game->data_text->lineheight / 2;
+	game->data_text->drawend
+		= SCREEN_HEIGHT / 2 + game->data_text->lineheight / 2;
 	if (game->data_text->drawstart < 0)
 		game->data_text->drawstart = 0;
 	if (game->data_text->drawend >= SCREEN_HEIGHT)

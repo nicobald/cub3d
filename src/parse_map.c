@@ -6,7 +6,7 @@
 /*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 18:05:43 by laudinot          #+#    #+#             */
-/*   Updated: 2026/04/06 21:12:38 by nbaldes          ###   ########.fr       */
+/*   Updated: 2026/04/09 13:00:02 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	get_first_space(char *str)
 
 	i = -1;
 	ret = 0;
-
 	while (str[++i])
 	{
 		if (str[i] == ' ' || (str[i] >= 7 && str[i] <= 13))

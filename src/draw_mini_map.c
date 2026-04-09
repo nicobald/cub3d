@@ -6,7 +6,7 @@
 /*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 19:09:18 by nbaldes           #+#    #+#             */
-/*   Updated: 2026/04/09 13:11:58 by laudinot         ###   ########.fr       */
+/*   Updated: 2026/04/09 13:25:39 by laudinot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int	choose_color(char c)
 		return (WHITE);
 	return (0);
 }
-
 
 void	draw_grille(t_data_game *game)
 {
@@ -72,10 +71,9 @@ void	draw_texture(t_data_game *game, int x, int y)
 	int	x_start;
 	int	y_start;
 
+	i = 0;
 	x_start = (x * game->x_pixel_per_unit);
 	y_start = (y * game->y_pixel_per_unit);
-
-	i = 0;
 	while (i < game->y_pixel_per_unit)
 	{
 		j = 0;
@@ -101,7 +99,6 @@ void	draw_player(t_data_game *game)
 			* SCREEN_WIDTH) / 4;
 	y_pixel = ((game->player->pos.y / (game->y_len + 1))
 			* SCREEN_HEIGHT) / 4;
-
 	i = 6;
 	while (i >= -6)
 	{
@@ -109,5 +106,4 @@ void	draw_player(t_data_game *game)
 		img_pix_put(&game->image, x_pixel - i, y_pixel + i, RED);
 		i--;
 	}
-
 }
