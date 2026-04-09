@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 17:57:33 by nbaldes           #+#    #+#             */
-/*   Updated: 2026/04/09 13:18:34 by laudinot         ###   ########.fr       */
+/*   Updated: 2026/04/09 14:41:37 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,10 @@ int	main(int argc, char **argv)
 		free_parsing(&env, &game.text, &game.map, game.player);
 		return (1);
 	}
+	game.tex[0].mlx_img = NULL;
+	game.tex[1].mlx_img = NULL;
+	game.tex[2].mlx_img = NULL;
+	game.tex[3].mlx_img = NULL;
 	if (init_game(&game))
 		return (1);
 	create_window(&game);

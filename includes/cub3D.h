@@ -44,8 +44,8 @@
 
 # define PI	3.141592653589793
 # define BUFFER_SIZE 10
-# define SCREEN_WIDTH 1920
-# define SCREEN_HEIGHT 1080
+# define SCREEN_WIDTH 1000
+# define SCREEN_HEIGHT 1000
 # define MOVE_SPEED 0.1
 # define FOV 50
 // # ifndef ROW_SIZE

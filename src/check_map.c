@@ -6,7 +6,7 @@
 /*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 15:54:24 by nbaldes           #+#    #+#             */
-/*   Updated: 2026/04/09 11:49:52 by nbaldes          ###   ########.fr       */
+/*   Updated: 2026/04/09 14:39:19 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,15 +68,14 @@ int	check_flline_map(int i, int j, char **map, int nb_line)
 
 int	check_oth_line_map(int i, int j, char **map)
 {
-	if (map[i][j] == ' ' &&
-	((j == 0 || j >= (int)ft_strlen(map[i]) - 1)
-	|| (j >= (int)ft_strlen(map[i - 1]) || j >= (int)ft_strlen(map[i + 1]))
-	|| (map[i][j - 1] != '1' && map[i][j - 1] != ' ')
+	if ((map[i][j] == ' ' && (j == 0 || j >= (int)ft_strlen(map[i]) - 1))
+	&& (j >= (int)ft_strlen(map[i - 1]) || j >= (int)ft_strlen(map[i + 1]))
+	&& ((map[i][j - 1] != '1' && map[i][j - 1] != ' ')
 	|| (map[i][j + 1] != '1' && map[i][j + 1] != ' ')
 	|| (map[i - 1][j] != '1' && map[i - 1][j] != ' ')
 	|| (map[i + 1][j] != '1' && map[i + 1][j] != ' ')))
 	{
-		ft_putstr_fd("Error : Map not closed\n", 2);
+		ft_putstr_fd("Error : 2Map not closed\n", 2);
 		return (1);
 	}
 	else if ((map[i][j] == '0' || map[i][j] == 'N'

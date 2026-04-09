@@ -6,7 +6,7 @@
 /*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 19:09:18 by nbaldes           #+#    #+#             */
-/*   Updated: 2026/04/09 13:02:09 by nbaldes          ###   ########.fr       */
+/*   Updated: 2026/04/09 14:20:26 by nbaldes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ static void	load_textures(t_data_game *game)
 		if (!game->tex[i].mlx_img)
 		{
 			ft_putstr_fd("Error: cannot load texture\n", 2);
+			free_game(game);
 			exit(1);
 		}
 		game->tex[i].addr = mlx_get_data_addr(game->tex[i].mlx_img,
@@ -91,7 +92,7 @@ int	create_window(t_data_game *game)
 	if (game->win->mlx_ptr == 0)
 		return (printf("Mlx init failed \n"));
 	game->win->win_ptr = mlx_new_window(game->win->mlx_ptr,
-			SCREEN_WIDTH, SCREEN_HEIGHT, "Dofus3D");
+			SCREEN_WIDTH, SCREEN_HEIGHT, "Joris3D");
 	calculate_map(game);
 	game->image.mlx_img = mlx_new_image(game->win->mlx_ptr,
 			SCREEN_WIDTH, SCREEN_HEIGHT);
