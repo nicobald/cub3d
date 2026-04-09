@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
+/*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 17:57:33 by nbaldes           #+#    #+#             */
-/*   Updated: 2026/04/06 21:16:59 by nbaldes          ###   ########.fr       */
+/*   Updated: 2026/04/09 13:18:34 by laudinot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ int	main(int argc, char **argv)
 		return (1);
 	if (parsing(argv, &env, &game) == 1)
 	{
+		free(game.win);
 		free_parsing(&env, &game.text, &game.map, game.player);
 		return (1);
 	}

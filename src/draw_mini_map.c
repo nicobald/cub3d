@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_mini_map.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbaldes <nbaldes@student.42.fr>            +#+  +:+       +#+        */
+/*   By: laudinot <laudinot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 19:09:18 by nbaldes           #+#    #+#             */
-/*   Updated: 2026/04/06 19:15:40 by nbaldes          ###   ########.fr       */
+/*   Updated: 2026/04/09 13:11:58 by laudinot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 int	draw_image(t_data_game *game)
 {
 	dda(game);
-	print_map(game);
-	draw_grille(game);
-	draw_player(game);
-	draw_direction(game);
+	// print_map(game);
+	// draw_grille(game);
+	// draw_player(game);
+	// draw_direction(game);
 	mlx_put_image_to_window(game->win->mlx_ptr, game->win->win_ptr,
 		game->image.mlx_img, 0, 0);
 	return (0);
